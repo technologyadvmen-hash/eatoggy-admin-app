@@ -3,79 +3,111 @@ import 'package:flutter/material.dart';
 class AppColors {
   AppColors._();
 
-  // Backgrounds & Surfaces
-  static const Color darkBackground = Color(0xFF11110F);
-  static const Color splashBackground = Color(0xFF11110F);
-  static const Color darkSurface = Color(0xFF1C1C1A);
-  static const Color darkCard = Color(0xFF1E1E1C);
-  static const Color darkBorder = Color(0xFF2E2E2A);
-  static const Color background = Color(0xFF11110F);
-  static const Color surface = Color(0xFF1C1C1A);
-  static const Color surfaceVariant = Color(0xFF252522);
+  // Canvas & Background Surfaces
+  static const Color background = Color(0xFFFAF7F2);        // Warm Alabaster canvas
+  static const Color surface = Color(0xFFFFFFFF);           // Card & sheet white
+  static const Color surfaceVariant = Color(0xFFF5F2EC);    // Subtle muted surface
+  static const Color card = Color(0xFFFFFFFF);
+  static const Color border = Color(0xFFE7E5E4);            // Stone 200 border
+  static const Color divider = Color(0xFFE7E5E4);
 
-  // Primary & Accents
-  static const Color primary = Color(0xFFD9A24F);
-  static const Color primaryDark = Color(0xFFB58338);
-  static const Color primaryLight = Color(0xFF2E2A20);
-  static const Color goldFont = Color(0xFFD9A24F);
-  static const Color goldGradientStart = Color(0xFFE5B563);
-  static const Color goldGradientEnd = Color(0xFFC78B38);
-  static const Color cardGoldAccent = Color(0xFFE5A64E);
-  static const Color creamText = Color(0xFFFFF1D2);
-  static const Color accentYellow = Color(0xFFFFB800);
+  // Backward-compatibility aliases for existing dark-themed screens
+  static const Color darkBackground = Color(0xFFFAF7F2);    // Routed to warm canvas
+  static const Color splashBackground = Color(0xFFFAF7F2);
+  static const Color darkSurface = Color(0xFFFFFFFF);       // Routed to white card
+  static const Color darkCard = Color(0xFFFFFFFF);
+  static const Color darkBorder = Color(0xFFE7E5E4);
+  static const Color borderDark = Color(0xFFE7E5E4);
+  static const Color borderFocused = Color(0xFFDC2626);
 
-  // Gradient
+  // Primary Crimson Brand Palette
+  static const Color primary = Color(0xFFDC2626);           // Red 600
+  static const Color primaryDark = Color(0xFFB91C1C);       // Red 700
+  static const Color primaryLight = Color(0xFFFEE2E2);      // Red 100 container
+  static const Color primaryGradientStart = Color(0xFFDC2626);
+  static const Color primaryGradientEnd = Color(0xFFB91C1C);
+
+  // Backward-compatibility aliases for gold accents
+  static const Color goldFont = Color(0xFFDC2626);
+  static const Color goldGradientStart = Color(0xFFDC2626);
+  static const Color goldGradientEnd = Color(0xFFB91C1C);
+  static const Color cardGoldAccent = Color(0xFFDC2626);
+  static const Color creamText = Color(0xFF1C1917);         // Routed to Stone 900
+  static const Color accentYellow = Color(0xFFF59E0B);
+
+  // Primary Linear Gradient
   static const LinearGradient primaryGradient = LinearGradient(
-    colors: [Color(0xFFE5B563), Color(0xFFC78B38)],
+    colors: [primaryGradientStart, primaryGradientEnd],
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
   );
 
-  // Text Colors
-  static const Color textPrimary = Color(0xFFD9A24F);
-  static const Color textSecondary = Color(0xFFFFF1D2);
-  static const Color textMuted = Color(0xFF7A7A77);
-  static const Color textHint = Color(0xFF7A7A77);
+  // Typography Palette (Stone Spectrum)
+  static const Color textPrimary = Color(0xFF1C1917);       // Stone 900
+  static const Color textSecondary = Color(0xFF44403C);     // Stone 700
+  static const Color textMuted = Color(0xFF78716C);         // Stone 500
+  static const Color textHint = Color(0xFFA8A29E);          // Stone 400
   static const Color textLight = Color(0xFFFFFFFF);
-  static const Color textGold = Color(0xFFD9A24F);
-  static const Color textPrimaryDark = Color(0xFFFFFFFF);
-  static const Color textSecondaryDark = Color(0xFFB3B3B0);
-  static const Color textMutedDark = Color(0xFF7A7A77);
+  static const Color textGold = Color(0xFFDC2626);
+  static const Color textPrimaryDark = Color(0xFF1C1917);
+  static const Color textSecondaryDark = Color(0xFF78716C);
+  static const Color textMutedDark = Color(0xFFA8A29E);
   static const Color textOnPrimary = Color(0xFFFFFFFF);
 
-  // Status Colors
-  static const Color success = Color(0xFF388E3C);
-  static const Color successLight = Color(0xFF1E3A20);
-  static const Color warning = Color(0xFFED6C02);
-  static const Color warningLight = Color(0xFF3D2B10);
-  static const Color error = Color(0xFFE53935);
-  static const Color errorLight = Color(0xFF3E1A1A);
-  static const Color info = Color(0xFF2196F3);
-  static const Color infoLight = Color(0xFF1A2A3E);
+  // Operational Status Indicators
+  static const Color success = Color(0xFF15803D);           // Green 700
+  static const Color successLight = Color(0xFFDCFCE7);      // Green 100
+  static const Color warning = Color(0xFFD97706);           // Amber 600
+  static const Color warningLight = Color(0xFFFEF3C7);      // Amber 100
+  static const Color error = Color(0xFFDC2626);             // Red 600
+  static const Color errorLight = Color(0xFFFFE4E8);        // Rose 100
+  static const Color info = Color(0xFF2563EB);              // Blue 600
+  static const Color infoLight = Color(0xFFDBEAFE);         // Blue 100
 
-  // Veg / Non-Veg
-  static const Color veg = Color(0xFF388E3C);
-  static const Color vegLight = Color(0xFF1E3A20);
-  static const Color nonVeg = Color(0xFFE53935);
-  static const Color nonVegLight = Color(0xFF3E1A1A);
+  // Dietary Indicators
+  static const Color veg = Color(0xFF16A34A);
+  static const Color vegLight = Color(0xFFDCFCE7);
+  static const Color nonVeg = Color(0xFFDC2626);
+  static const Color nonVegLight = Color(0xFFFFE4E8);
 
   // Order Status Colors
-  static const Color orderNew = Color(0xFF2196F3);
-  static const Color orderNewLight = Color(0xFF1A2A3E);
-  static const Color orderActive = Color(0xFFFF9800);
-  static const Color orderActiveLight = Color(0xFF3D2B10);
-  static const Color orderReady = Color(0xFF4CAF50);
-  static const Color orderReadyLight = Color(0xFF1E3A20);
-  static const Color orderDelivered = Color(0xFF388E3C);
-  static const Color orderDeliveredLight = Color(0xFF1E3A20);
-  static const Color orderCancelled = Color(0xFFE53935);
-  static const Color orderCancelledLight = Color(0xFF3E1A1A);
+  static const Color orderNew = Color(0xFF2563EB);
+  static const Color orderNewLight = Color(0xFFDBEAFE);
+  static const Color orderActive = Color(0xFFD97706);
+  static const Color orderActiveLight = Color(0xFFFEF3C7);
+  static const Color orderReady = Color(0xFF15803D);
+  static const Color orderReadyLight = Color(0xFFDCFCE7);
+  static const Color orderDelivered = Color(0xFF15803D);
+  static const Color orderDeliveredLight = Color(0xFFDCFCE7);
+  static const Color orderCancelled = Color(0xFFDC2626);
+  static const Color orderCancelledLight = Color(0xFFFFE4E8);
 
-  // Borders & Utility
-  static const Color border = Color(0xFF2E2E2A);
-  static const Color borderDark = Color(0xFF3A3A35);
-  static const Color borderFocused = Color(0xFFD9A24F);
-  static const Color divider = Color(0xFF262623);
-  static const Color shadow = Color(0x40000000);
-  static const Color overlay = Color(0x99000000);
+  // Utilities & Shadows
+  static const Color shadow = Color(0x0A000000);
+  static const Color overlay = Color(0x66000000);
+
+  static List<BoxShadow> get cardShadow => [
+        const BoxShadow(
+          color: Color.fromRGBO(0, 0, 0, 0.04),
+          blurRadius: 10,
+          offset: Offset(0, 2),
+        ),
+      ];
+
+  static List<BoxShadow> get navBarShadow => [
+        const BoxShadow(
+          color: Color.fromRGBO(0, 0, 0, 0.05),
+          blurRadius: 20,
+          offset: Offset(0, -4),
+        ),
+      ];
+
+  // Modern background & badge aliases
+  static const Color scaffoldBackground = background;
+  static const Color surfaceAlt = surfaceVariant;
+  static const Color headingPrimary = textPrimary;
+  static const Color successBg = successLight;
+  static const Color warningBg = warningLight;
+  static const Color errorBg = errorLight;
+  static const Color infoBg = infoLight;
 }

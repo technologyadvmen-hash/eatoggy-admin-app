@@ -4,11 +4,19 @@ import 'package:sizer/sizer.dart';
 import 'app_colors.dart';
 
 abstract class AppTextStyles {
+  // ─── Display (22.sp - 24.sp) ─────────────────────────────────────────────
+  static TextStyle get display => GoogleFonts.outfit(
+        fontSize: 22.sp,
+        fontWeight: FontWeight.w800,
+        color: AppColors.textPrimary,
+        height: 1.25,
+      );
+
   // ─── Title (18.sp) ────────────────────────────────────────────────────────
   static TextStyle get title => GoogleFonts.outfit(
         fontSize: 18.sp,
         fontWeight: FontWeight.w700,
-        color: AppColors.textSecondary,
+        color: AppColors.textPrimary,
         height: 1.3,
       );
 
@@ -74,7 +82,7 @@ abstract class AppTextStyles {
   static TextStyle get body => GoogleFonts.outfit(
         fontSize: 15.sp,
         fontWeight: FontWeight.w400,
-        color: AppColors.textPrimary,
+        color: AppColors.textSecondary,
         height: 1.5,
       );
 
@@ -106,38 +114,38 @@ abstract class AppTextStyles {
         height: 1.5,
       );
 
-  // ─── Caption (14.sp) ──────────────────────────────────────────────────────
+  // ─── Caption (13.sp - 14.sp) ───────────────────────────────────────────────
   static TextStyle get caption => GoogleFonts.outfit(
-        fontSize: 14.sp,
+        fontSize: 13.5.sp,
         fontWeight: FontWeight.w400,
-        color: AppColors.textSecondary,
+        color: AppColors.textMuted,
         height: 1.4,
       );
 
   static TextStyle get captionMedium => GoogleFonts.outfit(
-        fontSize: 14.sp,
+        fontSize: 13.5.sp,
         fontWeight: FontWeight.w500,
         color: AppColors.textSecondary,
         height: 1.4,
       );
 
   static TextStyle get captionPrimary => GoogleFonts.outfit(
-        fontSize: 14.sp,
-        fontWeight: FontWeight.w500,
+        fontSize: 13.5.sp,
+        fontWeight: FontWeight.w600,
         color: AppColors.primary,
         height: 1.4,
       );
 
   static TextStyle get captionWhite => GoogleFonts.outfit(
-        fontSize: 14.sp,
-        fontWeight: FontWeight.w400,
+        fontSize: 13.5.sp,
+        fontWeight: FontWeight.w500,
         color: AppColors.textOnPrimary,
         height: 1.4,
       );
 
   static TextStyle get captionError => GoogleFonts.outfit(
-        fontSize: 14.sp,
-        fontWeight: FontWeight.w400,
+        fontSize: 13.5.sp,
+        fontWeight: FontWeight.w500,
         color: AppColors.error,
         height: 1.4,
       );
@@ -145,38 +153,42 @@ abstract class AppTextStyles {
   // ─── Button ───────────────────────────────────────────────────────────────
   static TextStyle get buttonLarge => GoogleFonts.outfit(
         fontSize: 16.sp,
-        fontWeight: FontWeight.w600,
+        fontWeight: FontWeight.w700,
         color: AppColors.textOnPrimary,
         letterSpacing: 0.3,
       );
 
   static TextStyle get buttonMedium => GoogleFonts.outfit(
-        fontSize: 15.sp,
-        fontWeight: FontWeight.w600,
+        fontSize: 14.5.sp,
+        fontWeight: FontWeight.w700,
         color: AppColors.textOnPrimary,
         letterSpacing: 0.3,
       );
 
   // ─── Label ────────────────────────────────────────────────────────────────
   static TextStyle get label => GoogleFonts.outfit(
-        fontSize: 14.sp,
+        fontSize: 13.5.sp,
         fontWeight: FontWeight.w500,
         color: AppColors.textSecondary,
         height: 1.3,
       );
 
   static TextStyle get labelSecondary => GoogleFonts.outfit(
-        fontSize: 14.sp,
+        fontSize: 13.sp,
         fontWeight: FontWeight.w400,
-        color: AppColors.textSecondary,
+        color: AppColors.textMuted,
         height: 1.3,
       );
 
-  // ─── Hint (15.sp) ──────────────────────────────────────────────────────────
+  // ─── Hint (14.5.sp) ───────────────────────────────────────────────────────
   static TextStyle get hint => GoogleFonts.outfit(
-        fontSize: 15.sp,
+        fontSize: 14.5.sp,
         fontWeight: FontWeight.w400,
         color: AppColors.textHint,
         height: 1.5,
       );
+
+  // Modern typography aliases
+  static TextStyle get headingPrimary => heading;
+  static TextStyle get h2 => title;
 }
