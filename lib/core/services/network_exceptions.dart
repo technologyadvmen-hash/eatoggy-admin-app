@@ -23,6 +23,8 @@ class NetworkExceptions {
           return "Forbidden request";
         case 404:
           return "Not Found";
+        case 429:
+          return "Too many requests. Please wait a few minutes before trying again.";
         case 500:
           return "Internal Server Error";
         default:
@@ -30,8 +32,12 @@ class NetworkExceptions {
       }
     } else if (error.type == DioExceptionType.cancel) {
       return "Request was cancelled";
+    } else if (error.type == DioExceptionType.connectionError) {
+      return "Network connection error. Please check your internet connection.";
+    } else if (error.message != null && error.message!.isNotEmpty) {
+      return error.message!;
     } else {
-      return "Unexpected error occurred";
+      return "Network error occurred. Please try again.";
     }
   }
 }
