@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/models/login_model.dart';
+import '../../data/repositories/auth_repository.dart';
 
 /// State object for Partner Login screen state management.
 class LoginState {
@@ -62,9 +63,11 @@ class LoginNotifier extends Notifier<LoginState> {
     );
   }
 
-  /// Handles OTP login submission.
+  final AuthRepository _authRepository = AuthRepository();
+
+  /// Handles OTP login submission via live backend API.
   Future<bool> loginWithOtp({
-    required VoidCallback onSuccess,
+    required void Function(String? testOtp) onSuccess,
     required ValueChanged<String> onError,
   }) async {
     final cleanPhone = state.sanitizedPhoneNumber;
@@ -84,12 +87,18 @@ class LoginNotifier extends Notifier<LoginState> {
 
     state = state.copyWith(isLoading: true, errorMessage: null);
 
-    // Simulate API request delay
-    await Future.delayed(const Duration(milliseconds: 600));
-
-    state = state.copyWith(isLoading: false);
-    onSuccess();
-    return true;
+    try {
+      final res = await _authRepository.sendOtp(mobile: cleanPhone);
+      final testOtp = res['otp']?.toString();
+      state = state.copyWith(isLoading: false);
+      onSuccess(testOtp);
+      return true;
+    } catch (e) {
+      final errorMsg = e.toString();
+      state = state.copyWith(isLoading: false, errorMessage: errorMsg);
+      onError(errorMsg);
+      return false;
+    }
   }
 }
 
