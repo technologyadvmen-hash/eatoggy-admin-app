@@ -49,9 +49,9 @@ class BusinessProfileModel {
     stepProgress: 0.25,
     title: 'Basic Details',
     restaurantNameLabel: 'Restaurant / Kitchen Name',
-    dummyRestaurantName: 'The Golden Spoon Kitchen',
+    dummyRestaurantName: 'e.g. The Royal Kitchen',
     ownerNameLabel: 'Owner Full Name',
-    dummyOwnerName: 'Aditya Sen',
+    dummyOwnerName: 'e.g. Partner Owner',
     businessTypeLabel: 'Business Type',
     dummyBusinessType: 'Cloud Kitchen',
     businessTypeOptions: [
@@ -64,11 +64,11 @@ class BusinessProfileModel {
     ],
     phoneLabel: 'Primary Phone Number',
     countryCode: '+91',
-    dummyPhone: '98765 43210',
+    dummyPhone: 'Enter 10-digit mobile number',
     emailLabel: 'Email Address',
-    dummyEmail: 'aditya@goldenspoon.com',
+    dummyEmail: 'owner@restaurant.com',
     addressLabel: 'Full Address',
-    dummyAddress: 'Flat 402, Signature Heights, Sector 62, Noida - 201301',
+    dummyAddress: 'Enter complete business address',
     buttonText: 'Continue',
   );
 
