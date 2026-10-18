@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../data/models/document_verification_model.dart';
+import '../../data/repositories/auth_repository.dart';
 
 class DocumentVerificationState {
   const DocumentVerificationState({
@@ -34,6 +36,7 @@ class DocumentVerificationState {
 class DocumentVerificationNotifier
     extends Notifier<DocumentVerificationState> {
   final ImagePicker _picker = ImagePicker();
+  final AuthRepository _authRepository = AuthRepository();
 
   @override
   DocumentVerificationState build() {
@@ -91,12 +94,24 @@ class DocumentVerificationNotifier
     required VoidCallback onSuccess,
     required ValueChanged<String> onError,
   }) async {
-    final requiredDocMissing = state.documents.any(
-      (doc) => doc.isRequired && !doc.isUploaded,
-    );
+    final gstDoc = state.documents.cast<DocumentItem?>().firstWhere(
+          (d) => d?.id == 'gst',
+          orElse: () => null,
+        );
+    final fssaiDoc = state.documents.cast<DocumentItem?>().firstWhere(
+          (d) => d?.id == 'fssai',
+          orElse: () => null,
+        );
 
-    if (requiredDocMissing) {
-      const msg = 'Please upload all required business documents';
+    if (gstDoc?.filePath == null || !File(gstDoc!.filePath!).existsSync()) {
+      const msg = 'Please upload your GST Certificate';
+      state = state.copyWith(errorMessage: msg);
+      onError(msg);
+      return false;
+    }
+
+    if (fssaiDoc?.filePath == null || !File(fssaiDoc!.filePath!).existsSync()) {
+      const msg = 'Please upload your FSSAI Food License';
       state = state.copyWith(errorMessage: msg);
       onError(msg);
       return false;
@@ -104,11 +119,21 @@ class DocumentVerificationNotifier
 
     state = state.copyWith(isLoading: true, errorMessage: null);
 
-    await Future.delayed(const Duration(milliseconds: 700));
+    try {
+      await _authRepository.uploadBusinessDocs(
+        gstCertificate: File(gstDoc.filePath!),
+        foodLicense: File(fssaiDoc.filePath!),
+      );
 
-    state = state.copyWith(isLoading: false);
-    onSuccess();
-    return true;
+      state = state.copyWith(isLoading: false);
+      onSuccess();
+      return true;
+    } catch (e) {
+      final errorMsg = e.toString();
+      state = state.copyWith(isLoading: false, errorMessage: errorMsg);
+      onError(errorMsg);
+      return false;
+    }
   }
 }
 
