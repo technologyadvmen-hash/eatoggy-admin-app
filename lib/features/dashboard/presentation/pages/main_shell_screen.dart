@@ -62,17 +62,18 @@ class MainShellScreen extends ConsumerWidget {
     final tabs = state.data.tabs;
 
     return Scaffold(
-      backgroundColor: AppColors.darkBackground,
+      backgroundColor: AppColors.background,
       body: IndexedStack(
         index: state.currentIndex,
         children: _screens,
       ),
       bottomNavigationBar: Container(
-        decoration: const BoxDecoration(
-          color: Color(0xFF141412),
-          border: Border(
-            top: BorderSide(color: Color(0xFF22221F), width: 1),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          border: const Border(
+            top: BorderSide(color: AppColors.border, width: 1),
           ),
+          boxShadow: AppColors.navBarShadow,
         ),
         child: SafeArea(
           top: false,
@@ -84,7 +85,7 @@ class MainShellScreen extends ConsumerWidget {
                 final isSelected = index == state.currentIndex;
                 final itemColor = isSelected
                     ? AppColors.primary
-                    : const Color(0xFF8A8A85);
+                    : AppColors.textMuted;
 
                 return Expanded(
                   child: GestureDetector(
@@ -98,10 +99,10 @@ class MainShellScreen extends ConsumerWidget {
                         Text(
                           tab.label,
                           style: AppTextStyles.label.copyWith(
-                            fontSize: 12.sp,
+                            fontSize: 11.5.sp,
                             fontWeight: isSelected
-                                ? FontWeight.w600
-                                : FontWeight.w400,
+                                ? FontWeight.w700
+                                : FontWeight.w500,
                             color: itemColor,
                           ),
                         ),
