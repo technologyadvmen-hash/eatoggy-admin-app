@@ -27,6 +27,10 @@ class HomeModel {
     required this.doneCount,
     required this.newOrdersBadge,
     required this.recentOrders,
+    this.walletBalance = 0.0,
+    this.avgRating = 4.5,
+    this.totalReviews = 0,
+    this.activeMenuItems = 0,
   });
 
   final String appName;
@@ -38,41 +42,56 @@ class HomeModel {
   final int doneCount;
   final int newOrdersBadge;
   final List<RecentOrderItem> recentOrders;
+  final double walletBalance;
+  final double avgRating;
+  final int totalReviews;
+  final int activeMenuItems;
+
+  HomeModel copyWith({
+    String? appName,
+    int? unreadNotifications,
+    int? todayOrdersCount,
+    String? todayOrdersTrend,
+    String? todayRevenue,
+    int? pendingCount,
+    int? doneCount,
+    int? newOrdersBadge,
+    List<RecentOrderItem>? recentOrders,
+    double? walletBalance,
+    double? avgRating,
+    int? totalReviews,
+    int? activeMenuItems,
+  }) {
+    return HomeModel(
+      appName: appName ?? this.appName,
+      unreadNotifications: unreadNotifications ?? this.unreadNotifications,
+      todayOrdersCount: todayOrdersCount ?? this.todayOrdersCount,
+      todayOrdersTrend: todayOrdersTrend ?? this.todayOrdersTrend,
+      todayRevenue: todayRevenue ?? this.todayRevenue,
+      pendingCount: pendingCount ?? this.pendingCount,
+      doneCount: doneCount ?? this.doneCount,
+      newOrdersBadge: newOrdersBadge ?? this.newOrdersBadge,
+      recentOrders: recentOrders ?? this.recentOrders,
+      walletBalance: walletBalance ?? this.walletBalance,
+      avgRating: avgRating ?? this.avgRating,
+      totalReviews: totalReviews ?? this.totalReviews,
+      activeMenuItems: activeMenuItems ?? this.activeMenuItems,
+    );
+  }
 
   static const dummy = HomeModel(
     appName: 'EATOGGY',
-    unreadNotifications: 2,
-    todayOrdersCount: 28,
-    todayOrdersTrend: '+12% from yesterday',
-    todayRevenue: '₹8,450',
-    pendingCount: 4,
-    doneCount: 24,
-    newOrdersBadge: 3,
-    recentOrders: [
-      RecentOrderItem(
-        orderId: '#ORD-9821',
-        customerName: 'Rahul Verma',
-        itemsCount: 3,
-        amount: '₹480',
-        timeAgo: '2m ago',
-        status: 'New',
-      ),
-      RecentOrderItem(
-        orderId: '#ORD-9820',
-        customerName: 'Ananya Sharma',
-        itemsCount: 2,
-        amount: '₹320',
-        timeAgo: '8m ago',
-        status: 'Preparing',
-      ),
-      RecentOrderItem(
-        orderId: '#ORD-9819',
-        customerName: 'Vikram Mehta',
-        itemsCount: 4,
-        amount: '₹650',
-        timeAgo: '15m ago',
-        status: 'Ready',
-      ),
-    ],
+    unreadNotifications: 0,
+    todayOrdersCount: 0,
+    todayOrdersTrend: 'Live kitchen sync',
+    todayRevenue: '₹0',
+    pendingCount: 0,
+    doneCount: 0,
+    newOrdersBadge: 0,
+    walletBalance: 0.0,
+    avgRating: 0.0,
+    totalReviews: 0,
+    activeMenuItems: 0,
+    recentOrders: [],
   );
 }
