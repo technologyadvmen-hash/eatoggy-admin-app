@@ -46,18 +46,14 @@ class PreparingOrderModel {
   final String deliveryPartnerPhone;
 
   static const dummy = PreparingOrderModel(
-    orderId: '1',
-    orderNumber: 'EAT1234',
+    orderId: '',
+    orderNumber: 'ORD',
     statusSteps: ['Accepted', 'Preparing', 'Ready', 'Picked Up'],
     currentStepIndex: 1,
-    remainingTime: '25:00',
+    remainingTime: '20:00',
     acceptingMoreOrdersText: 'Accepting more order requests',
-    checklist: [
-      PreparationCheckItem(id: '1', title: '2x Butter Chicken', isDone: true),
-      PreparationCheckItem(id: '2', title: '1x Naan', isDone: true),
-      PreparationCheckItem(id: '3', title: '1x Dal Makhani', isDone: false),
-    ],
-    customerPhone: '+91 98765 43210',
-    deliveryPartnerPhone: '+91 91234 56789',
+    checklist: [],
+    customerPhone: '',
+    deliveryPartnerPhone: '',
   );
 }

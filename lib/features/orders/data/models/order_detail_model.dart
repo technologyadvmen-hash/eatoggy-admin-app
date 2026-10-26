@@ -46,21 +46,17 @@ class OrderDetailModel {
   final int defaultPrepTime;
 
   static const dummy = OrderDetailModel(
-    id: '1',
-    orderNumber: 'EAT1234',
+    id: '',
+    orderNumber: 'ORD',
     status: 'New Order',
-    customerName: 'Rahul Sharma',
-    customerAddress: 'Flat 402, Royal Residency, Sector 5',
-    customerPhone: '+919876543210',
-    items: [
-      OrderItem(qty: '2x', title: 'Butter Chicken', subtitle: 'Extra spicy', price: '₹440'),
-      OrderItem(qty: '1x', title: 'Naan', subtitle: 'With butter', price: '₹60'),
-      OrderItem(qty: '1x', title: 'Dal Makhani', subtitle: 'No onion, no garlic', price: '₹150'),
-    ],
-    itemTotal: '₹650',
-    gst: '₹32.50',
-    packagingCharges: '₹40',
-    deliveryFee: '₹27.50',
-    grandTotal: '₹750',
+    customerName: 'Customer',
+    customerAddress: 'Customer Address',
+    customerPhone: '',
+    items: [],
+    itemTotal: '₹0',
+    gst: '₹0',
+    packagingCharges: '₹0',
+    deliveryFee: '₹0',
+    grandTotal: '₹0',
   );
 }

@@ -22,15 +22,14 @@ class HandoverOrderModel {
   final String partnerPhone;
 
   static const dummy = HandoverOrderModel(
-    orderId: '1',
-    orderNumber: 'EAT1234',
+    orderId: '',
+    orderNumber: '',
     statusSteps: ['Accepted', 'Preparing', 'Ready', 'Picked Up'],
     currentStepIndex: 3,
     title: 'Handed Over Successfully',
-    description:
-        'Order has been collected by Sumit Singh. Customer will receive it in ~30 min.',
-    partnerName: 'Sumit Singh',
-    partnerVehicleNo: 'DL 3S AQ 4528',
-    partnerPhone: '+91 98765 43210',
+    description: 'Order has been collected by the delivery partner.',
+    partnerName: 'Delivery Partner',
+    partnerVehicleNo: 'Assigned Fleet',
+    partnerPhone: '',
   );
 }

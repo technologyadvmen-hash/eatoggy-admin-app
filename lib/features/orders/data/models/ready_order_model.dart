@@ -24,15 +24,15 @@ class ReadyOrderModel {
   final String customerPhone;
 
   static const dummy = ReadyOrderModel(
-    orderId: '1',
-    orderNumber: 'EAT1234',
+    orderId: '',
+    orderNumber: 'ORD',
     statusSteps: ['Accepted', 'Preparing', 'Ready', 'Picked Up'],
     currentStepIndex: 2,
     handoverTitle: 'Order Ready for Handover',
     handoverSubtitle: 'Waiting for delivery partner to arrive',
-    customerName: 'Rahul Sharma',
-    itemCountText: '3 items',
-    amount: '₹650',
-    customerPhone: '+91 98765 43210',
+    customerName: 'Customer',
+    itemCountText: '0 items',
+    amount: '₹0',
+    customerPhone: '',
   );
 }
