@@ -26,19 +26,22 @@ class HandoverOrderNotifier extends Notifier<HandoverOrderState> {
     );
   }
 
-  void initializeForOrder(OrderItemDetail orderDetail, {String partnerName = 'Sumit Singh'}) {
+  void initializeForOrder(OrderItemDetail? orderDetail, {String partnerName = 'Delivery Partner'}) {
+    final orderNum = orderDetail?.orderNumber ?? '';
+    final id = orderDetail?.id ?? '';
     state = HandoverOrderState(
       order: HandoverOrderModel(
-        orderId: orderDetail.id,
-        orderNumber: orderDetail.orderNumber,
+        orderId: id,
+        orderNumber: orderNum,
         statusSteps: const ['Accepted', 'Preparing', 'Ready', 'Picked Up'],
         currentStepIndex: 3,
         title: 'Handed Over Successfully',
-        description:
-            'Order has been collected by $partnerName. Customer will receive it in ~30 min.',
+        description: orderNum.isNotEmpty
+            ? 'Order #$orderNum has been collected by $partnerName.'
+            : 'Order has been collected by $partnerName.',
         partnerName: partnerName,
-        partnerVehicleNo: 'DL 3S AQ 4528',
-        partnerPhone: '+91 98765 43210',
+        partnerVehicleNo: 'Assigned Fleet',
+        partnerPhone: '',
       ),
     );
   }

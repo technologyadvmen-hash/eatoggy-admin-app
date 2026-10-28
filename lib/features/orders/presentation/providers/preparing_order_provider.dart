@@ -70,8 +70,10 @@ class PreparingOrderNotifier extends Notifier<PreparingOrderState> {
         checklist: checklist.isEmpty
             ? PreparingOrderModel.dummy.checklist
             : checklist,
-        customerPhone: '+91 98765 43210',
-        deliveryPartnerPhone: '+91 91234 56789',
+        customerPhone: orderDetail.customerMobile.isNotEmpty
+            ? orderDetail.customerMobile
+            : '',
+        deliveryPartnerPhone: '',
       ),
     );
 

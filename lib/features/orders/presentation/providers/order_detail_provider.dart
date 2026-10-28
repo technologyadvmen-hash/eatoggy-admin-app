@@ -43,33 +43,40 @@ final orderDetailProvider = Provider.family<OrderDetailState, String>((ref, orde
 
   final OrderItemDetail matchingOrder = parentOrders.firstWhere(
     (o) => o.id == orderId || o.orderNumber == orderId,
-    orElse: () => const OrderItemDetail(
-      id: '1',
-      orderNumber: 'EAT1234',
-      timeAgo: '5 min ago',
-      amount: '₹650',
-      customerName: 'Rahul Sharma',
-      itemsList: ['2x Butter Chicken', '1x Naan', '1x Dal Makhani'],
+    orElse: () => OrderItemDetail(
+      id: orderId,
+      orderNumber: orderId.isNotEmpty ? orderId : 'ORD',
+      timeAgo: 'Just now',
+      amount: '₹0',
+      customerName: 'Customer',
+      itemsList: const [],
       status: 'New',
     ),
   );
+
+  final detailItems = matchingOrder.itemsList.map((itemStr) {
+    final parts = itemStr.split('x ');
+    final qty = parts.length > 1 ? '${parts[0]}x' : '1x';
+    final title = parts.length > 1 ? parts.sublist(1).join('x ') : itemStr;
+    return OrderItem(qty: qty, title: title, subtitle: '', price: '');
+  }).toList();
 
   final detail = OrderDetailModel(
     id: matchingOrder.id,
     orderNumber: matchingOrder.orderNumber,
     status: matchingOrder.status == 'New' ? 'New Order' : matchingOrder.status,
-    customerName: matchingOrder.customerName,
-    customerAddress: 'Flat 402, Royal Residency, Sector 5',
-    customerPhone: '+919876543210',
-    items: const [
-      OrderItem(qty: '2x', title: 'Butter Chicken', subtitle: 'Extra spicy', price: '₹440'),
-      OrderItem(qty: '1x', title: 'Naan', subtitle: 'With butter', price: '₹60'),
-      OrderItem(qty: '1x', title: 'Dal Makhani', subtitle: 'No onion, no garlic', price: '₹150'),
-    ],
+    customerName: matchingOrder.customerName.isNotEmpty ? matchingOrder.customerName : 'Customer',
+    customerAddress: matchingOrder.customerAddress.isNotEmpty
+        ? matchingOrder.customerAddress
+        : 'Customer Delivery Address',
+    customerPhone: matchingOrder.customerMobile,
+    items: detailItems.isNotEmpty
+        ? detailItems
+        : [const OrderItem(qty: '1x', title: 'Meal Order', subtitle: '', price: '')],
     itemTotal: matchingOrder.amount,
-    gst: '₹32.50',
-    packagingCharges: '₹40',
-    deliveryFee: '₹27.50',
+    gst: '₹0',
+    packagingCharges: '₹0',
+    deliveryFee: '₹0',
     grandTotal: matchingOrder.amount,
   );
 
