@@ -27,11 +27,12 @@ class _HandoverOrderScreenState extends ConsumerState<HandoverOrderScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final orders = ref.read(ordersPageProvider).ordersList;
-      final matching = orders.firstWhere(
+      final matching = orders.where(
         (o) => o.id == widget.orderId || o.orderNumber == widget.orderId,
-        orElse: () => ref.read(ordersPageProvider).ordersList.first,
-      );
-      ref.read(handoverOrderProvider.notifier).initializeForOrder(matching);
+      ).firstOrNull ?? (orders.isNotEmpty ? orders.first : null);
+      if (matching != null) {
+        ref.read(handoverOrderProvider.notifier).initializeForOrder(matching);
+      }
     });
   }
 
@@ -41,10 +42,11 @@ class _HandoverOrderScreenState extends ConsumerState<HandoverOrderScreen> {
     final order = state.order;
 
     return Scaffold(
-      backgroundColor: AppColors.darkBackground,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.darkBackground,
+        backgroundColor: AppColors.background,
         elevation: 0,
+        surfaceTintColor: Colors.transparent,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios_new_rounded,
@@ -58,7 +60,7 @@ class _HandoverOrderScreenState extends ConsumerState<HandoverOrderScreen> {
           style: AppTextStyles.title.copyWith(
             fontSize: 18.sp,
             fontWeight: FontWeight.w800,
-            color: AppColors.creamText,
+            color: AppColors.textPrimary,
           ),
         ),
       ),
@@ -86,13 +88,13 @@ class _HandoverOrderScreenState extends ConsumerState<HandoverOrderScreen> {
               width: 22.w,
               height: 22.w,
               decoration: const BoxDecoration(
-                color: Color(0xFF132A1C),
+                color: AppColors.successLight,
                 shape: BoxShape.circle,
               ),
               child: Center(
                 child: Icon(
                   Icons.check_rounded,
-                  color: Color(0xFF388E3C),
+                  color: AppColors.success,
                   size: 28.sp,
                 ),
               ),
@@ -101,10 +103,10 @@ class _HandoverOrderScreenState extends ConsumerState<HandoverOrderScreen> {
             Text(
               order.title,
               textAlign: TextAlign.center,
-              style: AppTextStyles.headingWhite.copyWith(
+              style: AppTextStyles.heading.copyWith(
                 fontSize: 19.sp,
                 fontWeight: FontWeight.w900,
-                color: AppColors.creamText,
+                color: AppColors.textPrimary,
               ),
             ),
             SizedBox(height: 1.2.h),
@@ -115,7 +117,7 @@ class _HandoverOrderScreenState extends ConsumerState<HandoverOrderScreen> {
                 textAlign: TextAlign.center,
                 style: AppTextStyles.caption.copyWith(
                   fontSize: 12.5.sp,
-                  color: AppColors.textSecondaryDark,
+                  color: AppColors.textSecondary,
                   height: 1.4,
                 ),
               ),
@@ -125,22 +127,23 @@ class _HandoverOrderScreenState extends ConsumerState<HandoverOrderScreen> {
               width: double.infinity,
               padding: EdgeInsets.all(4.5.w),
               decoration: BoxDecoration(
-                color: const Color(0xFF171715),
+                color: AppColors.surface,
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
-                  color: const Color(0xFF262622),
+                  color: AppColors.border,
                   width: 1,
                 ),
+                boxShadow: AppColors.cardShadow,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Delivery Partner Details',
-                    style: AppTextStyles.bodyWhite.copyWith(
+                    style: AppTextStyles.body.copyWith(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w800,
-                      color: AppColors.creamText,
+                      color: AppColors.textPrimary,
                     ),
                   ),
                   SizedBox(height: 1.8.h),
@@ -149,9 +152,17 @@ class _HandoverOrderScreenState extends ConsumerState<HandoverOrderScreen> {
                       Container(
                         width: 12.w,
                         height: 12.w,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFF242422),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF5F5F4),
                           shape: BoxShape.circle,
+                          border: Border.all(color: AppColors.border),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            Icons.two_wheeler_rounded,
+                            color: AppColors.primary,
+                            size: 16.sp,
+                          ),
                         ),
                       ),
                       SizedBox(width: 3.5.w),
@@ -161,10 +172,10 @@ class _HandoverOrderScreenState extends ConsumerState<HandoverOrderScreen> {
                           children: [
                             Text(
                               order.partnerName,
-                              style: AppTextStyles.bodyWhite.copyWith(
+                              style: AppTextStyles.body.copyWith(
                                 fontSize: 14.5.sp,
                                 fontWeight: FontWeight.w800,
-                                color: AppColors.creamText,
+                                color: AppColors.textPrimary,
                               ),
                             ),
                             SizedBox(height: 0.4.h),
@@ -172,7 +183,7 @@ class _HandoverOrderScreenState extends ConsumerState<HandoverOrderScreen> {
                               order.partnerVehicleNo,
                               style: AppTextStyles.caption.copyWith(
                                 fontSize: 12.sp,
-                                color: AppColors.textSecondaryDark,
+                                color: AppColors.textSecondary,
                               ),
                             ),
                           ],
@@ -182,7 +193,7 @@ class _HandoverOrderScreenState extends ConsumerState<HandoverOrderScreen> {
                         width: 11.w,
                         height: 11.w,
                         decoration: const BoxDecoration(
-                          color: Color(0xFF24211A),
+                          color: AppColors.primaryLight,
                           shape: BoxShape.circle,
                         ),
                         child: Center(
@@ -199,17 +210,28 @@ class _HandoverOrderScreenState extends ConsumerState<HandoverOrderScreen> {
               ),
             ),
             SizedBox(height: 4.h),
-            SizedBox(
+            Container(
               width: double.infinity,
               height: 6.h,
+              decoration: BoxDecoration(
+                gradient: AppColors.primaryGradient,
+                borderRadius: BorderRadius.circular(14),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primary.withValues(alpha: 0.3),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
               child: ElevatedButton(
                 onPressed: () {
                   ref.read(ordersPageProvider.notifier).markCompleted(order.orderId);
                   context.go(AppRoutes.dashboard);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
                   ),
@@ -218,7 +240,7 @@ class _HandoverOrderScreenState extends ConsumerState<HandoverOrderScreen> {
                   'Done',
                   style: AppTextStyles.buttonMedium.copyWith(
                     fontWeight: FontWeight.w800,
-                    color: const Color(0xFF11110F),
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -241,10 +263,10 @@ class _HandoverOrderScreenState extends ConsumerState<HandoverOrderScreen> {
           width: 5.w,
           height: 5.w,
           decoration: BoxDecoration(
-            color: const Color(0xFF388E3C),
+            color: AppColors.success,
             shape: BoxShape.circle,
             border: Border.all(
-              color: const Color(0xFF388E3C),
+              color: AppColors.success,
               width: 1.5,
             ),
           ),
@@ -252,7 +274,7 @@ class _HandoverOrderScreenState extends ConsumerState<HandoverOrderScreen> {
             child: Icon(
               Icons.check_rounded,
               size: 13.sp,
-              color: Colors.black,
+              color: Colors.white,
             ),
           ),
         ),
@@ -261,7 +283,7 @@ class _HandoverOrderScreenState extends ConsumerState<HandoverOrderScreen> {
           label,
           style: AppTextStyles.caption.copyWith(
             fontWeight: FontWeight.w700,
-            color: isActive ? AppColors.primary : const Color(0xFF388E3C),
+            color: isActive ? AppColors.primary : AppColors.success,
           ),
         ),
       ],
@@ -273,7 +295,7 @@ class _HandoverOrderScreenState extends ConsumerState<HandoverOrderScreen> {
       width: 6.w,
       height: 1.5,
       margin: EdgeInsets.symmetric(horizontal: 1.8.w),
-      color: const Color(0xFF388E3C),
+      color: AppColors.success,
     );
   }
 }
