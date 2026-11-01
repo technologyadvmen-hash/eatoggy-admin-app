@@ -27,8 +27,8 @@ class AddCategoryModel {
   static const dummyEdit = AddCategoryModel(
     title: 'Edit Category',
     subtitle: 'Update category details for your menu',
-    categoryName: 'North Indian',
-    description: 'Traditional clay oven baked breads, rich gravies and royal curries',
+    categoryName: '',
+    description: '',
     isActive: true,
     imagePath: null,
   );

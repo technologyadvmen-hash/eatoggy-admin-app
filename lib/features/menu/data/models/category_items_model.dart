@@ -51,42 +51,9 @@ class CategoryItemsModel {
 
   static const dummy = CategoryItemsModel(
     categoryId: '1',
-    categoryName: 'North Indian',
-    itemsCountSubtitle: '12 Items available',
-    allOnlineStatus: true,
-    items: [
-      CategoryFoodItem(
-        id: '1',
-        name: 'Butter Chicken',
-        price: '₹280',
-        isVeg: false,
-        isAvailable: true,
-        imageAsset: 'assets/images/butter_chicken.png',
-      ),
-      CategoryFoodItem(
-        id: '2',
-        name: 'Dal Makhani',
-        price: '₹180',
-        isVeg: true,
-        isAvailable: true,
-        imageAsset: 'assets/images/dal_makhani.png',
-      ),
-      CategoryFoodItem(
-        id: '3',
-        name: 'Paneer Tikka',
-        price: '₹220',
-        isVeg: true,
-        isAvailable: false,
-        imageAsset: 'assets/images/paneer_tikka.png',
-      ),
-      CategoryFoodItem(
-        id: '4',
-        name: 'Chicken Biryani',
-        price: '₹250',
-        isVeg: false,
-        isAvailable: true,
-        imageAsset: 'assets/images/chicken_biryani.png',
-      ),
-    ],
+    categoryName: 'Category Items',
+    itemsCountSubtitle: '0 Items available',
+    allOnlineStatus: false,
+    items: [],
   );
 }
