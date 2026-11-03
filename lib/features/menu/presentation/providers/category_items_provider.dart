@@ -53,11 +53,11 @@ final categoryItemsProvider =
   final categories = ref.watch(menuManagementProvider).model.categories;
   final category = categories.firstWhere(
     (c) => c.id == categoryId || c.title.toLowerCase() == categoryId.toLowerCase(),
-    orElse: () => const MenuCategoryItem(
-      id: '1',
-      title: 'North Indian',
-      itemCountText: '12 Items',
-      iconEmoji: '🍲',
+    orElse: () => MenuCategoryItem(
+      id: categoryId,
+      title: 'Category Items',
+      itemCountText: '0 Items',
+      iconEmoji: '🍽️',
     ),
   );
 

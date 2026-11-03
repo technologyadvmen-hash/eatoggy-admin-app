@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../data/models/add_category_model.dart';
 import '../../data/models/menu_management_model.dart';
+import '../../data/repositories/menu_repository.dart';
 
 class AddCategoryState {
   const AddCategoryState({
@@ -34,6 +35,7 @@ class AddCategoryState {
 
 class AddCategoryNotifier extends Notifier<AddCategoryState> {
   final ImagePicker _picker = ImagePicker();
+  final MenuRepository _menuRepository = MenuRepository();
 
   @override
   AddCategoryState build() {
@@ -79,6 +81,27 @@ class AddCategoryNotifier extends Notifier<AddCategoryState> {
 
   void toggleActive(bool val) {
     state = state.copyWith(isActive: val);
+  }
+
+  /// Create category via POST /api/restaurants/menu/categories
+  Future<bool> createCategory({
+    required String name,
+    String emoji = '🍢',
+    int displayOrder = 1,
+  }) async {
+    state = state.copyWith(isSaving: true);
+    try {
+      await _menuRepository.createCategory(
+        name: name,
+        emoji: emoji,
+        displayOrder: displayOrder,
+      );
+      state = state.copyWith(isSaving: false);
+      return true;
+    } catch (e) {
+      state = state.copyWith(isSaving: false);
+      rethrow;
+    }
   }
 }
 
