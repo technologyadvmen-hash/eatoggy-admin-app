@@ -30,15 +30,14 @@ class CreateTiffinPlanModel {
   static const dummy = CreateTiffinPlanModel(
     title: 'Create Tiffin Plan',
     subtitle: 'Define meal subscription parameters',
-    planName: 'Office Special Lunch Plan',
+    planName: '',
     selectedCycleType: 'Monthly Plan',
-    pricingPerCycle: '1499',
+    pricingPerCycle: '',
     mealsPerDay: 1,
-    rotatingWeeklyMenu: true,
-    serviceablePincodes: '380015, 380054',
-    maxSubscriberCap: '50',
-    planDescription:
-        'Daily wholesome office lunch delivered hot before 1:00 PM. Balanced nutritional mix of carbs, proteins, salads and fresh home-style rotis.',
+    rotatingWeeklyMenu: false,
+    serviceablePincodes: '',
+    maxSubscriberCap: '',
+    planDescription: '',
     cycleOptions: [
       'Monthly Plan',
       'Weekly Plan',

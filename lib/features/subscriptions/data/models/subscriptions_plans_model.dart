@@ -53,37 +53,36 @@ class SubscriptionsPlansModel {
     title: 'Subscription Plans',
     subtitle: 'Active custom meal programs',
     monthlyEarningsTitle: 'MONTHLY EARNINGS ESTIMATE',
-    monthlyEarningsAmount: '₹52,000',
-    activeUsersText: '57 active users',
+    monthlyEarningsAmount: '₹0',
+    activeUsersText: '0 active users',
     programsSectionTitle: 'Active Tiffin Programs',
-    programs: [
-      TiffinProgramItem(
-        id: '1',
-        title: 'Monthly Tiffin - Lunch',
-        price: '₹999/mo',
-        mealDetails: '2 Meals/day • Daily rotation menu',
-        activeSubscribersCount: 45,
-      ),
-      TiffinProgramItem(
-        id: '2',
-        title: 'Weekly Tiffin - Dinner',
-        price: '₹350/wk',
-        mealDetails: '1 Meal/day • Lite home meals',
-        activeSubscribersCount: 12,
-      ),
-    ],
+    programs: [],
     dispatchSectionTitle: 'Dispatch Load',
-    dispatchLoads: [
-      DispatchLoadItem(
-        header: 'TODAY DELIVERIES',
-        countText: '57 Packs',
-        subtitle: '45 Lunch + 12 Dinner',
-      ),
-      DispatchLoadItem(
-        header: 'TOMORROW PLAN',
-        countText: '57 Packs',
-        subtitle: 'Standard load expected',
-      ),
-    ],
+    dispatchLoads: [],
   );
+
+  SubscriptionsPlansModel copyWith({
+    String? title,
+    String? subtitle,
+    String? monthlyEarningsTitle,
+    String? monthlyEarningsAmount,
+    String? activeUsersText,
+    String? programsSectionTitle,
+    List<TiffinProgramItem>? programs,
+    String? dispatchSectionTitle,
+    List<DispatchLoadItem>? dispatchLoads,
+  }) {
+    return SubscriptionsPlansModel(
+      title: title ?? this.title,
+      subtitle: subtitle ?? this.subtitle,
+      monthlyEarningsTitle: monthlyEarningsTitle ?? this.monthlyEarningsTitle,
+      monthlyEarningsAmount: monthlyEarningsAmount ?? this.monthlyEarningsAmount,
+      activeUsersText: activeUsersText ?? this.activeUsersText,
+      programsSectionTitle: programsSectionTitle ?? this.programsSectionTitle,
+      programs: programs ?? this.programs,
+      dispatchSectionTitle: dispatchSectionTitle ?? this.dispatchSectionTitle,
+      dispatchLoads: dispatchLoads ?? this.dispatchLoads,
+    );
+  }
 }
+
