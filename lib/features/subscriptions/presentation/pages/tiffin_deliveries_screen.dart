@@ -20,15 +20,15 @@ class TiffinDeliveriesScreen extends ConsumerWidget {
       lastDate: DateTime(2030),
       builder: (context, child) {
         return Theme(
-          data: ThemeData.dark().copyWith(
-            colorScheme: const ColorScheme.dark(
+          data: ThemeData.light().copyWith(
+            colorScheme: const ColorScheme.light(
               primary: AppColors.primary,
-              onPrimary: Color(0xFF11110F),
-              surface: Color(0xFF1C1C1A),
-              onSurface: AppColors.creamText,
+              onPrimary: Colors.white,
+              surface: AppColors.surface,
+              onSurface: AppColors.textPrimary,
             ),
             dialogTheme: const DialogThemeData(
-              backgroundColor: Color(0xFF171715),
+              backgroundColor: AppColors.surface,
             ),
           ),
           child: child!,
@@ -68,7 +68,7 @@ class TiffinDeliveriesScreen extends ConsumerWidget {
             .clamp(0.0, 1.0);
 
     return Scaffold(
-      backgroundColor: AppColors.darkBackground,
+      backgroundColor: AppColors.scaffoldBackground,
       body: SafeArea(
         child: Column(
           children: [
@@ -88,8 +88,13 @@ class TiffinDeliveriesScreen extends ConsumerWidget {
                             width: 10.w,
                             height: 10.w,
                             decoration: BoxDecoration(
-                              color: const Color(0xFF171715),
+                              color: AppColors.surface,
                               borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: AppColors.border,
+                                width: 1,
+                              ),
+                              boxShadow: AppColors.cardShadow,
                             ),
                             child: Center(
                               child: Icon(
@@ -107,10 +112,10 @@ class TiffinDeliveriesScreen extends ConsumerWidget {
                             children: [
                               Text(
                                 model.title,
-                                style: AppTextStyles.headingWhite.copyWith(
+                                style: AppTextStyles.headingPrimary.copyWith(
                                   fontSize: 17.5.sp,
                                   fontWeight: FontWeight.w800,
-                                  color: AppColors.creamText,
+                                  color: AppColors.textPrimary,
                                 ),
                               ),
                               SizedBox(height: 0.3.h),
@@ -118,7 +123,7 @@ class TiffinDeliveriesScreen extends ConsumerWidget {
                                 model.subtitle,
                                 style: AppTextStyles.caption.copyWith(
                                   fontSize: 12.sp,
-                                  color: AppColors.textSecondaryDark,
+                                  color: AppColors.textMuted,
                                 ),
                               ),
                             ],
@@ -134,12 +139,13 @@ class TiffinDeliveriesScreen extends ConsumerWidget {
                         vertical: 1.5.h,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF171715),
+                        color: AppColors.surface,
                         borderRadius: BorderRadius.circular(14),
                         border: Border.all(
-                          color: const Color(0xFF262622),
+                          color: AppColors.border,
                           width: 1,
                         ),
+                        boxShadow: AppColors.cardShadow,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -150,10 +156,10 @@ class TiffinDeliveriesScreen extends ConsumerWidget {
                               SizedBox(width: 2.w),
                               Text(
                                 state.selectedDate,
-                                style: AppTextStyles.bodyWhite.copyWith(
+                                style: AppTextStyles.bodyMedium.copyWith(
                                   fontSize: 13.5.sp,
                                   fontWeight: FontWeight.w700,
-                                  color: AppColors.creamText,
+                                  color: AppColors.textPrimary,
                                 ),
                               ),
                             ],
@@ -178,12 +184,13 @@ class TiffinDeliveriesScreen extends ConsumerWidget {
                       width: double.infinity,
                       padding: EdgeInsets.all(4.w),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF171715),
+                        color: AppColors.surface,
                         borderRadius: BorderRadius.circular(14),
                         border: Border.all(
-                          color: const Color(0xFF262622),
+                          color: AppColors.border,
                           width: 1,
                         ),
+                        boxShadow: AppColors.cardShadow,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,16 +202,16 @@ class TiffinDeliveriesScreen extends ConsumerWidget {
                                 'Packing Progress',
                                 style: AppTextStyles.caption.copyWith(
                                   fontSize: 12.5.sp,
-                                  color: AppColors.textSecondaryDark,
+                                  color: AppColors.textMuted,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
                               Text(
                                 '${model.packedCount} / ${model.totalCount} packed',
-                                style: AppTextStyles.bodyWhite.copyWith(
+                                style: AppTextStyles.bodyMedium.copyWith(
                                   fontSize: 13.sp,
                                   fontWeight: FontWeight.w800,
-                                  color: AppColors.creamText,
+                                  color: AppColors.textPrimary,
                                 ),
                               ),
                             ],
@@ -215,7 +222,7 @@ class TiffinDeliveriesScreen extends ConsumerWidget {
                             child: LinearProgressIndicator(
                               value: progress,
                               minHeight: 0.8.h,
-                              backgroundColor: const Color(0xFF242420),
+                              backgroundColor: AppColors.border,
                               valueColor: const AlwaysStoppedAnimation<Color>(
                                 AppColors.primary,
                               ),
@@ -233,16 +240,28 @@ class TiffinDeliveriesScreen extends ConsumerWidget {
                             child: Container(
                               height: 5.6.h,
                               decoration: BoxDecoration(
+                                gradient: state.selectedMealType == 'Lunch'
+                                    ? AppColors.primaryGradient
+                                    : null,
                                 color: state.selectedMealType == 'Lunch'
-                                    ? AppColors.primary
-                                    : const Color(0xFF171715),
+                                    ? null
+                                    : AppColors.surface,
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
                                   color: state.selectedMealType == 'Lunch'
                                       ? AppColors.primary
-                                      : const Color(0xFF262622),
+                                      : AppColors.border,
                                   width: 1,
                                 ),
+                                boxShadow: state.selectedMealType == 'Lunch'
+                                    ? [
+                                        BoxShadow(
+                                          color: AppColors.primary.withValues(alpha: 0.25),
+                                          blurRadius: 8,
+                                          offset: const Offset(0, 3),
+                                        ),
+                                      ]
+                                    : AppColors.cardShadow,
                               ),
                               child: Center(
                                 child: Text(
@@ -251,8 +270,8 @@ class TiffinDeliveriesScreen extends ConsumerWidget {
                                     fontSize: 13.5.sp,
                                     fontWeight: FontWeight.w800,
                                     color: state.selectedMealType == 'Lunch'
-                                        ? const Color(0xFF11110F)
-                                        : AppColors.creamText,
+                                        ? Colors.white
+                                        : AppColors.textPrimary,
                                   ),
                                 ),
                               ),
@@ -266,16 +285,28 @@ class TiffinDeliveriesScreen extends ConsumerWidget {
                             child: Container(
                               height: 5.6.h,
                               decoration: BoxDecoration(
+                                gradient: state.selectedMealType == 'Dinner'
+                                    ? AppColors.primaryGradient
+                                    : null,
                                 color: state.selectedMealType == 'Dinner'
-                                    ? AppColors.primary
-                                    : const Color(0xFF171715),
+                                    ? null
+                                    : AppColors.surface,
                                 borderRadius: BorderRadius.circular(12),
                                 border: Border.all(
                                   color: state.selectedMealType == 'Dinner'
                                       ? AppColors.primary
-                                      : const Color(0xFF262622),
+                                      : AppColors.border,
                                   width: 1,
                                 ),
+                                boxShadow: state.selectedMealType == 'Dinner'
+                                    ? [
+                                        BoxShadow(
+                                          color: AppColors.primary.withValues(alpha: 0.25),
+                                          blurRadius: 8,
+                                          offset: const Offset(0, 3),
+                                        ),
+                                      ]
+                                    : AppColors.cardShadow,
                               ),
                               child: Center(
                                 child: Text(
@@ -284,8 +315,8 @@ class TiffinDeliveriesScreen extends ConsumerWidget {
                                     fontSize: 13.5.sp,
                                     fontWeight: FontWeight.w800,
                                     color: state.selectedMealType == 'Dinner'
-                                        ? const Color(0xFF11110F)
-                                        : AppColors.creamText,
+                                        ? Colors.white
+                                        : AppColors.textPrimary,
                                   ),
                                 ),
                               ),
@@ -295,119 +326,161 @@ class TiffinDeliveriesScreen extends ConsumerWidget {
                       ],
                     ),
                     SizedBox(height: 2.2.h),
-                    ...deliveries.map((item) {
-                      final isOutOfDelivery =
-                          item.status == 'OUT FOR DELIVERY';
-                      final badgeColor = isOutOfDelivery
-                          ? const Color(0xFFFF9800)
-                          : const Color(0xFF4CAF50);
-                      final badgeBg = isOutOfDelivery
-                          ? const Color(0xFF2B2215)
-                          : const Color(0xFF142918);
-
-                      return GestureDetector(
-                        onTap: () {
-                          context.push(AppRoutes.subscriberCard, extra: item);
-                        },
-                        child: Container(
-                          width: double.infinity,
-                          margin: EdgeInsets.only(bottom: 1.5.h),
-                          padding: EdgeInsets.all(4.w),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF171715),
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(
-                              color: const Color(0xFF262622),
-                              width: 1,
+                    if (deliveries.isEmpty)
+                      Container(
+                        width: double.infinity,
+                        padding: EdgeInsets.symmetric(
+                          vertical: 6.h,
+                          horizontal: 4.w,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.surface,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: AppColors.border),
+                          boxShadow: AppColors.cardShadow,
+                        ),
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.delivery_dining_outlined,
+                              size: 38.sp,
+                              color: AppColors.textMuted.withValues(alpha: 0.5),
                             ),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    item.customerName,
-                                    style: AppTextStyles.headingWhite.copyWith(
-                                      fontSize: 15.sp,
-                                      fontWeight: FontWeight.w800,
-                                      color: AppColors.creamText,
-                                    ),
-                                  ),
-                                  Container(
-                                    padding: EdgeInsets.symmetric(
-                                      horizontal: 2.5.w,
-                                      vertical: 0.5.h,
-                                    ),
-                                    decoration: BoxDecoration(
-                                      color: badgeBg,
-                                      borderRadius: BorderRadius.circular(6),
-                                    ),
-                                    child: Text(
-                                      item.status,
-                                      style: AppTextStyles.caption.copyWith(
-                                        fontSize: 10.sp,
+                            SizedBox(height: 1.5.h),
+                            Text(
+                              'No Tiffin Deliveries Scheduled',
+                              style: AppTextStyles.bodyMedium.copyWith(
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.textPrimary,
+                              ),
+                            ),
+                            SizedBox(height: 0.6.h),
+                            Text(
+                              'Scheduled meal dispatches will appear here when active subscriptions are running.',
+                              textAlign: TextAlign.center,
+                              style: AppTextStyles.caption.copyWith(
+                                color: AppColors.textMuted,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    else
+                      ...deliveries.map((item) {
+                        final isOutOfDelivery =
+                            item.status == 'OUT FOR DELIVERY';
+                        final badgeColor = isOutOfDelivery
+                            ? AppColors.info
+                            : AppColors.success;
+                        final badgeBg = isOutOfDelivery
+                            ? AppColors.infoBg
+                            : AppColors.successBg;
+
+                        return GestureDetector(
+                          onTap: () {
+                            context.push(AppRoutes.subscriberCard, extra: item);
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            margin: EdgeInsets.only(bottom: 1.5.h),
+                            padding: EdgeInsets.all(4.w),
+                            decoration: BoxDecoration(
+                              color: AppColors.surface,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(
+                                color: AppColors.border,
+                                width: 1,
+                              ),
+                              boxShadow: AppColors.cardShadow,
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      item.customerName,
+                                      style: AppTextStyles.headingPrimary.copyWith(
+                                        fontSize: 15.sp,
                                         fontWeight: FontWeight.w800,
-                                        color: badgeColor,
+                                        color: AppColors.textPrimary,
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 1.2.h),
-                              Row(
-                                children: [
-                                  Text('🍱', style: TextStyle(fontSize: 11.5.sp)),
-                                  SizedBox(width: 1.5.w),
-                                  Text(
-                                    'Items: ',
-                                    style: AppTextStyles.caption.copyWith(
-                                      fontSize: 12.sp,
-                                      color: AppColors.textSecondaryDark,
+                                    Container(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 2.5.w,
+                                        vertical: 0.5.h,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: badgeBg,
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: Text(
+                                        item.status,
+                                        style: AppTextStyles.caption.copyWith(
+                                          fontSize: 10.sp,
+                                          fontWeight: FontWeight.w800,
+                                          color: badgeColor,
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  Expanded(
-                                    child: Text(
-                                      item.itemsText,
-                                      style: AppTextStyles.bodyWhite.copyWith(
+                                  ],
+                                ),
+                                SizedBox(height: 1.2.h),
+                                Row(
+                                  children: [
+                                    Text('🍱', style: TextStyle(fontSize: 11.5.sp)),
+                                    SizedBox(width: 1.5.w),
+                                    Text(
+                                      'Items: ',
+                                      style: AppTextStyles.caption.copyWith(
+                                        fontSize: 12.sp,
+                                        color: AppColors.textMuted,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Text(
+                                        item.itemsText,
+                                        style: AppTextStyles.bodyMedium.copyWith(
+                                          fontSize: 12.sp,
+                                          fontWeight: FontWeight.w600,
+                                          color: AppColors.textPrimary,
+                                        ),
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 0.6.h),
+                                Row(
+                                  children: [
+                                    Text('🕒', style: TextStyle(fontSize: 11.5.sp)),
+                                    SizedBox(width: 1.5.w),
+                                    Text(
+                                      'Slot: ',
+                                      style: AppTextStyles.caption.copyWith(
+                                        fontSize: 12.sp,
+                                        color: AppColors.textMuted,
+                                      ),
+                                    ),
+                                    Text(
+                                      item.slotText,
+                                      style: AppTextStyles.bodyMedium.copyWith(
                                         fontSize: 12.sp,
                                         fontWeight: FontWeight.w600,
-                                        color: AppColors.creamText,
+                                        color: AppColors.textPrimary,
                                       ),
-                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(height: 0.6.h),
-                              Row(
-                                children: [
-                                  Text('🕒', style: TextStyle(fontSize: 11.5.sp)),
-                                  SizedBox(width: 1.5.w),
-                                  Text(
-                                    'Slot: ',
-                                    style: AppTextStyles.caption.copyWith(
-                                      fontSize: 12.sp,
-                                      color: AppColors.textSecondaryDark,
-                                    ),
-                                  ),
-                                  Text(
-                                    item.slotText,
-                                    style: AppTextStyles.bodyWhite.copyWith(
-                                      fontSize: 12.sp,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.creamText,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ],
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    }),
+                        );
+                      }),
                     SizedBox(height: 2.h),
                   ],
                 ),
@@ -432,12 +505,12 @@ class TiffinDeliveriesScreen extends ConsumerWidget {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF1F1F1D),
+                          backgroundColor: AppColors.surface,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(14),
-                            side: const BorderSide(
-                              color: Color(0xFF2E2E2A),
+                            side: BorderSide(
+                              color: AppColors.border,
                               width: 1,
                             ),
                           ),
@@ -447,7 +520,7 @@ class TiffinDeliveriesScreen extends ConsumerWidget {
                           style: AppTextStyles.buttonMedium.copyWith(
                             fontSize: 13.5.sp,
                             fontWeight: FontWeight.w800,
-                            color: AppColors.creamText,
+                            color: AppColors.textPrimary,
                           ),
                         ),
                       ),
@@ -455,8 +528,19 @@ class TiffinDeliveriesScreen extends ConsumerWidget {
                   ),
                   SizedBox(width: 3.5.w),
                   Expanded(
-                    child: SizedBox(
+                    child: Container(
                       height: 6.h,
+                      decoration: BoxDecoration(
+                        gradient: AppColors.primaryGradient,
+                        borderRadius: BorderRadius.circular(14),
+                        boxShadow: [
+                          BoxShadow(
+                            color: AppColors.primary.withValues(alpha: 0.3),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
                       child: ElevatedButton(
                         onPressed: () {
                           context.push(
@@ -465,7 +549,8 @@ class TiffinDeliveriesScreen extends ConsumerWidget {
                           );
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
+                          backgroundColor: Colors.transparent,
+                          shadowColor: Colors.transparent,
                           elevation: 0,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(14),
@@ -476,7 +561,7 @@ class TiffinDeliveriesScreen extends ConsumerWidget {
                           style: AppTextStyles.buttonMedium.copyWith(
                             fontSize: 13.5.sp,
                             fontWeight: FontWeight.w800,
-                            color: const Color(0xFF11110F),
+                            color: Colors.white,
                           ),
                         ),
                       ),

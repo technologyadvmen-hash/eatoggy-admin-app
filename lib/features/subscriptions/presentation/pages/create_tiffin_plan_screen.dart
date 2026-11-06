@@ -53,20 +53,54 @@ class _CreateTiffinPlanScreenState
 
   void _onPublishPlan() {
     if (_formKey.currentState?.validate() ?? false) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Tiffin Plan published successfully!',
-            style: AppTextStyles.caption.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.w700,
+      final name = _nameController.text.trim();
+      final desc = _descriptionController.text.trim();
+      final cleanPrice =
+          _pricingController.text.replaceAll(RegExp(r'[^0-9.]'), '');
+      final priceNum = num.tryParse(cleanPrice) ?? 150;
+      final cycle = ref.read(createTiffinPlanProvider).selectedCycleType;
+      final duration = cycle.toLowerCase().contains('monthly') ? 28 : 7;
+
+      ref.read(createTiffinPlanProvider.notifier).createPlan(
+        name: name,
+        description: desc,
+        pricePerMeal: priceNum,
+        mealType: 'LUNCH',
+        planDurationDays: duration,
+        onSuccess: () {
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Tiffin Plan published successfully!',
+                style: AppTextStyles.caption.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              backgroundColor: AppColors.success,
+              duration: const Duration(seconds: 2),
             ),
-          ),
-          backgroundColor: AppColors.success,
-          duration: const Duration(seconds: 2),
-        ),
+          );
+          context.pop();
+        },
+        onError: (msg) {
+          if (!mounted) return;
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                msg,
+                style: AppTextStyles.caption.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              backgroundColor: AppColors.error,
+              duration: const Duration(seconds: 3),
+            ),
+          );
+        },
       );
-      context.pop();
     }
   }
 
@@ -77,7 +111,7 @@ class _CreateTiffinPlanScreenState
     final model = state.model;
 
     return Scaffold(
-      backgroundColor: AppColors.darkBackground,
+      backgroundColor: AppColors.scaffoldBackground,
       body: SafeArea(
         child: Column(
           children: [
@@ -99,8 +133,13 @@ class _CreateTiffinPlanScreenState
                               width: 10.w,
                               height: 10.w,
                               decoration: BoxDecoration(
-                                color: const Color(0xFF171715),
+                                color: AppColors.surface,
                                 borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: AppColors.border,
+                                  width: 1,
+                                ),
+                                boxShadow: AppColors.cardShadow,
                               ),
                               child: Center(
                                 child: Icon(
@@ -118,10 +157,10 @@ class _CreateTiffinPlanScreenState
                               children: [
                                 Text(
                                   model.title,
-                                  style: AppTextStyles.headingWhite.copyWith(
+                                  style: AppTextStyles.headingPrimary.copyWith(
                                     fontSize: 17.5.sp,
                                     fontWeight: FontWeight.w800,
-                                    color: AppColors.creamText,
+                                    color: AppColors.textPrimary,
                                   ),
                                 ),
                                 SizedBox(height: 0.3.h),
@@ -129,7 +168,7 @@ class _CreateTiffinPlanScreenState
                                   model.subtitle,
                                   style: AppTextStyles.caption.copyWith(
                                     fontSize: 12.sp,
-                                    color: AppColors.textSecondaryDark,
+                                    color: AppColors.textMuted,
                                   ),
                                 ),
                               ],
@@ -142,32 +181,33 @@ class _CreateTiffinPlanScreenState
                         'Plan Name',
                         style: AppTextStyles.bodyMedium.copyWith(
                           fontSize: 13.5.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.creamText,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.textPrimary,
                         ),
                       ),
                       SizedBox(height: 1.h),
                       Container(
                         decoration: BoxDecoration(
-                          color: const Color(0xFF171715),
+                          color: AppColors.surface,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: const Color(0xFF262622),
+                            color: AppColors.border,
                             width: 1,
                           ),
+                          boxShadow: AppColors.cardShadow,
                         ),
                         child: TextFormField(
                           controller: _nameController,
                           style: AppTextStyles.body.copyWith(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.creamText,
+                            color: AppColors.textPrimary,
                           ),
                           decoration: InputDecoration(
                             hintText: 'e.g. Office Special Lunch Plan',
                             hintStyle: AppTextStyles.caption.copyWith(
                               fontSize: 13.5.sp,
-                              color: const Color(0xFF555550),
+                              color: AppColors.textMuted,
                             ),
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.symmetric(
@@ -188,26 +228,27 @@ class _CreateTiffinPlanScreenState
                         'Plan Cycle Type',
                         style: AppTextStyles.bodyMedium.copyWith(
                           fontSize: 13.5.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.creamText,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.textPrimary,
                         ),
                       ),
                       SizedBox(height: 1.h),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 4.w),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF171715),
+                          color: AppColors.surface,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: const Color(0xFF262622),
+                            color: AppColors.border,
                             width: 1,
                           ),
+                          boxShadow: AppColors.cardShadow,
                         ),
                         child: DropdownButtonHideUnderline(
                           child: DropdownButton<String>(
                             value: state.selectedCycleType,
                             isExpanded: true,
-                            dropdownColor: const Color(0xFF1C1C1A),
+                            dropdownColor: AppColors.surface,
                             icon: Icon(
                               Icons.keyboard_arrow_down_rounded,
                               color: AppColors.primary,
@@ -216,7 +257,7 @@ class _CreateTiffinPlanScreenState
                             style: AppTextStyles.body.copyWith(
                               fontSize: 13.5.sp,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.creamText,
+                              color: AppColors.textPrimary,
                             ),
                             items: model.cycleOptions.map((opt) {
                               return DropdownMenuItem<String>(
@@ -237,19 +278,20 @@ class _CreateTiffinPlanScreenState
                         'Pricing per Cycle (₹)',
                         style: AppTextStyles.bodyMedium.copyWith(
                           fontSize: 13.5.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.creamText,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.textPrimary,
                         ),
                       ),
                       SizedBox(height: 1.h),
                       Container(
                         decoration: BoxDecoration(
-                          color: const Color(0xFF171715),
+                          color: AppColors.surface,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: const Color(0xFF262622),
+                            color: AppColors.border,
                             width: 1,
                           ),
+                          boxShadow: AppColors.cardShadow,
                         ),
                         child: TextFormField(
                           controller: _pricingController,
@@ -257,13 +299,13 @@ class _CreateTiffinPlanScreenState
                           style: AppTextStyles.body.copyWith(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.creamText,
+                            color: AppColors.textPrimary,
                           ),
                           decoration: InputDecoration(
                             hintText: 'e.g. 1499',
                             hintStyle: AppTextStyles.caption.copyWith(
                               fontSize: 13.5.sp,
-                              color: const Color(0xFF555550),
+                              color: AppColors.textMuted,
                             ),
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.symmetric(
@@ -284,8 +326,8 @@ class _CreateTiffinPlanScreenState
                         'Number of Meals per Day',
                         style: AppTextStyles.bodyMedium.copyWith(
                           fontSize: 13.5.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.creamText,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.textPrimary,
                         ),
                       ),
                       SizedBox(height: 1.h),
@@ -302,16 +344,26 @@ class _CreateTiffinPlanScreenState
                                 child: Container(
                                   height: 5.6.h,
                                   decoration: BoxDecoration(
-                                    color: isSelected
-                                        ? AppColors.primary
-                                        : const Color(0xFF171715),
+                                    gradient: isSelected
+                                        ? AppColors.primaryGradient
+                                        : null,
+                                    color: isSelected ? null : AppColors.surface,
                                     borderRadius: BorderRadius.circular(12),
                                     border: Border.all(
                                       color: isSelected
                                           ? AppColors.primary
-                                          : const Color(0xFF262622),
+                                          : AppColors.border,
                                       width: 1,
                                     ),
+                                    boxShadow: isSelected
+                                        ? [
+                                            BoxShadow(
+                                              color: AppColors.primary.withValues(alpha: 0.25),
+                                              blurRadius: 8,
+                                              offset: const Offset(0, 3),
+                                            )
+                                          ]
+                                        : AppColors.cardShadow,
                                   ),
                                   child: Center(
                                     child: Text(
@@ -320,8 +372,8 @@ class _CreateTiffinPlanScreenState
                                         fontSize: 13.5.sp,
                                         fontWeight: FontWeight.w800,
                                         color: isSelected
-                                            ? const Color(0xFF11110F)
-                                            : AppColors.creamText,
+                                            ? Colors.white
+                                            : AppColors.textPrimary,
                                       ),
                                     ),
                                   ),
@@ -339,12 +391,13 @@ class _CreateTiffinPlanScreenState
                           vertical: 1.2.h,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF171715),
+                          color: AppColors.surface,
                           borderRadius: BorderRadius.circular(14),
                           border: Border.all(
-                            color: const Color(0xFF262622),
+                            color: AppColors.border,
                             width: 1,
                           ),
+                          boxShadow: AppColors.cardShadow,
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -357,7 +410,7 @@ class _CreateTiffinPlanScreenState
                                   style: AppTextStyles.bodyMedium.copyWith(
                                     fontSize: 13.5.sp,
                                     fontWeight: FontWeight.w800,
-                                    color: AppColors.creamText,
+                                    color: AppColors.textPrimary,
                                   ),
                                 ),
                                 SizedBox(height: 0.3.h),
@@ -365,7 +418,7 @@ class _CreateTiffinPlanScreenState
                                   'Menu items change every day',
                                   style: AppTextStyles.caption.copyWith(
                                     fontSize: 11.5.sp,
-                                    color: AppColors.textSecondaryDark,
+                                    color: AppColors.textMuted,
                                   ),
                                 ),
                               ],
@@ -377,10 +430,10 @@ class _CreateTiffinPlanScreenState
                                 onChanged: (val) {
                                   notifier.toggleRotatingWeeklyMenu(val);
                                 },
-                                activeTrackColor: const Color(0xFF285430),
-                                activeThumbColor: const Color(0xFFFFF1D2),
-                                inactiveTrackColor: const Color(0xFF2B2B28),
-                                inactiveThumbColor: const Color(0xFF8A8A85),
+                                activeTrackColor: AppColors.primaryLight,
+                                activeThumbColor: AppColors.primary,
+                                inactiveTrackColor: AppColors.border,
+                                inactiveThumbColor: AppColors.textMuted,
                               ),
                             ),
                           ],
@@ -391,32 +444,33 @@ class _CreateTiffinPlanScreenState
                         'Serviceable Pincodes',
                         style: AppTextStyles.bodyMedium.copyWith(
                           fontSize: 13.5.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.creamText,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.textPrimary,
                         ),
                       ),
                       SizedBox(height: 1.h),
                       Container(
                         decoration: BoxDecoration(
-                          color: const Color(0xFF171715),
+                          color: AppColors.surface,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: const Color(0xFF262622),
+                            color: AppColors.border,
                             width: 1,
                           ),
+                          boxShadow: AppColors.cardShadow,
                         ),
                         child: TextFormField(
                           controller: _pincodesController,
                           style: AppTextStyles.body.copyWith(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.creamText,
+                            color: AppColors.textPrimary,
                           ),
                           decoration: InputDecoration(
                             hintText: 'e.g. 380015, 380054 (Comma separated)',
                             hintStyle: AppTextStyles.caption.copyWith(
                               fontSize: 13.5.sp,
-                              color: const Color(0xFF555550),
+                              color: AppColors.textMuted,
                             ),
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.symmetric(
@@ -431,19 +485,20 @@ class _CreateTiffinPlanScreenState
                         'Max Subscriber Cap',
                         style: AppTextStyles.bodyMedium.copyWith(
                           fontSize: 13.5.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.creamText,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.textPrimary,
                         ),
                       ),
                       SizedBox(height: 1.h),
                       Container(
                         decoration: BoxDecoration(
-                          color: const Color(0xFF171715),
+                          color: AppColors.surface,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: const Color(0xFF262622),
+                            color: AppColors.border,
                             width: 1,
                           ),
+                          boxShadow: AppColors.cardShadow,
                         ),
                         child: TextFormField(
                           controller: _subscriberCapController,
@@ -451,13 +506,13 @@ class _CreateTiffinPlanScreenState
                           style: AppTextStyles.body.copyWith(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.creamText,
+                            color: AppColors.textPrimary,
                           ),
                           decoration: InputDecoration(
                             hintText: 'e.g. 50 (Leave blank for unlimited)',
                             hintStyle: AppTextStyles.caption.copyWith(
                               fontSize: 13.5.sp,
-                              color: const Color(0xFF555550),
+                              color: AppColors.textMuted,
                             ),
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.symmetric(
@@ -472,19 +527,20 @@ class _CreateTiffinPlanScreenState
                         'Plan Description',
                         style: AppTextStyles.bodyMedium.copyWith(
                           fontSize: 13.5.sp,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.creamText,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.textPrimary,
                         ),
                       ),
                       SizedBox(height: 1.h),
                       Container(
                         decoration: BoxDecoration(
-                          color: const Color(0xFF171715),
+                          color: AppColors.surface,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: const Color(0xFF262622),
+                            color: AppColors.border,
                             width: 1,
                           ),
+                          boxShadow: AppColors.cardShadow,
                         ),
                         child: TextFormField(
                           controller: _descriptionController,
@@ -492,7 +548,7 @@ class _CreateTiffinPlanScreenState
                           style: AppTextStyles.body.copyWith(
                             fontSize: 13.5.sp,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.creamText,
+                            color: AppColors.textPrimary,
                             height: 1.4,
                           ),
                           decoration: InputDecoration(
@@ -500,7 +556,7 @@ class _CreateTiffinPlanScreenState
                                 'Give brief details about target audience, meal nutritional breakdown...',
                             hintStyle: AppTextStyles.caption.copyWith(
                               fontSize: 13.sp,
-                              color: const Color(0xFF555550),
+                              color: AppColors.textMuted,
                               height: 1.4,
                             ),
                             border: InputBorder.none,
@@ -519,26 +575,49 @@ class _CreateTiffinPlanScreenState
             ),
             Container(
               padding: EdgeInsets.fromLTRB(5.w, 1.h, 5.w, 2.h),
-              child: SizedBox(
+              child: Container(
                 width: double.infinity,
                 height: 6.h,
+                decoration: BoxDecoration(
+                  gradient: AppColors.primaryGradient,
+                  borderRadius: BorderRadius.circular(14),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.primary.withValues(alpha: 0.3),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
                 child: ElevatedButton(
-                  onPressed: _onPublishPlan,
+                  onPressed: state.isPublishing ? null : _onPublishPlan,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
                     ),
                   ),
-                  child: Text(
-                    'Publish Tiffin Plan',
-                    style: AppTextStyles.buttonMedium.copyWith(
-                      fontSize: 14.5.sp,
-                      fontWeight: FontWeight.w800,
-                      color: const Color(0xFF11110F),
-                    ),
-                  ),
+                  child: state.isPublishing
+                      ? const SizedBox(
+                          width: 22,
+                          height: 22,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.2,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Colors.white,
+                            ),
+                          ),
+                        )
+                      : Text(
+                          'Publish Tiffin Plan',
+                          style: AppTextStyles.buttonMedium.copyWith(
+                            fontSize: 14.5.sp,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.white,
+                          ),
+                        ),
                 ),
               ),
             ),

@@ -40,7 +40,7 @@ class _ManageTiffinPlanScreenState
     final subscribers = state.filteredSubscribers;
 
     return Scaffold(
-      backgroundColor: AppColors.darkBackground,
+      backgroundColor: AppColors.scaffoldBackground,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 5.w),
@@ -57,8 +57,13 @@ class _ManageTiffinPlanScreenState
                       width: 10.w,
                       height: 10.w,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF171715),
+                        color: AppColors.surface,
                         borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: AppColors.border,
+                          width: 1,
+                        ),
+                        boxShadow: AppColors.cardShadow,
                       ),
                       child: Center(
                         child: Icon(
@@ -76,10 +81,10 @@ class _ManageTiffinPlanScreenState
                       children: [
                         Text(
                           model.planTitle,
-                          style: AppTextStyles.headingWhite.copyWith(
+                          style: AppTextStyles.headingPrimary.copyWith(
                             fontSize: 17.5.sp,
                             fontWeight: FontWeight.w800,
-                            color: AppColors.creamText,
+                            color: AppColors.textPrimary,
                           ),
                         ),
                         SizedBox(height: 0.3.h),
@@ -87,7 +92,7 @@ class _ManageTiffinPlanScreenState
                           model.subtitle,
                           style: AppTextStyles.caption.copyWith(
                             fontSize: 12.sp,
-                            color: AppColors.textSecondaryDark,
+                            color: AppColors.textMuted,
                           ),
                         ),
                       ],
@@ -100,9 +105,10 @@ class _ManageTiffinPlanScreenState
                 width: double.infinity,
                 padding: EdgeInsets.all(4.5.w),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF171715),
+                  color: AppColors.surface,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: const Color(0xFF262622), width: 1),
+                  border: Border.all(color: AppColors.border, width: 1),
+                  boxShadow: AppColors.cardShadow,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,10 +119,10 @@ class _ManageTiffinPlanScreenState
                       children: [
                         Text(
                           model.priceTitle,
-                          style: AppTextStyles.headingWhite.copyWith(
+                          style: AppTextStyles.headingPrimary.copyWith(
                             fontSize: 18.sp,
                             fontWeight: FontWeight.w900,
-                            color: AppColors.creamText,
+                            color: AppColors.primary,
                           ),
                         ),
                         Container(
@@ -126,8 +132,8 @@ class _ManageTiffinPlanScreenState
                           ),
                           decoration: BoxDecoration(
                             color: state.isPaused
-                                ? const Color(0xFF2B2215)
-                                : const Color(0xFF142918),
+                                ? AppColors.warningBg
+                                : AppColors.successBg,
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Text(
@@ -136,8 +142,8 @@ class _ManageTiffinPlanScreenState
                               fontSize: 10.5.sp,
                               fontWeight: FontWeight.w800,
                               color: state.isPaused
-                                  ? const Color(0xFFFF9800)
-                                  : const Color(0xFF4CAF50),
+                                  ? AppColors.warning
+                                  : AppColors.success,
                             ),
                           ),
                         ),
@@ -152,15 +158,15 @@ class _ManageTiffinPlanScreenState
                           'Delivery window: ',
                           style: AppTextStyles.caption.copyWith(
                             fontSize: 12.5.sp,
-                            color: AppColors.textSecondaryDark,
+                            color: AppColors.textMuted,
                           ),
                         ),
                         Text(
                           model.deliveryWindow,
-                          style: AppTextStyles.bodyWhite.copyWith(
+                          style: AppTextStyles.bodyMedium.copyWith(
                             fontSize: 12.5.sp,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.creamText,
+                            color: AppColors.textPrimary,
                           ),
                         ),
                       ],
@@ -174,15 +180,15 @@ class _ManageTiffinPlanScreenState
                           'Meal setup: ',
                           style: AppTextStyles.caption.copyWith(
                             fontSize: 12.5.sp,
-                            color: AppColors.textSecondaryDark,
+                            color: AppColors.textMuted,
                           ),
                         ),
                         Text(
                           model.mealSetup,
-                          style: AppTextStyles.bodyWhite.copyWith(
+                          style: AppTextStyles.bodyMedium.copyWith(
                             fontSize: 12.5.sp,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.creamText,
+                            color: AppColors.textPrimary,
                           ),
                         ),
                       ],
@@ -211,13 +217,13 @@ class _ManageTiffinPlanScreenState
                                 );
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF1F1F1D),
+                                backgroundColor: AppColors.surface,
                                 elevation: 0,
                                 minimumSize: Size.zero,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  side: const BorderSide(
-                                    color: Color(0xFF2E2E2A),
+                                  side: BorderSide(
+                                    color: AppColors.border,
                                     width: 1,
                                   ),
                                 ),
@@ -227,7 +233,7 @@ class _ManageTiffinPlanScreenState
                                 style: AppTextStyles.buttonMedium.copyWith(
                                   fontSize: 13.5.sp,
                                   fontWeight: FontWeight.w700,
-                                  color: AppColors.creamText,
+                                  color: AppColors.textPrimary,
                                 ),
                               ),
                             ),
@@ -242,13 +248,13 @@ class _ManageTiffinPlanScreenState
                                 context.push(AppRoutes.createTiffinPlan);
                               },
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xFF1F1F1D),
+                                backgroundColor: AppColors.surface,
                                 elevation: 0,
                                 minimumSize: Size.zero,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
-                                  side: const BorderSide(
-                                    color: Color(0xFF2E2E2A),
+                                  side: BorderSide(
+                                    color: AppColors.primary.withValues(alpha: 0.35),
                                     width: 1,
                                   ),
                                 ),
@@ -275,18 +281,27 @@ class _ManageTiffinPlanScreenState
                 children: [
                   Text(
                     'Subscribers (${model.subscribersCount})',
-                    style: AppTextStyles.headingWhite.copyWith(
+                    style: AppTextStyles.headingPrimary.copyWith(
                       fontSize: 15.5.sp,
                       fontWeight: FontWeight.w800,
-                      color: AppColors.creamText,
+                      color: AppColors.textPrimary,
                     ),
                   ),
                   GestureDetector(
                     onTap: () => notifier.toggleSearch(),
-                    child: Icon(
-                      Icons.search_rounded,
-                      color: AppColors.primary,
-                      size: 20.sp,
+                    child: Container(
+                      padding: EdgeInsets.all(2.w),
+                      decoration: BoxDecoration(
+                        color: AppColors.surface,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: AppColors.border),
+                        boxShadow: AppColors.cardShadow,
+                      ),
+                      child: Icon(
+                        Icons.search_rounded,
+                        color: AppColors.primary,
+                        size: 18.sp,
+                      ),
                     ),
                   ),
                 ],
@@ -295,20 +310,23 @@ class _ManageTiffinPlanScreenState
                 SizedBox(height: 1.5.h),
                 Container(
                   decoration: BoxDecoration(
-                    color: const Color(0xFF171715),
+                    color: AppColors.surface,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: const Color(0xFF262622),
+                      color: AppColors.border,
                       width: 1,
                     ),
+                    boxShadow: AppColors.cardShadow,
                   ),
                   child: TextField(
                     onChanged: notifier.updateSearch,
-                    style: AppTextStyles.body.copyWith(color: AppColors.creamText),
+                    style: AppTextStyles.body.copyWith(
+                      color: AppColors.textPrimary,
+                    ),
                     decoration: InputDecoration(
                       hintText: 'Search subscriber by name or phone...',
                       hintStyle: AppTextStyles.caption.copyWith(
-                        color: const Color(0xFF555550),
+                        color: AppColors.textMuted,
                       ),
                       prefixIcon: Icon(
                         Icons.search_rounded,
@@ -325,90 +343,126 @@ class _ManageTiffinPlanScreenState
                 ),
               ],
               SizedBox(height: 1.8.h),
-              ...subscribers.map((sub) {
-                return Container(
+              if (subscribers.isEmpty)
+                Container(
                   width: double.infinity,
-                  margin: EdgeInsets.only(bottom: 1.5.h),
-                  padding: EdgeInsets.all(3.5.w),
+                  padding: EdgeInsets.symmetric(vertical: 5.h, horizontal: 4.w),
                   decoration: BoxDecoration(
-                    color: const Color(0xFF171715),
+                    color: AppColors.surface,
                     borderRadius: BorderRadius.circular(14),
                     border: Border.all(
-                      color: const Color(0xFF262622),
+                      color: AppColors.border,
                       width: 1,
                     ),
+                    boxShadow: AppColors.cardShadow,
                   ),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 11.w,
-                        height: 11.w,
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF242422),
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: Center(
-                          child: Text(
-                            sub.avatarLetter,
-                            style: AppTextStyles.titleMedium.copyWith(
-                              fontSize: 15.sp,
-                              fontWeight: FontWeight.w800,
-                              color: AppColors.primary,
+                  child: Center(
+                    child: Text(
+                      'No subscribers enrolled in this plan yet',
+                      style: AppTextStyles.caption.copyWith(
+                        color: AppColors.textMuted,
+                      ),
+                    ),
+                  ),
+                )
+              else
+                ...subscribers.map((sub) {
+                  return Container(
+                    width: double.infinity,
+                    margin: EdgeInsets.only(bottom: 1.5.h),
+                    padding: EdgeInsets.all(3.5.w),
+                    decoration: BoxDecoration(
+                      color: AppColors.surface,
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(
+                        color: AppColors.border,
+                        width: 1,
+                      ),
+                      boxShadow: AppColors.cardShadow,
+                    ),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 11.w,
+                          height: 11.w,
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryLight,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Center(
+                            child: Text(
+                              sub.avatarLetter,
+                              style: AppTextStyles.titleMedium.copyWith(
+                                fontSize: 15.sp,
+                                fontWeight: FontWeight.w800,
+                                color: AppColors.primary,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      SizedBox(width: 3.5.w),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        SizedBox(width: 3.5.w),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                sub.name,
+                                style: AppTextStyles.bodyMedium.copyWith(
+                                  fontSize: 14.5.sp,
+                                  fontWeight: FontWeight.w800,
+                                  color: AppColors.textPrimary,
+                                ),
+                              ),
+                              SizedBox(height: 0.4.h),
+                              Text(
+                                sub.phone,
+                                style: AppTextStyles.caption.copyWith(
+                                  fontSize: 12.sp,
+                                  color: AppColors.textMuted,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              sub.name,
-                              style: AppTextStyles.bodyWhite.copyWith(
-                                fontSize: 14.5.sp,
-                                fontWeight: FontWeight.w800,
-                                color: AppColors.creamText,
+                              'Ends in ${sub.endsInDays} days',
+                              style: AppTextStyles.caption.copyWith(
+                                fontSize: 11.5.sp,
+                                color: AppColors.textMuted,
                               ),
                             ),
-                            SizedBox(height: 0.4.h),
-                            Text(
-                              sub.phone,
-                              style: AppTextStyles.caption.copyWith(
-                                fontSize: 12.sp,
-                                color: AppColors.textSecondaryDark,
+                            SizedBox(height: 0.5.h),
+                            Container(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 2.w,
+                                vertical: 0.3.h,
+                              ),
+                              decoration: BoxDecoration(
+                                color: sub.isActive
+                                    ? AppColors.successBg
+                                    : AppColors.warningBg,
+                                borderRadius: BorderRadius.circular(4),
+                              ),
+                              child: Text(
+                                sub.status,
+                                style: AppTextStyles.caption.copyWith(
+                                  fontSize: 10.sp,
+                                  fontWeight: FontWeight.w800,
+                                  color: sub.isActive
+                                      ? AppColors.success
+                                      : AppColors.warning,
+                                ),
                               ),
                             ),
                           ],
                         ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            'Ends in ${sub.endsInDays} days',
-                            style: AppTextStyles.caption.copyWith(
-                              fontSize: 11.5.sp,
-                              color: AppColors.textSecondaryDark,
-                            ),
-                          ),
-                          SizedBox(height: 0.5.h),
-                          Text(
-                            sub.status,
-                            style: AppTextStyles.caption.copyWith(
-                              fontSize: 11.sp,
-                              fontWeight: FontWeight.w800,
-                              color: sub.isActive
-                                  ? const Color(0xFF4CAF50)
-                                  : const Color(0xFFFF9800),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              }),
+                      ],
+                    ),
+                  );
+                }),
               SizedBox(height: 4.h),
             ],
           ),

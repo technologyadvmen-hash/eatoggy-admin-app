@@ -35,14 +35,14 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: const Color(0xFF1E1E1C),
+        backgroundColor: AppColors.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: Color(0xFF2E2E2A)),
+          side: BorderSide(color: AppColors.border),
         ),
         title: Text(
           'Cancel Subscription?',
-          style: AppTextStyles.headingWhite.copyWith(
+          style: AppTextStyles.headingPrimary.copyWith(
             fontSize: 16.sp,
             fontWeight: FontWeight.w800,
             color: AppColors.error,
@@ -52,7 +52,7 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
           'Are you sure you want to cancel the meal subscription for ${widget.item.customerName}?',
           style: AppTextStyles.body.copyWith(
             fontSize: 13.sp,
-            color: AppColors.creamText,
+            color: AppColors.textPrimary,
           ),
         ),
         actions: [
@@ -61,13 +61,14 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
             child: Text(
               'Keep Subscription',
               style: AppTextStyles.captionMedium.copyWith(
-                color: AppColors.textSecondaryDark,
+                color: AppColors.textMuted,
               ),
             ),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.error,
+              elevation: 0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(8),
               ),
@@ -102,7 +103,7 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
     final model = state.model;
 
     return Scaffold(
-      backgroundColor: AppColors.darkBackground,
+      backgroundColor: AppColors.scaffoldBackground,
       body: SafeArea(
         child: Column(
           children: [
@@ -122,8 +123,13 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
                             width: 10.w,
                             height: 10.w,
                             decoration: BoxDecoration(
-                              color: const Color(0xFF171715),
+                              color: AppColors.surface,
                               borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: AppColors.border,
+                                width: 1,
+                              ),
+                              boxShadow: AppColors.cardShadow,
                             ),
                             child: Center(
                               child: Icon(
@@ -141,10 +147,10 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
                             children: [
                               Text(
                                 model.customerName,
-                                style: AppTextStyles.headingWhite.copyWith(
+                                style: AppTextStyles.headingPrimary.copyWith(
                                   fontSize: 17.5.sp,
                                   fontWeight: FontWeight.w800,
-                                  color: AppColors.creamText,
+                                  color: AppColors.textPrimary,
                                 ),
                               ),
                               SizedBox(height: 0.3.h),
@@ -152,7 +158,7 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
                                 model.subtitle,
                                 style: AppTextStyles.caption.copyWith(
                                   fontSize: 12.sp,
-                                  color: AppColors.textSecondaryDark,
+                                  color: AppColors.textMuted,
                                 ),
                               ),
                             ],
@@ -165,12 +171,13 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
                       width: double.infinity,
                       padding: EdgeInsets.all(4.5.w),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF171715),
+                        color: AppColors.surface,
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: const Color(0xFF262622),
+                          color: AppColors.border,
                           width: 1,
                         ),
+                        boxShadow: AppColors.cardShadow,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -180,10 +187,10 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
                             children: [
                               Text(
                                 model.planTitle,
-                                style: AppTextStyles.headingWhite.copyWith(
+                                style: AppTextStyles.headingPrimary.copyWith(
                                   fontSize: 15.5.sp,
                                   fontWeight: FontWeight.w800,
-                                  color: AppColors.creamText,
+                                  color: AppColors.textPrimary,
                                 ),
                               ),
                               Container(
@@ -193,8 +200,8 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
                                 ),
                                 decoration: BoxDecoration(
                                   color: state.isPaused
-                                      ? const Color(0xFF2B2215)
-                                      : const Color(0xFF142918),
+                                      ? AppColors.warningBg
+                                      : AppColors.successBg,
                                   borderRadius: BorderRadius.circular(6),
                                 ),
                                 child: Row(
@@ -205,8 +212,8 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
                                       height: 6,
                                       decoration: BoxDecoration(
                                         color: state.isPaused
-                                            ? const Color(0xFFFF9800)
-                                            : const Color(0xFF4CAF50),
+                                            ? AppColors.warning
+                                            : AppColors.success,
                                         shape: BoxShape.circle,
                                       ),
                                     ),
@@ -217,8 +224,8 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
                                         fontSize: 10.5.sp,
                                         fontWeight: FontWeight.w800,
                                         color: state.isPaused
-                                            ? const Color(0xFFFF9800)
-                                            : const Color(0xFF4CAF50),
+                                            ? AppColors.warning
+                                            : AppColors.success,
                                       ),
                                     ),
                                   ],
@@ -231,12 +238,12 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
                             model.durationText,
                             style: AppTextStyles.caption.copyWith(
                               fontSize: 12.sp,
-                              color: AppColors.textSecondaryDark,
+                              color: AppColors.textMuted,
                             ),
                           ),
                           SizedBox(height: 1.5.h),
-                          const Divider(
-                            color: Color(0xFF262622),
+                          Divider(
+                            color: AppColors.border,
                             height: 1,
                           ),
                           SizedBox(height: 1.5.h),
@@ -247,15 +254,15 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
                                 'Days Remaining',
                                 style: AppTextStyles.caption.copyWith(
                                   fontSize: 12.5.sp,
-                                  color: AppColors.textSecondaryDark,
+                                  color: AppColors.textMuted,
                                 ),
                               ),
                               Text(
                                 model.daysRemainingText,
-                                style: AppTextStyles.bodyWhite.copyWith(
+                                style: AppTextStyles.bodyMedium.copyWith(
                                   fontSize: 13.5.sp,
                                   fontWeight: FontWeight.w800,
-                                  color: AppColors.creamText,
+                                  color: AppColors.textPrimary,
                                 ),
                               ),
                             ],
@@ -268,12 +275,13 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
                       width: double.infinity,
                       padding: EdgeInsets.all(4.5.w),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF171715),
+                        color: AppColors.surface,
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: const Color(0xFF262622),
+                          color: AppColors.border,
                           width: 1,
                         ),
+                        boxShadow: AppColors.cardShadow,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -283,17 +291,17 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
                             style: AppTextStyles.caption.copyWith(
                               fontSize: 11.sp,
                               fontWeight: FontWeight.w800,
-                              color: AppColors.textSecondaryDark,
+                              color: AppColors.textMuted,
                               letterSpacing: 0.6,
                             ),
                           ),
                           SizedBox(height: 1.h),
                           Text(
                             model.deliveryAddress,
-                            style: AppTextStyles.bodyWhite.copyWith(
+                            style: AppTextStyles.bodyMedium.copyWith(
                               fontSize: 13.sp,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.creamText,
+                              color: AppColors.textPrimary,
                               height: 1.4,
                             ),
                           ),
@@ -305,12 +313,13 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
                       width: double.infinity,
                       padding: EdgeInsets.all(4.5.w),
                       decoration: BoxDecoration(
-                        color: const Color(0xFF171715),
+                        color: AppColors.surface,
                         borderRadius: BorderRadius.circular(16),
                         border: Border.all(
-                          color: const Color(0xFF262622),
+                          color: AppColors.border,
                           width: 1,
                         ),
+                        boxShadow: AppColors.cardShadow,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -320,17 +329,17 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
                             style: AppTextStyles.caption.copyWith(
                               fontSize: 11.sp,
                               fontWeight: FontWeight.w800,
-                              color: const Color(0xFFFFB800),
+                              color: AppColors.warning,
                               letterSpacing: 0.6,
                             ),
                           ),
                           SizedBox(height: 1.h),
                           Text(
                             model.specialInstructions,
-                            style: AppTextStyles.bodyWhite.copyWith(
+                            style: AppTextStyles.bodyMedium.copyWith(
                               fontSize: 13.sp,
                               fontWeight: FontWeight.w500,
-                              color: AppColors.creamText,
+                              color: AppColors.textPrimary,
                               height: 1.4,
                             ),
                           ),
@@ -340,10 +349,10 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
                     SizedBox(height: 2.5.h),
                     Text(
                       'Delivery History (Last 7 Days)',
-                      style: AppTextStyles.headingWhite.copyWith(
+                      style: AppTextStyles.headingPrimary.copyWith(
                         fontSize: 14.5.sp,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.creamText,
+                        color: AppColors.textPrimary,
                       ),
                     ),
                     SizedBox(height: 1.5.h),
@@ -356,22 +365,23 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
                           vertical: 1.5.h,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF171715),
+                          color: AppColors.surface,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: const Color(0xFF262622),
+                            color: AppColors.border,
                             width: 1,
                           ),
+                          boxShadow: AppColors.cardShadow,
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               h.dateText,
-                              style: AppTextStyles.bodyWhite.copyWith(
+                              style: AppTextStyles.bodyMedium.copyWith(
                                 fontSize: 13.sp,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.creamText,
+                                color: AppColors.textPrimary,
                               ),
                             ),
                             Row(
@@ -382,8 +392,8 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.w700,
                                     color: h.isDelivered
-                                        ? const Color(0xFF4CAF50)
-                                        : const Color(0xFFE53935),
+                                        ? AppColors.success
+                                        : AppColors.error,
                                   ),
                                 ),
                                 SizedBox(width: 1.5.w),
@@ -393,8 +403,8 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
                                       : Icons.close_rounded,
                                   size: 14.sp,
                                   color: h.isDelivered
-                                      ? const Color(0xFF4CAF50)
-                                      : const Color(0xFFE53935),
+                                      ? AppColors.success
+                                      : AppColors.error,
                                 ),
                               ],
                             ),
@@ -435,7 +445,7 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
                             },
                             icon: Icon(
                               Icons.pause_rounded,
-                              color: AppColors.creamText,
+                              color: AppColors.textPrimary,
                               size: 16.sp,
                             ),
                             label: Text(
@@ -443,16 +453,16 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
                               style: AppTextStyles.buttonMedium.copyWith(
                                 fontSize: 13.5.sp,
                                 fontWeight: FontWeight.w800,
-                                color: AppColors.creamText,
+                                color: AppColors.textPrimary,
                               ),
                             ),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFF1F1F1D),
+                              backgroundColor: AppColors.surface,
                               elevation: 0,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(14),
-                                side: const BorderSide(
-                                  color: Color(0xFF2E2E2A),
+                                side: BorderSide(
+                                  color: AppColors.border,
                                   width: 1,
                                 ),
                               ),
@@ -462,13 +472,24 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
                       ),
                       SizedBox(width: 3.5.w),
                       Expanded(
-                        child: SizedBox(
+                        child: Container(
                           height: 5.8.h,
+                          decoration: BoxDecoration(
+                            gradient: AppColors.primaryGradient,
+                            borderRadius: BorderRadius.circular(14),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.primary.withValues(alpha: 0.3),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
                           child: ElevatedButton.icon(
                             onPressed: () => notifier.callPartner(),
                             icon: Icon(
                               Icons.call_outlined,
-                              color: const Color(0xFF11110F),
+                              color: Colors.white,
                               size: 16.sp,
                             ),
                             label: Text(
@@ -476,11 +497,12 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
                               style: AppTextStyles.buttonMedium.copyWith(
                                 fontSize: 13.5.sp,
                                 fontWeight: FontWeight.w800,
-                                color: const Color(0xFF11110F),
+                                color: Colors.white,
                               ),
                             ),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primary,
+                              backgroundColor: Colors.transparent,
+                              shadowColor: Colors.transparent,
                               elevation: 0,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(14),
@@ -498,21 +520,21 @@ class _SubscriberCardScreenState extends ConsumerState<SubscriberCardScreen> {
                     child: OutlinedButton(
                       onPressed: () => _showCancelSubscriptionDialog(context),
                       style: OutlinedButton.styleFrom(
-                        side: const BorderSide(
-                          color: Color(0xFFE53935),
+                        side: BorderSide(
+                          color: AppColors.error,
                           width: 1.2,
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
                         ),
-                        backgroundColor: const Color(0xFF171715),
+                        backgroundColor: AppColors.surface,
                       ),
                       child: Text(
                         'Cancel Subscription',
                         style: AppTextStyles.buttonMedium.copyWith(
                           fontSize: 13.5.sp,
                           fontWeight: FontWeight.w800,
-                          color: const Color(0xFFE53935),
+                          color: AppColors.error,
                         ),
                       ),
                     ),
