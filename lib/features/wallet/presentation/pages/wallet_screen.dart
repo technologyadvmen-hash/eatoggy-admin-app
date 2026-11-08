@@ -191,6 +191,11 @@ class _WalletScreenState extends ConsumerState<WalletScreen> {
         title: Text('Wallet & Payouts', style: AppTextStyles.title),
         actions: [
           IconButton(
+            icon: const Icon(Icons.refresh_rounded),
+            tooltip: 'Refresh',
+            onPressed: () => ref.read(walletProvider.notifier).refreshWallet(),
+          ),
+          IconButton(
             icon: const Icon(Icons.download_rounded),
             tooltip: 'Download Statement',
             onPressed: () {
@@ -205,46 +210,63 @@ class _WalletScreenState extends ConsumerState<WalletScreen> {
           SizedBox(width: 2.w),
         ],
       ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(4.w),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Balance card
-            WalletBalanceCard(
-              availableBalance: '₹${walletState.availableBalance.toStringAsFixed(2)}',
-              pendingSettlement: '₹${walletState.pendingSettlement.toStringAsFixed(2)}',
-              bankAccount: walletState.bankAccountMasked,
-              onWithdraw: () => _showWithdrawModal(
-                walletState.availableBalance,
-                walletState.bankAccountMasked,
-              ),
-            ),
-            SizedBox(height: 2.5.h),
-
-            // Quick Stats Row
-            Row(
-              children: [
-                Expanded(
-                  child: _buildMiniStat(
-                    title: 'This Week',
-                    value: '₹34,820',
+      body: RefreshIndicator(
+        color: AppColors.primary,
+        backgroundColor: AppColors.surface,
+        onRefresh: () => ref.read(walletProvider.notifier).refreshWallet(),
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          padding: EdgeInsets.all(4.w),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (walletState.isLoading)
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 12),
+                  child: LinearProgressIndicator(
                     color: AppColors.primary,
-                    icon: Icons.trending_up,
+                    backgroundColor: Color(0xFF262622),
                   ),
                 ),
-                SizedBox(width: 3.w),
-                Expanded(
-                  child: _buildMiniStat(
-                    title: 'Orders Settled',
-                    value: '94 Orders',
-                    color: AppColors.success,
-                    icon: Icons.task_alt,
-                  ),
+
+              // Balance card
+              WalletBalanceCard(
+                availableBalance:
+                    '₹${walletState.availableBalance.toStringAsFixed(2)}',
+                pendingSettlement:
+                    '₹${walletState.pendingSettlement.toStringAsFixed(2)}',
+                bankAccount: walletState.bankAccountMasked,
+                onWithdraw: () => _showWithdrawModal(
+                  walletState.availableBalance,
+                  walletState.bankAccountMasked,
                 ),
-              ],
-            ),
-            SizedBox(height: 3.h),
+              ),
+              SizedBox(height: 2.5.h),
+
+              // Quick Stats Row
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildMiniStat(
+                      title: 'Total Earnings',
+                      value: '₹${walletState.totalEarnings.toStringAsFixed(2)}',
+                      color: AppColors.primary,
+                      icon: Icons.trending_up,
+                    ),
+                  ),
+                  SizedBox(width: 3.w),
+                  Expanded(
+                    child: _buildMiniStat(
+                      title: 'Total Withdrawals',
+                      value:
+                          '₹${walletState.totalWithdrawals.toStringAsFixed(2)}',
+                      color: AppColors.success,
+                      icon: Icons.account_balance_wallet_outlined,
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 3.h),
 
             // Filter Chips Header
             Row(
@@ -331,8 +353,9 @@ class _WalletScreenState extends ConsumerState<WalletScreen> {
           ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   Widget _buildMiniStat({
     required String title,
