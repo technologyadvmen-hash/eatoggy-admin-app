@@ -28,6 +28,58 @@ class NotificationItem {
       isUnread: isUnread ?? this.isUnread,
     );
   }
+
+  factory NotificationItem.fromJson(Map<String, dynamic> json) {
+    final id = (json['_id'] ?? json['id'] ?? '').toString();
+    final title = json['title']?.toString() ?? 'Notification';
+    final description = json['message']?.toString() ??
+        json['description']?.toString() ??
+        json['body']?.toString() ??
+        '';
+    final isRead = json['isRead'] ?? json['read'] ?? false;
+    final rawDate =
+        json['createdAt']?.toString() ?? json['timestamp']?.toString();
+    final timeAgo = _formatTimeAgo(rawDate);
+
+    return NotificationItem(
+      id: id,
+      title: title,
+      description: description,
+      timeAgo: timeAgo,
+      isUnread: isRead is bool ? !isRead : true,
+    );
+  }
+
+  static String _formatTimeAgo(String? rawDate) {
+    if (rawDate == null || rawDate.isEmpty) return 'Recent';
+    try {
+      final parsed = DateTime.tryParse(rawDate);
+      if (parsed != null) {
+        final diff = DateTime.now().difference(parsed.toLocal());
+        if (diff.inSeconds < 60) return 'Just now';
+        if (diff.inMinutes < 60) return '${diff.inMinutes} min ago';
+        if (diff.inHours < 24) return '${diff.inHours} hr ago';
+        if (diff.inDays == 1) return 'Yesterday';
+        if (diff.inDays < 7) return '${diff.inDays} days ago';
+        const months = [
+          'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'May',
+          'Jun',
+          'Jul',
+          'Aug',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Dec'
+        ];
+        return '${parsed.day} ${months[parsed.month - 1]}';
+      }
+    } catch (_) {}
+    return 'Recent';
+  }
 }
 
 class NotificationsSection {
@@ -45,69 +97,73 @@ class NotificationsPageModel {
     required this.title,
     required this.actionText,
     required this.sections,
+    this.unreadCount = 0,
   });
 
   final String title;
   final String actionText;
   final List<NotificationsSection> sections;
+  final int unreadCount;
+
+  factory NotificationsPageModel.fromNotificationsList(
+    List<NotificationItem> allItems, {
+    int unreadCount = 0,
+  }) {
+    if (allItems.isEmpty) {
+      return const NotificationsPageModel(
+        title: 'Notifications',
+        actionText: 'Mark all read',
+        sections: [],
+        unreadCount: 0,
+      );
+    }
+
+    final todayItems = <NotificationItem>[];
+    final yesterdayItems = <NotificationItem>[];
+    final earlierItems = <NotificationItem>[];
+
+    for (final item in allItems) {
+      if (item.timeAgo.contains('min') ||
+          item.timeAgo.contains('hr') ||
+          item.timeAgo.contains('now')) {
+        todayItems.add(item);
+      } else if (item.timeAgo.toLowerCase().contains('yesterday')) {
+        yesterdayItems.add(item);
+      } else {
+        earlierItems.add(item);
+      }
+    }
+
+    final sections = <NotificationsSection>[];
+    if (todayItems.isNotEmpty) {
+      sections.add(
+        NotificationsSection(sectionTitle: 'TODAY', items: todayItems),
+      );
+    }
+    if (yesterdayItems.isNotEmpty) {
+      sections.add(
+        NotificationsSection(
+            sectionTitle: 'YESTERDAY', items: yesterdayItems),
+      );
+    }
+    if (earlierItems.isNotEmpty) {
+      sections.add(
+        NotificationsSection(sectionTitle: 'EARLIER', items: earlierItems),
+      );
+    }
+
+    return NotificationsPageModel(
+      title: 'Notifications',
+      actionText: 'Mark all read',
+      sections: sections,
+      unreadCount: unreadCount,
+    );
+  }
 
   static const dummy = NotificationsPageModel(
     title: 'Notifications',
     actionText: 'Mark all read',
-    sections: [
-      NotificationsSection(
-        sectionTitle: 'TODAY',
-        items: [
-          NotificationItem(
-            id: '1',
-            title: 'New order received #EAT1240',
-            description: 'Customer Rahul has ordered 3 items.',
-            timeAgo: '2 min ago',
-            isUnread: true,
-          ),
-          NotificationItem(
-            id: '2',
-            title: 'Order #EAT1235 picked up',
-            description: 'Delivery partner Sumit has collected the order.',
-            timeAgo: '15 min ago',
-            isUnread: false,
-          ),
-          NotificationItem(
-            id: '3',
-            title: 'Payout credited',
-            description: 'Amount of ₹1,200 has been processed to your bank.',
-            timeAgo: '1 hr ago',
-            isUnread: false,
-          ),
-        ],
-      ),
-      NotificationsSection(
-        sectionTitle: 'YESTERDAY',
-        items: [
-          NotificationItem(
-            id: '4',
-            title: 'New 4-star review received',
-            description: "Customer Amit said: 'Amazing packing and hot food.'",
-            timeAgo: '1 day ago',
-            isUnread: false,
-          ),
-          NotificationItem(
-            id: '5',
-            title: 'Subscription reminder',
-            description:
-                'You have 4 subscription order deliveries scheduled for tomorrow.',
-            timeAgo: '1 day ago',
-            isUnread: false,
-          ),
-          NotificationItem(
-            id: '6',
-            title: 'Documents verified successfully',
-            description: 'FSSAI registration documents approved.',
-            timeAgo: '2 days ago',
-            isUnread: false,
-          ),
-        ],
-      ),
-    ],
+    unreadCount: 0,
+    sections: [],
   );
 }
