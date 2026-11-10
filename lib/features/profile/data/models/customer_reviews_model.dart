@@ -66,52 +66,7 @@ class CustomerReviewsListModel {
   }
 
   static const dummy = CustomerReviewsListModel(
-    restaurantName: "Chef Giovanni's Bistro",
-    reviews: [
-      CustomerReviewModel(
-        id: '1',
-        name: 'Rahul S.',
-        timeAgo: '2 days ago',
-        rating: 5,
-        comment:
-            'Amazing butter chicken! Best in the area. Spices were spot on and tiffin packaging was very hygienic.',
-        orderedItem: 'Ordered: Butter Chicken Thali',
-        isCritical: false,
-        canReply: false,
-      ),
-      CustomerReviewModel(
-        id: '2',
-        name: 'Anita M.',
-        timeAgo: '3 days ago',
-        rating: 4,
-        comment:
-            'Good food but delivery was slightly late. The rotis were warm and soft though. Overall good.',
-        orderedItem: null,
-        isCritical: false,
-        canReply: false,
-      ),
-      CustomerReviewModel(
-        id: '3',
-        name: 'Vikram P.',
-        timeAgo: '5 days ago',
-        rating: 2,
-        comment:
-            'Portion size was small for the price. Quality of basmati rice was average. Expect better at this price point.',
-        orderedItem: 'Ordered: Veg Deluxe Meals',
-        isCritical: true,
-        canReply: true,
-      ),
-      CustomerReviewModel(
-        id: '4',
-        name: 'Meera K.',
-        timeAgo: '1 week ago',
-        rating: 5,
-        comment:
-            'Love the tiffin service! Fresh and homemade taste. Has reduced my cooking worries completely. Highly recommended.',
-        orderedItem: null,
-        isCritical: false,
-        canReply: false,
-      ),
-    ],
+    restaurantName: 'Restaurant Reviews',
+    reviews: [],
   );
 }

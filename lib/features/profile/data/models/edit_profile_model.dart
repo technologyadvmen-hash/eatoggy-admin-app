@@ -46,15 +46,14 @@ class EditProfileModel {
   }
 
   static EditProfileModel get dummy => const EditProfileModel(
-        kitchenName: 'Tandoori Tales',
-        bio:
-            'Traditional North Indian meals and custom daily tiffin service made with fresh ingredients.',
-        cuisines: ['North Indian', 'Chinese', 'Beverages'],
+        kitchenName: '',
+        bio: '',
+        cuisines: [],
         openTime: '10:00 AM',
         closeTime: '10:00 PM',
         minOrderValue: '₹150',
         prepTime: '25 mins',
-        phoneNumber: '+91 98765 43210',
+        phoneNumber: '',
         avatarImagePath: null,
       );
 }
