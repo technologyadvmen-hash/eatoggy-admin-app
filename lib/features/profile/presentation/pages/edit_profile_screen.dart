@@ -69,10 +69,10 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
   void _showImagePickerModal() {
     showModalBottomSheet(
       context: context,
-      backgroundColor: const Color(0xFF171715),
+      backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        side: BorderSide(color: Color(0xFF262622), width: 1),
+        side: BorderSide(color: AppColors.border, width: 1),
       ),
       builder: (ctx) {
         return SafeArea(
@@ -87,7 +87,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     width: 10.w,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF333330),
+                      color: AppColors.border,
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -95,10 +95,9 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 SizedBox(height: 2.h),
                 Text(
                   'Change Profile Photo',
-                  style: AppTextStyles.headingWhite.copyWith(
+                  style: AppTextStyles.headingPrimary.copyWith(
                     fontSize: 15.sp,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.creamText,
                   ),
                 ),
                 SizedBox(height: 1.8.h),
@@ -106,7 +105,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   leading: Container(
                     padding: EdgeInsets.all(2.w),
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.15),
+                      color: AppColors.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(
@@ -118,7 +117,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   title: Text(
                     'Choose from Gallery',
                     style: AppTextStyles.bodyMedium.copyWith(
-                      color: AppColors.creamText,
+                      color: AppColors.headingPrimary,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -131,7 +130,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   leading: Container(
                     padding: EdgeInsets.all(2.w),
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.15),
+                      color: AppColors.primary.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Icon(
@@ -143,7 +142,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   title: Text(
                     'Take a Photo',
                     style: AppTextStyles.bodyMedium.copyWith(
-                      color: AppColors.creamText,
+                      color: AppColors.headingPrimary,
                       fontWeight: FontWeight.w600,
                     ),
                   ),
@@ -175,10 +174,10 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
 
     showModalBottomSheet(
       context: context,
-      backgroundColor: const Color(0xFF171715),
+      backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        side: BorderSide(color: Color(0xFF262622), width: 1),
+        side: BorderSide(color: AppColors.border, width: 1),
       ),
       builder: (ctx) {
         final currentCuisines = ref.read(editProfileProvider).model.cuisines;
@@ -194,7 +193,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     width: 10.w,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF333330),
+                      color: AppColors.border,
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -202,10 +201,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 SizedBox(height: 2.h),
                 Text(
                   'Select Cuisine to Add',
-                  style: AppTextStyles.headingWhite.copyWith(
-                    // fontSize: 15.sp,
+                  style: AppTextStyles.headingPrimary.copyWith(
                     fontWeight: FontWeight.w700,
-                    color: AppColors.creamText,
                   ),
                 ),
                 SizedBox(height: 1.5.h),
@@ -230,13 +227,13 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         ),
                         decoration: BoxDecoration(
                           color: isAlreadyAdded
-                              ? AppColors.primary.withValues(alpha: 0.15)
-                              : const Color(0xFF1E1E1C),
+                              ? AppColors.primary.withValues(alpha: 0.1)
+                              : AppColors.surfaceAlt,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
                             color: isAlreadyAdded
                                 ? AppColors.primary
-                                : const Color(0xFF262622),
+                                : AppColors.border,
                             width: 1,
                           ),
                         ),
@@ -246,11 +243,10 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             Text(
                               cuisine,
                               style: AppTextStyles.caption.copyWith(
-                                // fontSize: 11.5.sp,
                                 fontWeight: FontWeight.w600,
                                 color: isAlreadyAdded
                                     ? AppColors.primary
-                                    : AppColors.creamText,
+                                    : AppColors.headingPrimary,
                               ),
                             ),
                             if (isAlreadyAdded) ...[
@@ -285,11 +281,11 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
       builder: (context, child) {
         return Theme(
           data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.dark(
-              primary: Color(0xFFD9A24F),
-              onPrimary: Color(0xFF11110F),
-              surface: Color(0xFF1C1C1A),
-              onSurface: Color(0xFFFFF1D2),
+            colorScheme: const ColorScheme.light(
+              primary: AppColors.primary,
+              onPrimary: Colors.white,
+              surface: AppColors.surface,
+              onSurface: AppColors.headingPrimary,
             ),
           ),
           child: child!,
@@ -323,8 +319,8 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
         Text(
           label,
           style: AppTextStyles.caption.copyWith(
-            color: AppColors.textSecondaryDark,
-            // fontSize: 11.5.sp,
+            color: AppColors.headingPrimary,
+            fontWeight: FontWeight.w700,
           ),
         ),
         SizedBox(height: 0.8.h),
@@ -337,25 +333,25 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     return InputDecoration(
       hintText: hint,
       hintStyle: AppTextStyles.caption.copyWith(
-        color: AppColors.textMutedDark,
+        color: AppColors.textMuted,
       ),
       filled: true,
-      fillColor: const Color(0xFF171715),
+      fillColor: AppColors.surfaceAlt,
       contentPadding: EdgeInsets.symmetric(
         horizontal: 4.w,
         vertical: 1.5.h,
       ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Color(0xFF262622)),
+        borderSide: const BorderSide(color: AppColors.border),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: Color(0xFF262622)),
+        borderSide: const BorderSide(color: AppColors.border),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.primary),
+        borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
       ),
     );
   }
@@ -367,7 +363,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
     final model = state.model;
 
     return Scaffold(
-      backgroundColor: AppColors.darkBackground,
+      backgroundColor: AppColors.scaffoldBackground,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 5.w),
@@ -384,17 +380,18 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       width: 10.w,
                       height: 10.w,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF171715),
-                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.surface,
+                        borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: const Color(0xFF262622),
+                          color: AppColors.border,
                           width: 1,
                         ),
+                        boxShadow: AppColors.cardShadow,
                       ),
                       child: Center(
                         child: Icon(
                           Icons.arrow_back_rounded,
-                          color: AppColors.primary,
+                          color: AppColors.headingPrimary,
                           size: 18.sp,
                         ),
                       ),
@@ -407,15 +404,14 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       children: [
                         Text(
                           'Edit Profile',
-                          style: AppTextStyles.headingWhite.copyWith(
+                          style: AppTextStyles.headingPrimary.copyWith(
                             fontWeight: FontWeight.w800,
-                            color: AppColors.creamText,
                           ),
                         ),
                         Text(
                           'Update public and billing details',
                           style: AppTextStyles.caption.copyWith(
-                            color: AppColors.textSecondaryDark,
+                            color: AppColors.textSecondary,
                           ),
                         ),
                       ],
@@ -430,34 +426,35 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                     GestureDetector(
                       onTap: _showImagePickerModal,
                       child: Container(
-                        width: 20.w,
-                        height: 20.w,
+                        width: 22.w,
+                        height: 22.w,
                         decoration: BoxDecoration(
                           shape: BoxShape.circle,
-                          color: const Color(0xFF171715),
+                          color: AppColors.surface,
                           border: Border.all(
                             color: AppColors.primary,
-                            width: 1.8,
+                            width: 2,
                           ),
+                          boxShadow: AppColors.cardShadow,
                         ),
                         child: ClipOval(
                           child: model.avatarImagePath != null
                               ? Image.file(
                                   File(model.avatarImagePath!),
-                                  width: 20.w,
-                                  height: 20.w,
+                                  width: 22.w,
+                                  height: 22.w,
                                   fit: BoxFit.cover,
                                   errorBuilder: (context, error, stackTrace) => Icon(
-                                    Icons.image_outlined,
+                                    Icons.person_outline_rounded,
                                     color: AppColors.primary,
-                                    size: 20.sp,
+                                    size: 22.sp,
                                   ),
                                 )
                               : Center(
                                   child: Icon(
-                                    Icons.image_outlined,
+                                    Icons.person_outline_rounded,
                                     color: AppColors.primary,
-                                    size: 20.sp,
+                                    size: 22.sp,
                                   ),
                                 ),
                         ),
@@ -484,7 +481,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   controller: _nameController,
                   onChanged: (val) => notifier.updateKitchenName(val),
                   style: AppTextStyles.bodyMedium.copyWith(
-                    color: AppColors.creamText,
+                    color: AppColors.textPrimary,
                     fontWeight: FontWeight.w600,
                   ),
                   decoration: _inputDecoration(),
@@ -498,7 +495,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   maxLines: 3,
                   onChanged: (val) => notifier.updateBio(val),
                   style: AppTextStyles.bodyMedium.copyWith(
-                    color: AppColors.creamText,
+                    color: AppColors.textPrimary,
                     height: 1.4,
                   ),
                   decoration: _inputDecoration(),
@@ -518,12 +515,13 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                           vertical: 1.h,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF1E1E1C),
+                          color: AppColors.surface,
                           borderRadius: BorderRadius.circular(10),
                           border: Border.all(
-                            color: const Color(0xFF262622),
+                            color: AppColors.border,
                             width: 1,
                           ),
+                          boxShadow: AppColors.cardShadow,
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -531,7 +529,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                             Text(
                               cuisine,
                               style: AppTextStyles.caption.copyWith(
-                                color: AppColors.creamText,
+                                color: AppColors.headingPrimary,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -540,7 +538,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                               onTap: () => notifier.removeCuisine(cuisine),
                               child: Icon(
                                 Icons.close_rounded,
-                                color: AppColors.textSecondaryDark,
+                                color: AppColors.textSecondary,
                                 size: 14.sp,
                               ),
                             ),
@@ -566,7 +564,6 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         child: Text(
                           '+ Add',
                           style: AppTextStyles.caption.copyWith(
-                            // fontSize: 11.5.sp,
                             color: AppColors.primary,
                             fontWeight: FontWeight.w700,
                           ),
@@ -588,7 +585,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                           child: TextField(
                             controller: _openTimeController,
                             style: AppTextStyles.bodyMedium.copyWith(
-                              color: AppColors.creamText,
+                              color: AppColors.textPrimary,
                               fontWeight: FontWeight.w600,
                             ),
                             decoration: _inputDecoration(),
@@ -607,7 +604,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                           child: TextField(
                             controller: _closeTimeController,
                             style: AppTextStyles.bodyMedium.copyWith(
-                              color: AppColors.creamText,
+                              color: AppColors.textPrimary,
                               fontWeight: FontWeight.w600,
                             ),
                             decoration: _inputDecoration(),
@@ -628,7 +625,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         controller: _minOrderController,
                         onChanged: (val) => notifier.updateMinOrderValue(val),
                         style: AppTextStyles.bodyMedium.copyWith(
-                          color: AppColors.creamText,
+                          color: AppColors.textPrimary,
                           fontWeight: FontWeight.w600,
                         ),
                         decoration: _inputDecoration(),
@@ -643,7 +640,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                         controller: _prepTimeController,
                         onChanged: (val) => notifier.updatePrepTime(val),
                         style: AppTextStyles.bodyMedium.copyWith(
-                          color: AppColors.creamText,
+                          color: AppColors.textPrimary,
                           fontWeight: FontWeight.w600,
                         ),
                         decoration: _inputDecoration(),
@@ -659,10 +656,12 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                   readOnly: true,
                   controller: TextEditingController(text: model.phoneNumber),
                   style: AppTextStyles.bodyMedium.copyWith(
-                    color: AppColors.textMutedDark,
+                    color: AppColors.textMuted,
                     fontWeight: FontWeight.w600,
                   ),
-                  decoration: _inputDecoration(),
+                  decoration: _inputDecoration().copyWith(
+                    fillColor: AppColors.border.withValues(alpha: 0.3),
+                  ),
                 ),
               ),
               SizedBox(height: 3.h),
@@ -685,10 +684,17 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 6.h,
+                  height: 6.2.h,
                   decoration: BoxDecoration(
-                    color: AppColors.primary,
+                    gradient: AppColors.primaryGradient,
                     borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.primary.withValues(alpha: 0.3),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
                   child: Center(
                     child: Row(
@@ -696,7 +702,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                       children: [
                         Icon(
                           Icons.check_rounded,
-                          color: const Color(0xFF11110F),
+                          color: Colors.white,
                           size: 18.sp,
                         ),
                         SizedBox(width: 2.w),
@@ -704,7 +710,7 @@ class _EditProfileScreenState extends ConsumerState<EditProfileScreen> {
                           state.isSaving ? 'Saving...' : 'Save Changes',
                           style: AppTextStyles.buttonMedium.copyWith(
                             fontWeight: FontWeight.w800,
-                            color: const Color(0xFF11110F),
+                            color: Colors.white,
                           ),
                         ),
                       ],

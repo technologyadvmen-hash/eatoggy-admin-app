@@ -40,10 +40,10 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
   ) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: const Color(0xFF171715),
+      backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        side: BorderSide(color: Color(0xFF262622), width: 1),
+        side: BorderSide(color: AppColors.border, width: 1),
       ),
       builder: (ctx) {
         return SafeArea(
@@ -58,7 +58,7 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
                     width: 10.w,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF333330),
+                      color: AppColors.border,
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -66,10 +66,9 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
                 SizedBox(height: 2.h),
                 Text(
                   'Select Issue Category',
-                  style: AppTextStyles.headingWhite.copyWith(
+                  style: AppTextStyles.headingPrimary.copyWith(
                     fontSize: 15.sp,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.creamText,
                   ),
                 ),
                 SizedBox(height: 1.5.h),
@@ -89,13 +88,13 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
                       ),
                       decoration: BoxDecoration(
                         color: isSelected
-                            ? AppColors.primary.withValues(alpha: 0.15)
-                            : const Color(0xFF1E1E1C),
+                            ? AppColors.primary.withValues(alpha: 0.1)
+                            : AppColors.surfaceAlt,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                           color: isSelected
                               ? AppColors.primary
-                              : const Color(0xFF262622),
+                              : AppColors.border,
                           width: 1,
                         ),
                       ),
@@ -111,7 +110,7 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
                                   : FontWeight.w500,
                               color: isSelected
                                   ? AppColors.primary
-                                  : AppColors.creamText,
+                                  : AppColors.headingPrimary,
                             ),
                           ),
                           if (isSelected)
@@ -136,10 +135,10 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
   void _showLiveChatDialog(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: const Color(0xFF171715),
+      backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        side: BorderSide(color: Color(0xFF262622), width: 1),
+        side: BorderSide(color: AppColors.border, width: 1),
       ),
       builder: (ctx) {
         return SafeArea(
@@ -151,7 +150,7 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
                 Container(
                   padding: EdgeInsets.all(3.w),
                   decoration: BoxDecoration(
-                    color: AppColors.primary.withValues(alpha: 0.15),
+                    color: AppColors.primary.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
@@ -163,10 +162,9 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
                 SizedBox(height: 1.8.h),
                 Text(
                   'Connecting to Partner Support',
-                  style: AppTextStyles.headingWhite.copyWith(
+                  style: AppTextStyles.headingPrimary.copyWith(
                     fontSize: 15.sp,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.creamText,
                   ),
                 ),
                 SizedBox(height: 0.8.h),
@@ -174,25 +172,40 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
                   'Average wait time is under 2 minutes.\nA support specialist will join shortly.',
                   textAlign: TextAlign.center,
                   style: AppTextStyles.caption.copyWith(
-                    color: AppColors.textSecondaryDark,
+                    color: AppColors.textSecondary,
                     height: 1.4,
                   ),
                 ),
                 SizedBox(height: 2.5.h),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    minimumSize: Size(double.infinity, 5.5.h),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+                Container(
+                  width: double.infinity,
+                  height: 5.5.h,
+                  decoration: BoxDecoration(
+                    gradient: AppColors.primaryGradient,
+                    borderRadius: BorderRadius.circular(14),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.primary.withValues(alpha: 0.3),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
-                  onPressed: () => Navigator.pop(ctx),
-                  child: Text(
-                    'Start Chat',
-                    style: AppTextStyles.buttonMedium.copyWith(
-                      color: const Color(0xFF11110F),
-                      fontWeight: FontWeight.w800,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    onPressed: () => Navigator.pop(ctx),
+                    child: Text(
+                      'Start Chat',
+                      style: AppTextStyles.buttonMedium.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                   ),
                 ),
@@ -234,488 +247,637 @@ class _HelpSupportScreenState extends ConsumerState<HelpSupportScreen> {
     final faqs = state.filteredFaqs;
 
     return Scaffold(
-      backgroundColor: AppColors.darkBackground,
+      backgroundColor: AppColors.scaffoldBackground,
       body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.symmetric(horizontal: 5.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 1.5.h),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: () => context.pop(),
-                    child: Container(
-                      width: 10.w,
-                      height: 10.w,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF171715),
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: const Color(0xFF262622),
-                          width: 1,
-                        ),
-                      ),
-                      child: Center(
-                        child: Icon(
-                          Icons.arrow_back_rounded,
-                          color: AppColors.primary,
-                          size: 18.sp,
-                        ),
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 3.5.w),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Help and Support',
-                          style: AppTextStyles.headingWhite.copyWith(
-                            fontWeight: FontWeight.w800,
-                            color: AppColors.creamText,
-                          ),
-                        ),
-                        Text(
-                          'EATOGGY partner assistance',
-                          style: AppTextStyles.caption.copyWith(
-                            color: AppColors.textSecondaryDark,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 2.h),
-              Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xFF171715),
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(
-                    color: const Color(0xFF262622),
-                    width: 1,
-                  ),
-                ),
-                child: TextField(
-                  controller: _searchController,
-                  onChanged: (val) => notifier.updateSearchQuery(val),
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    color: AppColors.creamText,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: 'Search help topics...',
-                    hintStyle: AppTextStyles.bodyMedium.copyWith(
-                      color: AppColors.textMutedDark,
-                    ),
-                    prefixIcon: Icon(
-                      Icons.search_rounded,
-                      color: AppColors.textMutedDark,
-                      size: 18.sp,
-                    ),
-                    border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    contentPadding: EdgeInsets.symmetric(
-                      vertical: 1.5.h,
-                      horizontal: 3.w,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 2.5.h),
-              Text(
-                'Frequently Asked Questions',
-                style: AppTextStyles.headingWhite.copyWith(
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.creamText,
-                ),
-              ),
-              SizedBox(height: 1.5.h),
-              if (faqs.isEmpty)
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(vertical: 3.h),
-                  alignment: Alignment.center,
-                  child: Text(
-                    'No FAQ topics match your search.',
-                    style: AppTextStyles.caption.copyWith(
-                      color: AppColors.textSecondaryDark,
-                    ),
-                  ),
-                )
-              else
-                ...faqs.map((faq) {
-                  final isExpanded = state.expandedFaqId == faq.id;
-                  return Container(
-                    width: double.infinity,
-                    margin: EdgeInsets.only(bottom: 1.2.h),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFF171715),
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(
-                        color: const Color(0xFF262622),
-                        width: 1,
-                      ),
-                    ),
-                    child: InkWell(
-                      onTap: () => notifier.toggleFaq(faq.id),
-                      borderRadius: BorderRadius.circular(16),
-                      child: Padding(
-                        padding: EdgeInsets.all(4.w),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Text(
-                                    faq.question,
-                                    style: AppTextStyles.bodyMedium.copyWith(
-                                      fontWeight: FontWeight.w700,
-                                      color: AppColors.creamText,
-                                    ),
-                                  ),
-                                ),
-                                Icon(
-                                  isExpanded
-                                      ? Icons.keyboard_arrow_up_rounded
-                                      : Icons.keyboard_arrow_down_rounded,
-                                  color: const Color(0xFFD9A24F),
-                                  size: 18.sp,
-                                ),
-                              ],
-                            ),
-                            if (isExpanded) ...[
-                              SizedBox(height: 1.h),
-                              Text(
-                                faq.answer,
-                                style: AppTextStyles.caption.copyWith(
-                                  color: AppColors.textSecondaryDark,
-                                  height: 1.4,
-                                ),
-                              ),
-                            ],
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                }),
-              SizedBox(height: 2.h),
-              Container(
-                width: double.infinity,
-                padding: EdgeInsets.all(4.w),
-                decoration: BoxDecoration(
-                  color: const Color(0xFF171715),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: const Color(0xFF262622),
-                    width: 1,
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        child: RefreshIndicator(
+          color: AppColors.primary,
+          backgroundColor: AppColors.surface,
+          onRefresh: notifier.refreshTickets,
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            padding: EdgeInsets.symmetric(horizontal: 5.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 1.5.h),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text(
-                      'Direct Contact Support',
-                      style: AppTextStyles.bodyMedium.copyWith(
-                        color: AppColors.primary,
-                        fontWeight: FontWeight.w700,
+                    GestureDetector(
+                      onTap: () => context.pop(),
+                      child: Container(
+                        width: 10.w,
+                        height: 10.w,
+                        decoration: BoxDecoration(
+                          color: AppColors.surface,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: AppColors.border,
+                            width: 1,
+                          ),
+                          boxShadow: AppColors.cardShadow,
+                        ),
+                        child: Center(
+                          child: Icon(
+                            Icons.arrow_back_rounded,
+                            color: AppColors.headingPrimary,
+                            size: 18.sp,
+                          ),
+                        ),
                       ),
                     ),
-                    SizedBox(height: 1.5.h),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: InkWell(
-                            onTap: () => _makeCall(model.phoneNumber),
-                            borderRadius: BorderRadius.circular(14),
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 3.w,
-                                vertical: 1.8.h,
-                              ),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF1E1E1C),
-                                borderRadius: BorderRadius.circular(14),
-                                border: Border.all(
-                                  color: const Color(0xFF262622),
-                                  width: 1,
-                                ),
-                              ),
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    Icons.phone_outlined,
-                                    color: AppColors.primary,
-                                    size: 18.sp,
-                                  ),
-                                  SizedBox(height: 0.8.h),
-                                  Text(
-                                    'Call Us',
-                                    style: AppTextStyles.bodyMedium.copyWith(
-                                      fontWeight: FontWeight.w700,
-                                      color: AppColors.creamText,
-                                    ),
-                                  ),
-                                  SizedBox(height: 0.3.h),
-                                  Text(
-                                    model.phoneNumber,
-                                    style: AppTextStyles.caption.copyWith(
-                                      fontSize: 10.sp,
-                                      color: AppColors.textSecondaryDark,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                    SizedBox(width: 3.5.w),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Help and Support',
+                            style: AppTextStyles.headingPrimary.copyWith(
+                              fontWeight: FontWeight.w800,
                             ),
                           ),
-                        ),
-                        SizedBox(width: 3.w),
-                        Expanded(
-                          child: InkWell(
-                            onTap: () => _sendEmail(model.email),
-                            borderRadius: BorderRadius.circular(14),
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 3.w,
-                                vertical: 1.8.h,
-                              ),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF1E1E1C),
-                                borderRadius: BorderRadius.circular(14),
-                                border: Border.all(
-                                  color: const Color(0xFF262622),
-                                  width: 1,
-                                ),
-                              ),
-                              child: Column(
-                                children: [
-                                  Icon(
-                                    Icons.mail_outline_rounded,
-                                    color: AppColors.primary,
-                                    size: 18.sp,
-                                  ),
-                                  SizedBox(height: 0.8.h),
-                                  Text(
-                                    'Email Us',
-                                    style: AppTextStyles.bodyMedium.copyWith(
-                                      fontWeight: FontWeight.w700,
-                                      color: AppColors.creamText,
-                                    ),
-                                  ),
-                                  SizedBox(height: 0.3.h),
-                                  Text(
-                                    model.email,
-                                    style: AppTextStyles.caption.copyWith(
-                                      fontSize: 10.sp,
-                                      color: AppColors.textSecondaryDark,
-                                    ),
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
-                              ),
+                          Text(
+                            'EATOGGY partner assistance',
+                            style: AppTextStyles.caption.copyWith(
+                              color: AppColors.textSecondary,
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 1.5.h),
-                    InkWell(
-                      onTap: () => _showLiveChatDialog(context),
-                      borderRadius: BorderRadius.circular(14),
-                      child: Container(
-                        width: double.infinity,
-                        height: 5.5.h,
-                        decoration: BoxDecoration(
-                          color: AppColors.primary,
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.chat_bubble_outline_rounded,
-                              color: const Color(0xFF11110F),
-                              size: 16.sp,
-                            ),
-                            SizedBox(width: 2.w),
-                            Text(
-                              'Chat Live With Us',
-                              style: AppTextStyles.buttonMedium.copyWith(
-                                color: const Color(0xFF11110F),
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                          ],
-                        ),
+                        ],
                       ),
                     ),
                   ],
                 ),
-              ),
-              SizedBox(height: 2.5.h),
-              Text(
-                'Report an Issue',
-                style: AppTextStyles.headingWhite.copyWith(
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.creamText,
-                ),
-              ),
-              SizedBox(height: 1.5.h),
-              InkWell(
-                onTap: () {
-                  _showCategoryPicker(
-                    context,
-                    model.issueCategories,
-                    state.selectedCategory,
-                    (cat) => notifier.selectCategory(cat),
-                  );
-                },
-                borderRadius: BorderRadius.circular(14),
-                child: Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 4.w,
-                    vertical: 1.6.h,
-                  ),
+                SizedBox(height: 2.h),
+                Container(
                   decoration: BoxDecoration(
-                    color: const Color(0xFF171715),
+                    color: AppColors.surface,
                     borderRadius: BorderRadius.circular(14),
                     border: Border.all(
-                      color: const Color(0xFF262622),
+                      color: AppColors.border,
                       width: 1,
                     ),
+                    boxShadow: AppColors.cardShadow,
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Category: ${state.selectedCategory}',
-                        style: AppTextStyles.bodyMedium.copyWith(
-                          color: AppColors.creamText,
+                  child: TextField(
+                    controller: _searchController,
+                    onChanged: (val) => notifier.updateSearchQuery(val),
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      color: AppColors.textPrimary,
+                    ),
+                    decoration: InputDecoration(
+                      hintText: 'Search help topics...',
+                      hintStyle: AppTextStyles.bodyMedium.copyWith(
+                        color: AppColors.textMuted,
+                      ),
+                      prefixIcon: Icon(
+                        Icons.search_rounded,
+                        color: AppColors.textMuted,
+                        size: 18.sp,
+                      ),
+                      border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      contentPadding: EdgeInsets.symmetric(
+                        vertical: 1.5.h,
+                        horizontal: 3.w,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 2.5.h),
+                Text(
+                  'Frequently Asked Questions',
+                  style: AppTextStyles.headingPrimary.copyWith(
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                SizedBox(height: 1.5.h),
+                if (faqs.isEmpty)
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(vertical: 3.h),
+                    alignment: Alignment.center,
+                    child: Text(
+                      'No FAQ topics match your search.',
+                      style: AppTextStyles.caption.copyWith(
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                  )
+                else
+                  ...faqs.map((faq) {
+                    final isExpanded = state.expandedFaqId == faq.id;
+                    return Container(
+                      width: double.infinity,
+                      margin: EdgeInsets.only(bottom: 1.2.h),
+                      decoration: BoxDecoration(
+                        color: AppColors.surface,
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(
+                          color: AppColors.border,
+                          width: 1,
+                        ),
+                        boxShadow: AppColors.cardShadow,
+                      ),
+                      child: InkWell(
+                        onTap: () => notifier.toggleFaq(faq.id),
+                        borderRadius: BorderRadius.circular(16),
+                        child: Padding(
+                          padding: EdgeInsets.all(4.w),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      faq.question,
+                                      style: AppTextStyles.bodyMedium.copyWith(
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColors.headingPrimary,
+                                      ),
+                                    ),
+                                  ),
+                                  Icon(
+                                    isExpanded
+                                        ? Icons.keyboard_arrow_up_rounded
+                                        : Icons.keyboard_arrow_down_rounded,
+                                    color: AppColors.primary,
+                                    size: 18.sp,
+                                  ),
+                                ],
+                              ),
+                              if (isExpanded) ...[
+                                SizedBox(height: 1.h),
+                                Text(
+                                  faq.answer,
+                                  style: AppTextStyles.caption.copyWith(
+                                    color: AppColors.textSecondary,
+                                    height: 1.4,
+                                  ),
+                                ),
+                              ],
+                            ],
+                          ),
                         ),
                       ),
-                      Icon(
-                        Icons.keyboard_arrow_down_rounded,
-                        color: AppColors.textSecondaryDark,
-                        size: 18.sp,
+                    );
+                  }),
+                SizedBox(height: 2.h),
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(4.w),
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: AppColors.border,
+                      width: 1,
+                    ),
+                    boxShadow: AppColors.cardShadow,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Direct Contact Support',
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          color: AppColors.headingPrimary,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      SizedBox(height: 1.5.h),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: InkWell(
+                              onTap: () => _makeCall(model.phoneNumber),
+                              borderRadius: BorderRadius.circular(14),
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 3.w,
+                                  vertical: 1.8.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: AppColors.surfaceAlt,
+                                  borderRadius: BorderRadius.circular(14),
+                                  border: Border.all(
+                                    color: AppColors.border,
+                                    width: 1,
+                                  ),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Icon(
+                                      Icons.phone_outlined,
+                                      color: AppColors.primary,
+                                      size: 18.sp,
+                                    ),
+                                    SizedBox(height: 0.8.h),
+                                    Text(
+                                      'Call Us',
+                                      style: AppTextStyles.bodyMedium.copyWith(
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColors.headingPrimary,
+                                      ),
+                                    ),
+                                    SizedBox(height: 0.3.h),
+                                    Text(
+                                      model.phoneNumber,
+                                      style: AppTextStyles.caption.copyWith(
+                                        fontSize: 10.sp,
+                                        color: AppColors.textSecondary,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 3.w),
+                          Expanded(
+                            child: InkWell(
+                              onTap: () => _sendEmail(model.email),
+                              borderRadius: BorderRadius.circular(14),
+                              child: Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 3.w,
+                                  vertical: 1.8.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: AppColors.surfaceAlt,
+                                  borderRadius: BorderRadius.circular(14),
+                                  border: Border.all(
+                                    color: AppColors.border,
+                                    width: 1,
+                                  ),
+                                ),
+                                child: Column(
+                                  children: [
+                                    Icon(
+                                      Icons.mail_outline_rounded,
+                                      color: AppColors.primary,
+                                      size: 18.sp,
+                                    ),
+                                    SizedBox(height: 0.8.h),
+                                    Text(
+                                      'Email Us',
+                                      style: AppTextStyles.bodyMedium.copyWith(
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColors.headingPrimary,
+                                      ),
+                                    ),
+                                    SizedBox(height: 0.3.h),
+                                    Text(
+                                      model.email,
+                                      style: AppTextStyles.caption.copyWith(
+                                        fontSize: 10.sp,
+                                        color: AppColors.textSecondary,
+                                      ),
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 1.5.h),
+                      GestureDetector(
+                        onTap: () => _showLiveChatDialog(context),
+                        child: Container(
+                          width: double.infinity,
+                          height: 5.5.h,
+                          decoration: BoxDecoration(
+                            gradient: AppColors.primaryGradient,
+                            borderRadius: BorderRadius.circular(14),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.primary.withValues(alpha: 0.3),
+                                blurRadius: 10,
+                                offset: const Offset(0, 4),
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Icon(
+                                  Icons.chat_bubble_outline_rounded,
+                                  color: Colors.white,
+                                  size: 16.sp,
+                                ),
+                                SizedBox(width: 2.w),
+                                Text(
+                                  'Chat Live With Us',
+                                  style: AppTextStyles.buttonMedium.copyWith(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w800,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
                 ),
-              ),
-              SizedBox(height: 1.5.h),
-              Container(
-                decoration: BoxDecoration(
-                  color: const Color(0xFF171715),
+                SizedBox(height: 2.5.h),
+                Text(
+                  'Report an Issue',
+                  style: AppTextStyles.headingPrimary.copyWith(
+                    fontWeight: FontWeight.w800,
+                  ),
+                ),
+                SizedBox(height: 1.5.h),
+                InkWell(
+                  onTap: () {
+                    _showCategoryPicker(
+                      context,
+                      model.issueCategories,
+                      state.selectedCategory,
+                      (cat) => notifier.selectCategory(cat),
+                    );
+                  },
                   borderRadius: BorderRadius.circular(14),
-                  border: Border.all(
-                    color: const Color(0xFF262622),
-                    width: 1,
-                  ),
-                ),
-                child: TextField(
-                  controller: _issueController,
-                  maxLines: 4,
-                  onChanged: (val) => notifier.updateIssueDescription(val),
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    color: AppColors.creamText,
-                    height: 1.4,
-                  ),
-                  decoration: InputDecoration(
-                    hintText: 'Describe your issue briefly here...',
-                    hintStyle: AppTextStyles.bodyMedium.copyWith(
-                      color: AppColors.textMutedDark,
+                  child: Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 4.w,
+                      vertical: 1.6.h,
                     ),
-                    border: InputBorder.none,
-                    enabledBorder: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    contentPadding: EdgeInsets.all(4.w),
-                  ),
-                ),
-              ),
-              SizedBox(height: 1.8.h),
-              InkWell(
-                onTap: () async {
-                  if (_issueController.text.trim().isEmpty) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Please describe your issue first.'),
-                        backgroundColor: AppColors.error,
-                        duration: Duration(seconds: 2),
+                    decoration: BoxDecoration(
+                      color: AppColors.surface,
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(
+                        color: AppColors.border,
+                        width: 1,
                       ),
-                    );
-                    return;
-                  }
-                  notifier.updateIssueDescription(_issueController.text);
-                  final success = await notifier.submitTicket();
-                  if (success && context.mounted) {
-                    _issueController.clear();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                          'Support ticket submitted! Ticket ID: #TKT-8291',
-                        ),
-                        backgroundColor: AppColors.success,
-                        duration: Duration(seconds: 3),
-                      ),
-                    );
-                  }
-                },
-                borderRadius: BorderRadius.circular(14),
-                child: Container(
-                  width: double.infinity,
-                  height: 5.5.h,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF1E1E1C),
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(
-                      color: const Color(0xFF2E2E28),
-                      width: 1,
+                      boxShadow: AppColors.cardShadow,
                     ),
-                  ),
-                  child: Center(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Icon(
-                          Icons.near_me_outlined,
-                          color: AppColors.primary,
-                          size: 16.sp,
-                        ),
-                        SizedBox(width: 2.w),
                         Text(
-                          state.isSubmitting
-                              ? 'Submitting...'
-                              : 'Submit Support Ticket',
-                          style: AppTextStyles.buttonMedium.copyWith(
-                            color: AppColors.primary,
-                            fontWeight: FontWeight.w800,
+                          'Category: ${state.selectedCategory}',
+                          style: AppTextStyles.bodyMedium.copyWith(
+                            color: AppColors.headingPrimary,
+                            fontWeight: FontWeight.w600,
                           ),
+                        ),
+                        Icon(
+                          Icons.keyboard_arrow_down_rounded,
+                          color: AppColors.textSecondary,
+                          size: 18.sp,
                         ),
                       ],
                     ),
                   ),
                 ),
-              ),
-              SizedBox(height: 2.h),
-              Center(
-                child: Text(
-                  model.operatingHoursText,
-                  style: AppTextStyles.caption.copyWith(
-                    color: AppColors.textMutedDark,
-                    fontSize: 10.5.sp,
+                SizedBox(height: 1.5.h),
+                Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.surface,
+                    borderRadius: BorderRadius.circular(14),
+                    border: Border.all(
+                      color: AppColors.border,
+                      width: 1,
+                    ),
+                    boxShadow: AppColors.cardShadow,
+                  ),
+                  child: TextField(
+                    controller: _issueController,
+                    maxLines: 4,
+                    onChanged: (val) => notifier.updateIssueDescription(val),
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      color: AppColors.textPrimary,
+                      height: 1.4,
+                    ),
+                    decoration: InputDecoration(
+                      hintText: 'Describe your issue briefly here...',
+                      hintStyle: AppTextStyles.bodyMedium.copyWith(
+                        color: AppColors.textMuted,
+                      ),
+                      border: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      focusedBorder: InputBorder.none,
+                      contentPadding: EdgeInsets.all(4.w),
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 4.h),
-            ],
+                SizedBox(height: 1.8.h),
+                InkWell(
+                  onTap: () async {
+                    if (_issueController.text.trim().isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please describe your issue first.'),
+                          backgroundColor: AppColors.error,
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                      return;
+                    }
+                    notifier.updateIssueDescription(_issueController.text);
+                    final success = await notifier.submitTicket();
+                    if (success && context.mounted) {
+                      _issueController.clear();
+                      final ticketId = ref.read(helpSupportProvider).lastCreatedTicketNumber ?? 'Submitted';
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Support ticket submitted! Ticket ID: $ticketId',
+                          ),
+                          backgroundColor: AppColors.success,
+                          duration: const Duration(seconds: 3),
+                        ),
+                      );
+                    }
+                  },
+                  borderRadius: BorderRadius.circular(14),
+                  child: Container(
+                    width: double.infinity,
+                    height: 5.5.h,
+                    decoration: BoxDecoration(
+                      color: AppColors.surface,
+                      borderRadius: BorderRadius.circular(14),
+                      border: Border.all(
+                        color: AppColors.primary,
+                        width: 1.2,
+                      ),
+                      boxShadow: AppColors.cardShadow,
+                    ),
+                    child: Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.near_me_outlined,
+                            color: AppColors.primary,
+                            size: 16.sp,
+                          ),
+                          SizedBox(width: 2.w),
+                          Text(
+                            state.isSubmitting
+                                ? 'Submitting...'
+                                : 'Submit Support Ticket',
+                            style: AppTextStyles.buttonMedium.copyWith(
+                              color: AppColors.primary,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                if (model.myTickets.isNotEmpty) ...[
+                  SizedBox(height: 3.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'My Support Tickets (${model.myTickets.length})',
+                        style: AppTextStyles.headingPrimary.copyWith(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 14.sp,
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.refresh_rounded,
+                          color: AppColors.primary,
+                          size: 16.sp,
+                        ),
+                        onPressed: notifier.refreshTickets,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 1.2.h),
+                  ...model.myTickets.map((tkt) {
+                    final isOpen = tkt.status.toUpperCase() == 'OPEN';
+                    return Container(
+                      width: double.infinity,
+                      margin: EdgeInsets.only(bottom: 1.5.h),
+                      padding: EdgeInsets.all(4.w),
+                      decoration: BoxDecoration(
+                        color: AppColors.surface,
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(
+                          color: AppColors.border,
+                          width: 1,
+                        ),
+                        boxShadow: AppColors.cardShadow,
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                tkt.ticketNumber,
+                                style: AppTextStyles.bodyMedium.copyWith(
+                                  fontWeight: FontWeight.w800,
+                                  color: AppColors.primary,
+                                  fontSize: 13.sp,
+                                ),
+                              ),
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 2.5.w,
+                                  vertical: 0.4.h,
+                                ),
+                                decoration: BoxDecoration(
+                                  color: isOpen
+                                      ? AppColors.warningBg
+                                      : AppColors.successBg,
+                                  borderRadius: BorderRadius.circular(6),
+                                  border: Border.all(
+                                    color: isOpen
+                                        ? AppColors.warning.withValues(alpha: 0.2)
+                                        : AppColors.success.withValues(alpha: 0.2),
+                                  ),
+                                ),
+                                child: Text(
+                                  tkt.status.toUpperCase(),
+                                  style: AppTextStyles.caption.copyWith(
+                                    fontWeight: FontWeight.w800,
+                                    color: isOpen
+                                        ? AppColors.warning
+                                        : AppColors.success,
+                                    fontSize: 10.sp,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 0.8.h),
+                          Text(
+                            tkt.subject,
+                            style: AppTextStyles.bodyMedium.copyWith(
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.headingPrimary,
+                              fontSize: 12.5.sp,
+                            ),
+                          ),
+                          if (tkt.description.isNotEmpty) ...[
+                            SizedBox(height: 0.4.h),
+                            Text(
+                              tkt.description,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: AppTextStyles.caption.copyWith(
+                                color: AppColors.textSecondary,
+                                fontSize: 11.5.sp,
+                              ),
+                            ),
+                          ],
+                          SizedBox(height: 1.h),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Category: ${tkt.category}',
+                                style: AppTextStyles.caption.copyWith(
+                                  color: AppColors.textMuted,
+                                  fontSize: 10.5.sp,
+                                ),
+                              ),
+                              Text(
+                                'Priority: ${tkt.priority}',
+                                style: AppTextStyles.caption.copyWith(
+                                  color: AppColors.textMuted,
+                                  fontSize: 10.5.sp,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    );
+                  }),
+                ],
+                SizedBox(height: 2.h),
+                Center(
+                  child: Text(
+                    model.operatingHoursText,
+                    style: AppTextStyles.caption.copyWith(
+                      color: AppColors.textMuted,
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+                SizedBox(height: 4.h),
+              ],
+            ),
           ),
         ),
       ),

@@ -20,39 +20,43 @@ class BankAccountDetailsScreen extends ConsumerWidget {
       context: context,
       builder: (dialogCtx) {
         return AlertDialog(
-          backgroundColor: const Color(0xFF1C1C1A),
+          backgroundColor: AppColors.surface,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-            side: const BorderSide(color: Color(0xFF262622), width: 1),
+            borderRadius: BorderRadius.circular(20),
+            side: const BorderSide(color: AppColors.border, width: 1),
           ),
           title: Text(
             'Edit $title',
-            style: AppTextStyles.headingWhite.copyWith(
-              fontSize: 14.5.sp,
-              fontWeight: FontWeight.w700,
-              color: AppColors.creamText,
+            style: AppTextStyles.h2.copyWith(
+              fontSize: 15.sp,
+              fontWeight: FontWeight.w800,
+              color: AppColors.headingPrimary,
             ),
           ),
           content: TextField(
             controller: controller,
             autofocus: true,
             style: AppTextStyles.bodyMedium.copyWith(
-              color: AppColors.creamText,
+              color: AppColors.textPrimary,
             ),
             decoration: InputDecoration(
               hintText: 'Enter $title',
               hintStyle: AppTextStyles.caption.copyWith(
-                color: AppColors.textMutedDark,
+                color: AppColors.textMuted,
               ),
               filled: true,
-              fillColor: const Color(0xFF171715),
+              fillColor: AppColors.surfaceAlt,
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 4.w,
+                vertical: 1.5.h,
+              ),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Color(0xFF262622)),
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: AppColors.border),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: AppColors.primary),
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
               ),
             ),
           ),
@@ -62,16 +66,19 @@ class BankAccountDetailsScreen extends ConsumerWidget {
               child: Text(
                 'Cancel',
                 style: AppTextStyles.caption.copyWith(
-                  color: AppColors.textSecondaryDark,
+                  color: AppColors.textSecondary,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
+                elevation: 0,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(10),
                 ),
+                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.2.h),
               ),
               onPressed: () {
                 final text = controller.text.trim();
@@ -83,7 +90,7 @@ class BankAccountDetailsScreen extends ConsumerWidget {
               child: Text(
                 'Save',
                 style: AppTextStyles.caption.copyWith(
-                  color: const Color(0xFF11110F),
+                  color: Colors.white,
                   fontWeight: FontWeight.w800,
                 ),
               ),
@@ -104,7 +111,7 @@ class BankAccountDetailsScreen extends ConsumerWidget {
       onTap: onEdit,
       borderRadius: BorderRadius.circular(10),
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: 0.9.h),
+        padding: EdgeInsets.symmetric(vertical: 1.h),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -114,7 +121,7 @@ class BankAccountDetailsScreen extends ConsumerWidget {
                 Text(
                   label,
                   style: AppTextStyles.caption.copyWith(
-                    color: AppColors.textMutedDark,
+                    color: AppColors.textSecondary,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 0.5,
                   ),
@@ -123,19 +130,19 @@ class BankAccountDetailsScreen extends ConsumerWidget {
                 Text(
                   value,
                   style: AppTextStyles.bodyMedium.copyWith(
-                    color: AppColors.creamText,
+                    color: AppColors.headingPrimary,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
               ],
             ),
             Container(
-              padding: EdgeInsets.all(1.8.w),
+              padding: EdgeInsets.all(2.w),
               decoration: BoxDecoration(
-                color: const Color(0xFF22221E),
+                color: AppColors.primary.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(
-                  color: const Color(0xFF2E2E28),
+                  color: AppColors.border,
                   width: 1,
                 ),
               ),
@@ -158,7 +165,7 @@ class BankAccountDetailsScreen extends ConsumerWidget {
     final model = state.model;
 
     return Scaffold(
-      backgroundColor: AppColors.darkBackground,
+      backgroundColor: AppColors.scaffoldBackground,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 5.w),
@@ -175,17 +182,18 @@ class BankAccountDetailsScreen extends ConsumerWidget {
                       width: 10.w,
                       height: 10.w,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF171715),
-                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.surface,
+                        borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: const Color(0xFF262622),
+                          color: AppColors.border,
                           width: 1,
                         ),
+                        boxShadow: AppColors.cardShadow,
                       ),
                       child: Center(
                         child: Icon(
                           Icons.arrow_back_rounded,
-                          color: AppColors.primary,
+                          color: AppColors.headingPrimary,
                           size: 18.sp,
                         ),
                       ),
@@ -198,15 +206,14 @@ class BankAccountDetailsScreen extends ConsumerWidget {
                       children: [
                         Text(
                           'Bank Account Details',
-                          style: AppTextStyles.headingWhite.copyWith(
+                          style: AppTextStyles.headingPrimary.copyWith(
                             fontWeight: FontWeight.w800,
-                            color: AppColors.creamText,
                           ),
                         ),
                         Text(
                           'Payout settlement account details',
                           style: AppTextStyles.caption.copyWith(
-                            color: AppColors.textSecondaryDark,
+                            color: AppColors.textSecondary,
                           ),
                         ),
                       ],
@@ -220,15 +227,18 @@ class BankAccountDetailsScreen extends ConsumerWidget {
                 padding: EdgeInsets.all(5.w),
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
-                    colors: [Color(0xFF23231F), Color(0xFF171715)],
+                    colors: [Color(0xFF1E1B18), Color(0xFF2C2723)],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: AppColors.primary.withValues(alpha: 0.3),
-                    width: 1.2,
-                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.15),
+                      blurRadius: 15,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -246,10 +256,10 @@ class BankAccountDetailsScreen extends ConsumerWidget {
                             SizedBox(width: 2.5.w),
                             Text(
                               model.bankName,
-                              style: AppTextStyles.headingWhite.copyWith(
+                              style: AppTextStyles.h2.copyWith(
                                 fontSize: 15.sp,
                                 fontWeight: FontWeight.w800,
-                                color: AppColors.creamText,
+                                color: Colors.white,
                               ),
                             ),
                           ],
@@ -260,11 +270,11 @@ class BankAccountDetailsScreen extends ConsumerWidget {
                             vertical: 0.5.h,
                           ),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF1B3820),
+                            color: AppColors.success.withValues(alpha: 0.2),
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
-                              color: const Color(0xFF22C55E),
-                              width: 0.8,
+                              color: AppColors.success,
+                              width: 1,
                             ),
                           ),
                           child: Row(
@@ -272,14 +282,14 @@ class BankAccountDetailsScreen extends ConsumerWidget {
                             children: [
                               Icon(
                                 Icons.check_circle_rounded,
-                                color: const Color(0xFF22C55E),
+                                color: AppColors.success,
                                 size: 12.sp,
                               ),
                               SizedBox(width: 1.w),
                               Text(
                                 'Verified',
                                 style: AppTextStyles.caption.copyWith(
-                                  color: const Color(0xFF22C55E),
+                                  color: AppColors.success,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
@@ -291,11 +301,11 @@ class BankAccountDetailsScreen extends ConsumerWidget {
                     SizedBox(height: 3.h),
                     Text(
                       model.maskedAccountNumber,
-                      style: AppTextStyles.headingWhite.copyWith(
+                      style: AppTextStyles.h2.copyWith(
                         fontSize: 17.sp,
-                        letterSpacing: 2,
+                        letterSpacing: 2.5,
                         fontWeight: FontWeight.w700,
-                        color: AppColors.creamText,
+                        color: Colors.white,
                       ),
                     ),
                     SizedBox(height: 2.h),
@@ -308,7 +318,7 @@ class BankAccountDetailsScreen extends ConsumerWidget {
                             Text(
                               'BENEFICIARY',
                               style: AppTextStyles.caption.copyWith(
-                                color: AppColors.textMutedDark,
+                                color: Colors.white.withValues(alpha: 0.6),
                                 fontSize: 9.5.sp,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -317,7 +327,7 @@ class BankAccountDetailsScreen extends ConsumerWidget {
                             Text(
                               model.beneficiaryName,
                               style: AppTextStyles.bodyMedium.copyWith(
-                                color: AppColors.creamText,
+                                color: Colors.white,
                                 fontWeight: FontWeight.w600,
                               ),
                             ),
@@ -329,7 +339,7 @@ class BankAccountDetailsScreen extends ConsumerWidget {
                             Text(
                               'IFSC CODE',
                               style: AppTextStyles.caption.copyWith(
-                                color: AppColors.textMutedDark,
+                                color: Colors.white.withValues(alpha: 0.6),
                                 fontSize: 9.5.sp,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -352,9 +362,8 @@ class BankAccountDetailsScreen extends ConsumerWidget {
               SizedBox(height: 2.5.h),
               Text(
                 'Account Information',
-                style: AppTextStyles.headingWhite.copyWith(
+                style: AppTextStyles.headingPrimary.copyWith(
                   fontWeight: FontWeight.w800,
-                  color: AppColors.creamText,
                 ),
               ),
               SizedBox(height: 1.2.h),
@@ -365,12 +374,13 @@ class BankAccountDetailsScreen extends ConsumerWidget {
                   vertical: 1.5.h,
                 ),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF171715),
-                  borderRadius: BorderRadius.circular(16),
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: const Color(0xFF262622),
+                    color: AppColors.border,
                     width: 1,
                   ),
+                  boxShadow: AppColors.cardShadow,
                 ),
                 child: Column(
                   children: [
@@ -388,7 +398,7 @@ class BankAccountDetailsScreen extends ConsumerWidget {
                         );
                       },
                     ),
-                    const Divider(color: Color(0xFF242420), height: 1),
+                    const Divider(color: AppColors.divider, height: 1),
                     _buildRow(
                       context: context,
                       label: 'ACCOUNT NUMBER',
@@ -403,7 +413,7 @@ class BankAccountDetailsScreen extends ConsumerWidget {
                         );
                       },
                     ),
-                    const Divider(color: Color(0xFF242420), height: 1),
+                    const Divider(color: AppColors.divider, height: 1),
                     _buildRow(
                       context: context,
                       label: 'IFSC CODE',
@@ -418,7 +428,7 @@ class BankAccountDetailsScreen extends ConsumerWidget {
                         );
                       },
                     ),
-                    const Divider(color: Color(0xFF242420), height: 1),
+                    const Divider(color: AppColors.divider, height: 1),
                     _buildRow(
                       context: context,
                       label: 'ACCOUNT HOLDER NAME',
@@ -433,7 +443,7 @@ class BankAccountDetailsScreen extends ConsumerWidget {
                         );
                       },
                     ),
-                    const Divider(color: Color(0xFF242420), height: 1),
+                    const Divider(color: AppColors.divider, height: 1),
                     _buildRow(
                       context: context,
                       label: 'ACCOUNT TYPE',
@@ -448,7 +458,7 @@ class BankAccountDetailsScreen extends ConsumerWidget {
                         );
                       },
                     ),
-                    const Divider(color: Color(0xFF242420), height: 1),
+                    const Divider(color: AppColors.divider, height: 1),
                     _buildRow(
                       context: context,
                       label: 'BRANCH',
@@ -483,10 +493,17 @@ class BankAccountDetailsScreen extends ConsumerWidget {
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 6.h,
+                  height: 6.2.h,
                   decoration: BoxDecoration(
-                    color: AppColors.primary,
+                    gradient: AppColors.primaryGradient,
                     borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.primary.withValues(alpha: 0.3),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
                   child: Center(
                     child: Row(
@@ -494,7 +511,7 @@ class BankAccountDetailsScreen extends ConsumerWidget {
                       children: [
                         Icon(
                           Icons.check_rounded,
-                          color: const Color(0xFF11110F),
+                          color: Colors.white,
                           size: 18.sp,
                         ),
                         SizedBox(width: 2.w),
@@ -502,7 +519,7 @@ class BankAccountDetailsScreen extends ConsumerWidget {
                           state.isSaving ? 'Saving...' : 'Save Bank Details',
                           style: AppTextStyles.buttonMedium.copyWith(
                             fontWeight: FontWeight.w800,
-                            color: const Color(0xFF11110F),
+                            color: Colors.white,
                           ),
                         ),
                       ],
