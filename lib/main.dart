@@ -4,9 +4,10 @@ import 'package:sizer/sizer.dart';
 import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 
+export 'core/router/app_router.dart' show navigatorKey;
+
 final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey =
     GlobalKey<ScaffoldMessengerState>();
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +29,9 @@ class EatoggyPartnerApp extends StatelessWidget {
         return MaterialApp.router(
           title: 'Eatoggy Partner',
           debugShowCheckedModeBanner: false,
-          theme: AppTheme.darkTheme,
+          theme: AppTheme.lightTheme,
+          darkTheme: AppTheme.lightTheme,
+          themeMode: ThemeMode.light,
           routerConfig: appRouter,
         );
       },
