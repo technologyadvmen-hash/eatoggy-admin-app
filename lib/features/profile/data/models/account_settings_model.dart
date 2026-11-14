@@ -60,17 +60,16 @@ class AccountSettingsModel {
   }
 
   static const defaultModel = AccountSettingsModel(
-    bistroName: "Chef Giovanni's Bistro",
-    chefName: 'Giovanni Rossi',
-    role: 'Head Chef',
+    bistroName: 'Restaurant Partner',
+    chefName: 'Partner Owner',
+    role: 'Cloud Kitchen',
     statusText: 'Active Partner',
     isActive: true,
-    avatarUrl:
-        'https://images.unsplash.com/photo-1577219491135-ce391730fb2c?auto=format&fit=crop&q=80&w=200',
-    avgRating: '4.3',
-    reviewCount: 234,
-    hasNewFeedback: true,
-    weeklyEarnings: '\$1,420.50',
+    avatarUrl: '',
+    avgRating: '5.0',
+    reviewCount: 0,
+    hasNewFeedback: false,
+    weeklyEarnings: '₹0',
     kitchenProfileSummary: 'Menu setup, custom hours, holidays',
     notificationsEnabled: true,
   );

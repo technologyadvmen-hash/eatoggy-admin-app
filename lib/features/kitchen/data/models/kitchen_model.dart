@@ -25,11 +25,37 @@ class KitchenScreenModel {
     appName: 'EATOGGY',
     isOnline: true,
     onlineStatusTitle: 'Kitchen is Currently Online',
-    onlineStatusSubtitle: 'Online since 9:00 AM today',
-    totalHours: '6h 30m',
-    activeQueue: '3 Orders',
+    onlineStatusSubtitle: 'Ready for incoming orders',
+    totalHours: '--',
+    activeQueue: '0 Orders',
     autoAcceptSubscription: true,
     dailyClosingTime: '11:00 PM',
-    afternoonBreakSlot: '4:00 - 6:00 PM',
+    afternoonBreakSlot: 'None',
   );
+
+  KitchenScreenModel copyWith({
+    String? appName,
+    bool? isOnline,
+    String? onlineStatusTitle,
+    String? onlineStatusSubtitle,
+    String? totalHours,
+    String? activeQueue,
+    bool? autoAcceptSubscription,
+    String? dailyClosingTime,
+    String? afternoonBreakSlot,
+  }) {
+    return KitchenScreenModel(
+      appName: appName ?? this.appName,
+      isOnline: isOnline ?? this.isOnline,
+      onlineStatusTitle: onlineStatusTitle ?? this.onlineStatusTitle,
+      onlineStatusSubtitle: onlineStatusSubtitle ?? this.onlineStatusSubtitle,
+      totalHours: totalHours ?? this.totalHours,
+      activeQueue: activeQueue ?? this.activeQueue,
+      autoAcceptSubscription:
+          autoAcceptSubscription ?? this.autoAcceptSubscription,
+      dailyClosingTime: dailyClosingTime ?? this.dailyClosingTime,
+      afternoonBreakSlot: afternoonBreakSlot ?? this.afternoonBreakSlot,
+    );
+  }
 }
+

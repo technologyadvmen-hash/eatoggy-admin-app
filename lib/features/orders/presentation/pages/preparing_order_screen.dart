@@ -41,10 +41,11 @@ class _PreparingOrderScreenState extends ConsumerState<PreparingOrderScreen> {
     final order = state.order;
 
     return Scaffold(
-      backgroundColor: AppColors.darkBackground,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.darkBackground,
+        backgroundColor: AppColors.background,
         elevation: 0,
+        surfaceTintColor: Colors.transparent,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios_new_rounded,
@@ -56,9 +57,8 @@ class _PreparingOrderScreenState extends ConsumerState<PreparingOrderScreen> {
         title: Text(
           'Preparing Order #${order.orderNumber}',
           style: AppTextStyles.title.copyWith(
-            // fontSize: 17.5.sp,
             fontWeight: FontWeight.w800,
-            color: AppColors.creamText,
+            color: AppColors.textPrimary,
           ),
         ),
       ),
@@ -102,25 +102,26 @@ class _PreparingOrderScreenState extends ConsumerState<PreparingOrderScreen> {
               width: double.infinity,
               padding: EdgeInsets.symmetric(vertical: 3.h, horizontal: 4.w),
               decoration: BoxDecoration(
-                color: const Color(0xFF171715),
+                color: AppColors.surface,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: const Color(0xFF262622), width: 1),
+                border: Border.all(color: AppColors.border, width: 1),
+                boxShadow: AppColors.cardShadow,
               ),
               child: Column(
                 children: [
                   Text(
                     'PREPARATION TIME REMAINING',
                     style: AppTextStyles.caption.copyWith(
-                      fontSize: 11.5.sp,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w700,
                       letterSpacing: 0.8,
-                      color: AppColors.textSecondaryDark,
+                      color: AppColors.textMuted,
                     ),
                   ),
                   SizedBox(height: 1.5.h),
                   Text(
                     state.formattedTime,
-                    style: AppTextStyles.headingWhite.copyWith(
+                    style: AppTextStyles.heading.copyWith(
                       fontSize: 34.sp,
                       fontWeight: FontWeight.w900,
                       color: AppColors.primary,
@@ -131,31 +132,32 @@ class _PreparingOrderScreenState extends ConsumerState<PreparingOrderScreen> {
                   Text(
                     order.acceptingMoreOrdersText,
                     style: AppTextStyles.caption.copyWith(
-                      fontSize: 12.5.sp,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.w600,
-                      color: const Color(0xFF388E3C),
+                      color: AppColors.success,
                     ),
                   ),
                 ],
               ),
             ),
-            SizedBox(height: 2.8.h),
+            SizedBox(height: 2.5.h),
             Container(
               padding: EdgeInsets.all(4.5.w),
               decoration: BoxDecoration(
-                color: const Color(0xFF171715),
+                color: AppColors.surface,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: const Color(0xFF262622), width: 1),
+                border: Border.all(color: AppColors.border, width: 1),
+                boxShadow: AppColors.cardShadow,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Item Preparation Checklist',
-                    style: AppTextStyles.bodyWhite.copyWith(
-                      fontSize: 15.5.sp,
+                    style: AppTextStyles.body.copyWith(
+                      fontSize: 15.sp,
                       fontWeight: FontWeight.w800,
-                      color: AppColors.creamText,
+                      color: AppColors.textPrimary,
                     ),
                   ),
                   SizedBox(height: 2.h),
@@ -176,12 +178,12 @@ class _PreparingOrderScreenState extends ConsumerState<PreparingOrderScreen> {
                               decoration: BoxDecoration(
                                 color: item.isDone
                                     ? AppColors.primary
-                                    : const Color(0xFF1F1F1D),
+                                    : AppColors.surface,
                                 borderRadius: BorderRadius.circular(6),
                                 border: Border.all(
                                   color: item.isDone
                                       ? AppColors.primary
-                                      : const Color(0xFF3A3A35),
+                                      : AppColors.border,
                                   width: 1.2,
                                 ),
                               ),
@@ -189,7 +191,7 @@ class _PreparingOrderScreenState extends ConsumerState<PreparingOrderScreen> {
                                   ? Icon(
                                       Icons.check_rounded,
                                       size: 14.sp,
-                                      color: const Color(0xFF11110F),
+                                      color: Colors.white,
                                     )
                                   : null,
                             ),
@@ -197,16 +199,16 @@ class _PreparingOrderScreenState extends ConsumerState<PreparingOrderScreen> {
                             Expanded(
                               child: Text(
                                 item.title,
-                                style: AppTextStyles.bodyWhite.copyWith(
-                                  fontSize: 14.sp,
+                                style: AppTextStyles.body.copyWith(
+                                  fontSize: 13.5.sp,
                                   fontWeight: FontWeight.w600,
                                   color: item.isDone
-                                      ? AppColors.textSecondaryDark
-                                      : AppColors.creamText,
+                                      ? AppColors.textMuted
+                                      : AppColors.textPrimary,
                                   decoration: item.isDone
                                       ? TextDecoration.lineThrough
                                       : TextDecoration.none,
-                                  decorationColor: AppColors.textSecondaryDark,
+                                  decorationColor: AppColors.textMuted,
                                 ),
                               ),
                             ),
@@ -219,9 +221,20 @@ class _PreparingOrderScreenState extends ConsumerState<PreparingOrderScreen> {
               ),
             ),
             SizedBox(height: 3.5.h),
-            SizedBox(
+            Container(
               width: double.infinity,
               height: 6.h,
+              decoration: BoxDecoration(
+                gradient: AppColors.primaryGradient,
+                borderRadius: BorderRadius.circular(14),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primary.withValues(alpha: 0.3),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
               child: ElevatedButton(
                 onPressed: () {
                   ref
@@ -235,8 +248,8 @@ class _PreparingOrderScreenState extends ConsumerState<PreparingOrderScreen> {
                   context.pushReplacement(AppRoutes.readyOrder, extra: order.orderId);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
                   ),
@@ -245,7 +258,7 @@ class _PreparingOrderScreenState extends ConsumerState<PreparingOrderScreen> {
                   'Mark as Ready',
                   style: AppTextStyles.buttonMedium.copyWith(
                     fontWeight: FontWeight.w800,
-                    color: const Color(0xFF11110F),
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -255,7 +268,7 @@ class _PreparingOrderScreenState extends ConsumerState<PreparingOrderScreen> {
               children: [
                 Expanded(
                   child: SizedBox(
-                    height: 5.8.h,
+                    height: 5.6.h,
                     child: OutlinedButton(
                       onPressed: () {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -265,9 +278,9 @@ class _PreparingOrderScreenState extends ConsumerState<PreparingOrderScreen> {
                         );
                       },
                       style: OutlinedButton.styleFrom(
-                        backgroundColor: const Color(0xFF171715),
+                        backgroundColor: AppColors.surface,
                         side: const BorderSide(
-                          color: Color(0xFF262622),
+                          color: AppColors.border,
                           width: 1,
                         ),
                         shape: RoundedRectangleBorder(
@@ -278,7 +291,7 @@ class _PreparingOrderScreenState extends ConsumerState<PreparingOrderScreen> {
                         'Call Customer',
                         style: AppTextStyles.buttonMedium.copyWith(
                           fontWeight: FontWeight.w700,
-                          color: AppColors.creamText,
+                          color: AppColors.textPrimary,
                         ),
                       ),
                     ),
@@ -287,7 +300,7 @@ class _PreparingOrderScreenState extends ConsumerState<PreparingOrderScreen> {
                 SizedBox(width: 3.5.w),
                 Expanded(
                   child: SizedBox(
-                    height: 5.8.h,
+                    height: 5.6.h,
                     child: OutlinedButton(
                       onPressed: () {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -297,9 +310,9 @@ class _PreparingOrderScreenState extends ConsumerState<PreparingOrderScreen> {
                         );
                       },
                       style: OutlinedButton.styleFrom(
-                        backgroundColor: const Color(0xFF171715),
+                        backgroundColor: AppColors.surface,
                         side: const BorderSide(
-                          color: Color(0xFF262622),
+                          color: AppColors.border,
                           width: 1,
                         ),
                         shape: RoundedRectangleBorder(
@@ -307,10 +320,10 @@ class _PreparingOrderScreenState extends ConsumerState<PreparingOrderScreen> {
                         ),
                       ),
                       child: Text(
-                        'Call Delivery Partner',
+                        'Call Partner',
                         style: AppTextStyles.buttonMedium.copyWith(
                           fontWeight: FontWeight.w700,
-                          color: AppColors.creamText,
+                          color: AppColors.textPrimary,
                         ),
                       ),
                     ),
@@ -330,11 +343,22 @@ class _PreparingOrderScreenState extends ConsumerState<PreparingOrderScreen> {
     required bool isDone,
     required bool isActive,
   }) {
-    Color itemColor;
-    if (isDone || isActive) {
-      itemColor = AppColors.primary;
+    Color circleColor;
+    Color borderColor;
+    Color textColor;
+
+    if (isActive) {
+      circleColor = AppColors.primary;
+      borderColor = AppColors.primary;
+      textColor = AppColors.primary;
+    } else if (isDone) {
+      circleColor = AppColors.success;
+      borderColor = AppColors.success;
+      textColor = AppColors.success;
     } else {
-      itemColor = AppColors.textMuted;
+      circleColor = AppColors.surface;
+      borderColor = AppColors.border;
+      textColor = AppColors.textMuted;
     }
 
     return Row(
@@ -343,27 +367,25 @@ class _PreparingOrderScreenState extends ConsumerState<PreparingOrderScreen> {
           width: 5.w,
           height: 5.w,
           decoration: BoxDecoration(
-            color: isDone ? const Color(0xFF388E3C) : const Color(0xFF262622),
+            color: circleColor,
             shape: BoxShape.circle,
             border: Border.all(
-              color: isActive
-                  ? AppColors.primary
-                  : (isDone ? const Color(0xFF388E3C) : const Color(0xFF3E3E3A)),
+              color: borderColor,
               width: 1.5,
             ),
           ),
           child: Center(
-            child: isDone
+            child: (isDone || isActive)
                 ? Icon(
                     Icons.check_rounded,
                     size: 13.sp,
-                    color: Colors.black,
+                    color: Colors.white,
                   )
                 : Container(
                     width: 1.8.w,
                     height: 1.8.w,
-                    decoration: BoxDecoration(
-                      color: itemColor,
+                    decoration: const BoxDecoration(
+                      color: AppColors.textMuted,
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -373,11 +395,8 @@ class _PreparingOrderScreenState extends ConsumerState<PreparingOrderScreen> {
         Text(
           label,
           style: AppTextStyles.caption.copyWith(
-            // fontSize: 12.sp,
             fontWeight: isDone || isActive ? FontWeight.w700 : FontWeight.w500,
-            color: isDone
-                ? const Color(0xFF388E3C)
-                : (isActive ? AppColors.primary : AppColors.textMuted),
+            color: textColor,
           ),
         ),
       ],
@@ -389,7 +408,7 @@ class _PreparingOrderScreenState extends ConsumerState<PreparingOrderScreen> {
       width: 6.w,
       height: 1.5,
       margin: EdgeInsets.symmetric(horizontal: 1.8.w),
-      color: isDone ? const Color(0xFF388E3C) : const Color(0xFF2A2A26),
+      color: isDone ? AppColors.success : AppColors.border,
     );
   }
 }

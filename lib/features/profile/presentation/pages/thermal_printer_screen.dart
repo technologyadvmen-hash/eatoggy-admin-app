@@ -12,10 +12,10 @@ class ThermalPrinterScreen extends ConsumerWidget {
   void _showTestReceiptModal(BuildContext context) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: const Color(0xFF171715),
+      backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        side: BorderSide(color: Color(0xFF262622), width: 1),
+        side: BorderSide(color: AppColors.border, width: 1),
       ),
       builder: (ctx) {
         return SafeArea(
@@ -29,7 +29,7 @@ class ThermalPrinterScreen extends ConsumerWidget {
                     width: 10.w,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF333330),
+                      color: AppColors.border,
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -41,6 +41,7 @@ class ThermalPrinterScreen extends ConsumerWidget {
                   decoration: BoxDecoration(
                     color: const Color(0xFFFFFBEA),
                     borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: const Color(0xFFE5D5A4), width: 1),
                   ),
                   child: Column(
                     children: [
@@ -55,7 +56,7 @@ class ThermalPrinterScreen extends ConsumerWidget {
                       ),
                       SizedBox(height: 0.8.h),
                       Text(
-                        'TANDOORI TALES KITCHEN\nPlot 42, HSR Layout, Bangalore\nGSTIN: 29AAAAA0000A1Z5',
+                        'EATOGGY PARTNER KITCHEN\nReceipt Printer Test Page\nTest Receipt #001',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontFamily: 'monospace',
@@ -67,15 +68,15 @@ class ThermalPrinterScreen extends ConsumerWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('1x Butter Chicken', style: TextStyle(fontFamily: 'monospace', fontSize: 10.sp, color: Colors.black)),
-                          Text('₹320', style: TextStyle(fontFamily: 'monospace', fontSize: 10.sp, color: Colors.black)),
+                          Text('1x Test Menu Item', style: TextStyle(fontFamily: 'monospace', fontSize: 10.sp, color: Colors.black)),
+                          Text('₹100', style: TextStyle(fontFamily: 'monospace', fontSize: 10.sp, color: Colors.black)),
                         ],
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('2x Garlic Naan', style: TextStyle(fontFamily: 'monospace', fontSize: 10.sp, color: Colors.black)),
-                          Text('₹120', style: TextStyle(fontFamily: 'monospace', fontSize: 10.sp, color: Colors.black)),
+                          Text('1x Packaging Charge', style: TextStyle(fontFamily: 'monospace', fontSize: 10.sp, color: Colors.black)),
+                          Text('₹15', style: TextStyle(fontFamily: 'monospace', fontSize: 10.sp, color: Colors.black)),
                         ],
                       ),
                       const Divider(color: Colors.black45, height: 16),
@@ -83,7 +84,7 @@ class ThermalPrinterScreen extends ConsumerWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text('TOTAL PAID', style: TextStyle(fontFamily: 'monospace', fontWeight: FontWeight.bold, fontSize: 11.sp, color: Colors.black)),
-                          Text('₹440', style: TextStyle(fontFamily: 'monospace', fontWeight: FontWeight.bold, fontSize: 11.sp, color: Colors.black)),
+                          Text('₹115', style: TextStyle(fontFamily: 'monospace', fontWeight: FontWeight.bold, fontSize: 11.sp, color: Colors.black)),
                         ],
                       ),
                       SizedBox(height: 0.8.h),
@@ -99,29 +100,44 @@ class ThermalPrinterScreen extends ConsumerWidget {
                   ),
                 ),
                 SizedBox(height: 2.h),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    minimumSize: Size(double.infinity, 5.5.h),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.pop(ctx);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Test print sent to printer!'),
-                        backgroundColor: AppColors.success,
-                        duration: Duration(seconds: 2),
+                Container(
+                  width: double.infinity,
+                  height: 5.5.h,
+                  decoration: BoxDecoration(
+                    gradient: AppColors.primaryGradient,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.primary.withValues(alpha: 0.3),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
                       ),
-                    );
-                  },
-                  child: Text(
-                    'Send to Printer',
-                    style: AppTextStyles.buttonMedium.copyWith(
-                      color: const Color(0xFF11110F),
-                      fontWeight: FontWeight.w800,
+                    ],
+                  ),
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pop(ctx);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Test print sent to printer!'),
+                          backgroundColor: AppColors.success,
+                          duration: Duration(seconds: 2),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      'Send to Printer',
+                      style: AppTextStyles.buttonMedium.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                   ),
                 ),
@@ -146,17 +162,17 @@ class ThermalPrinterScreen extends ConsumerWidget {
           Text(
             title,
             style: AppTextStyles.bodyMedium.copyWith(
-              fontWeight: FontWeight.w500,
-              color: AppColors.creamText,
+              fontWeight: FontWeight.w600,
+              color: AppColors.headingPrimary,
             ),
           ),
           Switch(
             value: value,
             onChanged: (_) => onToggle(),
-            activeTrackColor: const Color(0xFF22C55E),
-            activeThumbColor: const Color(0xFFFFF1D2),
-            inactiveTrackColor: const Color(0xFF2E2E2A),
-            inactiveThumbColor: const Color(0xFFFFF1D2),
+            activeTrackColor: AppColors.primary,
+            activeThumbColor: Colors.white,
+            inactiveTrackColor: AppColors.border,
+            inactiveThumbColor: Colors.white,
           ),
         ],
       ),
@@ -170,7 +186,7 @@ class ThermalPrinterScreen extends ConsumerWidget {
     final model = state.model;
 
     return Scaffold(
-      backgroundColor: AppColors.darkBackground,
+      backgroundColor: AppColors.scaffoldBackground,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 5.w),
@@ -187,17 +203,18 @@ class ThermalPrinterScreen extends ConsumerWidget {
                       width: 10.w,
                       height: 10.w,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF171715),
-                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.surface,
+                        borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: const Color(0xFF262622),
+                          color: AppColors.border,
                           width: 1,
                         ),
+                        boxShadow: AppColors.cardShadow,
                       ),
                       child: Center(
                         child: Icon(
                           Icons.arrow_back_rounded,
-                          color: AppColors.primary,
+                          color: AppColors.headingPrimary,
                           size: 18.sp,
                         ),
                       ),
@@ -210,15 +227,14 @@ class ThermalPrinterScreen extends ConsumerWidget {
                       children: [
                         Text(
                           'Thermal Printer Setup',
-                          style: AppTextStyles.headingWhite.copyWith(
+                          style: AppTextStyles.headingPrimary.copyWith(
                             fontWeight: FontWeight.w800,
-                            color: AppColors.creamText,
                           ),
                         ),
                         Text(
                           'Receipts and kitchen order tickets (KOT)',
                           style: AppTextStyles.caption.copyWith(
-                            color: AppColors.textSecondaryDark,
+                            color: AppColors.textSecondary,
                           ),
                         ),
                       ],
@@ -231,12 +247,13 @@ class ThermalPrinterScreen extends ConsumerWidget {
                 width: double.infinity,
                 padding: EdgeInsets.all(4.5.w),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF171715),
+                  color: AppColors.surface,
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: AppColors.primary.withValues(alpha: 0.3),
+                    color: AppColors.border,
                     width: 1,
                   ),
+                  boxShadow: AppColors.cardShadow,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -246,10 +263,17 @@ class ThermalPrinterScreen extends ConsumerWidget {
                       children: [
                         Row(
                           children: [
-                            Icon(
-                              Icons.print_rounded,
-                              color: AppColors.primary,
-                              size: 20.sp,
+                            Container(
+                              padding: EdgeInsets.all(2.w),
+                              decoration: BoxDecoration(
+                                color: AppColors.primary.withValues(alpha: 0.08),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Icon(
+                                Icons.print_rounded,
+                                color: AppColors.primary,
+                                size: 20.sp,
+                              ),
                             ),
                             SizedBox(width: 2.5.w),
                             Column(
@@ -258,15 +282,15 @@ class ThermalPrinterScreen extends ConsumerWidget {
                                 Text(
                                   model.selectedPrinter.name,
                                   style: AppTextStyles.bodyMedium.copyWith(
-                                    fontWeight: FontWeight.w700,
-                                    color: AppColors.creamText,
+                                    fontWeight: FontWeight.w800,
+                                    color: AppColors.headingPrimary,
                                   ),
                                 ),
                                 Text(
                                   '${model.selectedPrinter.type} • ${model.selectedPrinter.address}',
                                   style: AppTextStyles.caption.copyWith(
-                                    color: AppColors.textSecondaryDark,
-                                    fontSize: 10.sp,
+                                    color: AppColors.textSecondary,
+                                    fontSize: 10.5.sp,
                                   ),
                                 ),
                               ],
@@ -279,11 +303,11 @@ class ThermalPrinterScreen extends ConsumerWidget {
                             vertical: 0.5.h,
                           ),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF1B3820),
+                            color: AppColors.successBg,
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
-                              color: const Color(0xFF22C55E),
-                              width: 0.8,
+                              color: AppColors.success.withValues(alpha: 0.2),
+                              width: 1,
                             ),
                           ),
                           child: Row(
@@ -293,7 +317,7 @@ class ThermalPrinterScreen extends ConsumerWidget {
                                 width: 6,
                                 height: 6,
                                 decoration: const BoxDecoration(
-                                  color: Color(0xFF22C55E),
+                                  color: AppColors.success,
                                   shape: BoxShape.circle,
                                 ),
                               ),
@@ -301,7 +325,7 @@ class ThermalPrinterScreen extends ConsumerWidget {
                               Text(
                                 'Connected',
                                 style: AppTextStyles.caption.copyWith(
-                                  color: const Color(0xFF22C55E),
+                                  color: AppColors.success,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
@@ -316,21 +340,21 @@ class ThermalPrinterScreen extends ConsumerWidget {
               SizedBox(height: 2.5.h),
               Text(
                 'Available Devices',
-                style: AppTextStyles.headingWhite.copyWith(
+                style: AppTextStyles.headingPrimary.copyWith(
                   fontWeight: FontWeight.w800,
-                  color: AppColors.creamText,
                 ),
               ),
               SizedBox(height: 1.2.h),
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF171715),
+                  color: AppColors.surface,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: const Color(0xFF262622),
+                    color: AppColors.border,
                     width: 1,
                   ),
+                  boxShadow: AppColors.cardShadow,
                 ),
                 child: Column(
                   children: model.availablePrinters.map((device) {
@@ -354,7 +378,7 @@ class ThermalPrinterScreen extends ConsumerWidget {
                                       : Icons.bluetooth_rounded,
                                   color: isSelected
                                       ? AppColors.primary
-                                      : AppColors.textSecondaryDark,
+                                      : AppColors.textSecondary,
                                   size: 18.sp,
                                 ),
                                 SizedBox(width: 3.w),
@@ -365,18 +389,18 @@ class ThermalPrinterScreen extends ConsumerWidget {
                                       device.name,
                                       style: AppTextStyles.bodyMedium.copyWith(
                                         fontWeight: isSelected
-                                            ? FontWeight.w700
-                                            : FontWeight.w500,
+                                            ? FontWeight.w800
+                                            : FontWeight.w600,
                                         color: isSelected
                                             ? AppColors.primary
-                                            : AppColors.creamText,
+                                            : AppColors.headingPrimary,
                                       ),
                                     ),
                                     Text(
                                       '${device.type} • ${device.address}',
                                       style: AppTextStyles.caption.copyWith(
-                                        fontSize: 10.sp,
-                                        color: AppColors.textSecondaryDark,
+                                        fontSize: 10.5.sp,
+                                        color: AppColors.textSecondary,
                                       ),
                                     ),
                                   ],
@@ -399,9 +423,8 @@ class ThermalPrinterScreen extends ConsumerWidget {
               SizedBox(height: 2.5.h),
               Text(
                 'Paper Width',
-                style: AppTextStyles.headingWhite.copyWith(
+                style: AppTextStyles.headingPrimary.copyWith(
                   fontWeight: FontWeight.w800,
-                  color: AppColors.creamText,
                 ),
               ),
               SizedBox(height: 1.2.h),
@@ -418,27 +441,27 @@ class ThermalPrinterScreen extends ConsumerWidget {
                         ),
                         padding: EdgeInsets.symmetric(vertical: 1.4.h),
                         decoration: BoxDecoration(
-                          color: isSelected
-                              ? AppColors.primary.withValues(alpha: 0.15)
-                              : const Color(0xFF171715),
+                          gradient: isSelected ? AppColors.primaryGradient : null,
+                          color: isSelected ? null : AppColors.surface,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
                             color: isSelected
-                                ? AppColors.primary
-                                : const Color(0xFF262622),
+                                ? Colors.transparent
+                                : AppColors.border,
                             width: 1,
                           ),
+                          boxShadow: isSelected ? AppColors.cardShadow : null,
                         ),
                         child: Center(
                           child: Text(
                             '$size Standard',
                             style: AppTextStyles.bodyMedium.copyWith(
                               fontWeight: isSelected
-                                  ? FontWeight.w700
-                                  : FontWeight.w500,
+                                  ? FontWeight.w800
+                                  : FontWeight.w600,
                               color: isSelected
-                                  ? AppColors.primary
-                                  : AppColors.creamText,
+                                  ? Colors.white
+                                  : AppColors.textSecondary,
                             ),
                           ),
                         ),
@@ -450,21 +473,21 @@ class ThermalPrinterScreen extends ConsumerWidget {
               SizedBox(height: 2.5.h),
               Text(
                 'Printing Preferences',
-                style: AppTextStyles.headingWhite.copyWith(
+                style: AppTextStyles.headingPrimary.copyWith(
                   fontWeight: FontWeight.w800,
-                  color: AppColors.creamText,
                 ),
               ),
               SizedBox(height: 1.2.h),
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF171715),
+                  color: AppColors.surface,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: const Color(0xFF262622),
+                    color: AppColors.border,
                     width: 1,
                   ),
+                  boxShadow: AppColors.cardShadow,
                 ),
                 child: Column(
                   children: [
@@ -473,13 +496,13 @@ class ThermalPrinterScreen extends ConsumerWidget {
                       value: model.autoPrintOrder,
                       onToggle: () => notifier.toggleAutoPrintOrder(),
                     ),
-                    const Divider(color: Color(0xFF242420), height: 1),
+                    const Divider(color: AppColors.divider, height: 1),
                     _buildToggleRow(
                       title: 'Auto-print KOT on Accept',
                       value: model.autoPrintKot,
                       onToggle: () => notifier.toggleAutoPrintKot(),
                     ),
-                    const Divider(color: Color(0xFF242420), height: 1),
+                    const Divider(color: AppColors.divider, height: 1),
                     _buildToggleRow(
                       title: 'Print Customer Phone & Address',
                       value: model.printCustomerDetails,
@@ -498,10 +521,17 @@ class ThermalPrinterScreen extends ConsumerWidget {
                 },
                 child: Container(
                   width: double.infinity,
-                  height: 6.h,
+                  height: 6.2.h,
                   decoration: BoxDecoration(
-                    color: AppColors.primary,
+                    gradient: AppColors.primaryGradient,
                     borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.primary.withValues(alpha: 0.3),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
                   child: Center(
                     child: Row(
@@ -509,7 +539,7 @@ class ThermalPrinterScreen extends ConsumerWidget {
                       children: [
                         Icon(
                           Icons.receipt_long_rounded,
-                          color: const Color(0xFF11110F),
+                          color: Colors.white,
                           size: 18.sp,
                         ),
                         SizedBox(width: 2.w),
@@ -519,7 +549,7 @@ class ThermalPrinterScreen extends ConsumerWidget {
                               : 'Test Print Receipt',
                           style: AppTextStyles.buttonMedium.copyWith(
                             fontWeight: FontWeight.w800,
-                            color: const Color(0xFF11110F),
+                            color: Colors.white,
                           ),
                         ),
                       ],

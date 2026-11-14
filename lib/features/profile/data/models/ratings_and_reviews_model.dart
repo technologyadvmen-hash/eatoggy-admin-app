@@ -81,67 +81,42 @@ class RatingsAndReviewsModel {
   }
 
   static const dummy = RatingsAndReviewsModel(
-    partnerName: "Chef Giovanni's Bistro",
-    overallRating: '4.3',
-    verifiedReviewsCount: 234,
+    partnerName: 'Restaurant Partner',
+    overallRating: '5.0',
+    verifiedReviewsCount: 0,
     distributions: [
       RatingDistributionItem(
         starsLabel: '5 Star',
-        percentage: 45,
-        fillRatio: 0.45,
+        percentage: 100,
+        fillRatio: 1.0,
       ),
       RatingDistributionItem(
         starsLabel: '4 Star',
-        percentage: 30,
-        fillRatio: 0.30,
+        percentage: 0,
+        fillRatio: 0.0,
       ),
       RatingDistributionItem(
         starsLabel: '3 Star',
-        percentage: 15,
-        fillRatio: 0.15,
+        percentage: 0,
+        fillRatio: 0.0,
       ),
       RatingDistributionItem(
         starsLabel: '2 Star',
-        percentage: 7,
-        fillRatio: 0.07,
+        percentage: 0,
+        fillRatio: 0.0,
       ),
       RatingDistributionItem(
         starsLabel: '1 Star',
-        percentage: 3,
-        fillRatio: 0.03,
+        percentage: 0,
+        fillRatio: 0.0,
       ),
     ],
     monthlyPerformance: MonthlyPerformance(
-      averageRating: '4.5',
-      totalReviews: 28,
-      responseRate: '85%',
+      averageRating: '5.0',
+      totalReviews: 0,
+      responseRate: '100%',
     ),
     filterChips: ['All', 'Positive', 'Negative', 'Recent'],
-    reviews: [
-      CustomerReviewItem(
-        id: '1',
-        customerName: 'Aarav Mehta',
-        rating: 5.0,
-        timeAgo: 'Yesterday',
-        comment: 'Authentic flavors and super prompt hot packaging!',
-        tag: 'Positive',
-      ),
-      CustomerReviewItem(
-        id: '2',
-        customerName: 'Priya Sharma',
-        rating: 4.5,
-        timeAgo: '2 days ago',
-        comment: 'Great portion size and consistent taste every day.',
-        tag: 'Positive',
-      ),
-      CustomerReviewItem(
-        id: '3',
-        customerName: 'Karan Patel',
-        rating: 4.0,
-        timeAgo: '3 days ago',
-        comment: 'Fresh chapattis and nice aroma. Loved the paneer dish.',
-        tag: 'Recent',
-      ),
-    ],
+    reviews: [],
   );
 }

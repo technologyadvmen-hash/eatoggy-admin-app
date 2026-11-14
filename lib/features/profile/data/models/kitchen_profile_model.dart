@@ -60,19 +60,15 @@ class KitchenProfileModel {
   }
 
   static KitchenProfileModel get dummy => const KitchenProfileModel(
-        kitchenName: 'Tandoori Tales',
-        rating: 4.3,
-        reviewsCount: 234,
-        bannerImagePath: 'assets/images/kitchen_banner.jpg',
-        ownerName: 'Harish Kumar',
+        kitchenName: 'My Kitchen',
+        rating: 5.0,
+        reviewsCount: 0,
+        bannerImagePath: '',
+        ownerName: 'Partner Owner',
         businessType: 'Cloud Kitchen',
-        cuisines: 'North Indian, Chinese',
-        address: 'Plot 42, Sector 5, HSR Layout, Bangalore',
+        cuisines: 'Multi-Cuisine',
+        address: '',
         operatingHours: '10:00 AM - 10:00 PM',
-        documents: [
-          KitchenDocumentItem(title: 'GST Certificate', isVerified: true),
-          KitchenDocumentItem(title: 'FSSAI License', isVerified: true),
-          KitchenDocumentItem(title: 'Aadhaar / Identity Proof', isVerified: true),
-        ],
+        documents: [],
       );
 }

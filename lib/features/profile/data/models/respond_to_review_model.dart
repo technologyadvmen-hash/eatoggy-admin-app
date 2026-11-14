@@ -17,12 +17,12 @@ class RespondToReviewModel {
 
   static const dummy = RespondToReviewModel(
     review: CustomerReviewModel(
-      id: '3',
-      name: 'Vikram P.',
-      timeAgo: '5 days ago',
-      rating: 2,
-      comment: 'Portion size was small for the price.',
-      isCritical: true,
+      id: '',
+      name: 'Customer',
+      timeAgo: 'Recently',
+      rating: 5,
+      comment: '',
+      isCritical: false,
       canReply: true,
     ),
   );

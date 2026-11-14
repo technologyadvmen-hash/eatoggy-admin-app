@@ -42,6 +42,9 @@ import '../../../features/profile/presentation/pages/settings_screen.dart';
 import '../../../features/profile/presentation/pages/bank_account_details_screen.dart';
 import '../../../features/profile/presentation/pages/tax_information_screen.dart';
 import '../../../features/profile/presentation/pages/thermal_printer_screen.dart';
+import '../../../features/kitchen/presentation/pages/kitchen_hygiene_screen.dart';
+import '../constants/app_keys.dart';
+import '../services/storage_service.dart';
 
 /// Route name constants — use these instead of raw strings.
 abstract class AppRoutes {
@@ -81,39 +84,121 @@ abstract class AppRoutes {
   static const bankAccountDetails = '/bank-account-details';
   static const taxInformation = '/tax-information';
   static const thermalPrinter = '/thermal-printer';
+  static const kitchenHygiene = '/kitchen-hygiene';
+}
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+CustomTransitionPage<void> _buildSlideFadeTransition({
+  required GoRouterState state,
+  required Widget child,
+}) {
+  return CustomTransitionPage<void>(
+    key: state.pageKey,
+    child: child,
+    transitionDuration: const Duration(milliseconds: 360),
+    reverseTransitionDuration: const Duration(milliseconds: 280),
+    transitionsBuilder: (context, animation, secondaryAnimation, child) {
+      final slideAnimation = Tween<Offset>(
+        begin: const Offset(0.08, 0.0),
+        end: Offset.zero,
+      ).animate(
+        CurvedAnimation(
+          parent: animation,
+          curve: Curves.easeOutCubic,
+        ),
+      );
+      final fadeAnimation = CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeOut,
+      );
+      return SlideTransition(
+        position: slideAnimation,
+        child: FadeTransition(
+          opacity: fadeAnimation,
+          child: child,
+        ),
+      );
+    },
+  );
 }
 
 final GoRouter appRouter = GoRouter(
+  navigatorKey: navigatorKey,
   initialLocation: AppRoutes.splash,
   debugLogDiagnostics: false,
+  redirect: (BuildContext context, GoRouterState state) async {
+    final location = state.matchedLocation;
+
+    // Splash screen always allowed so it can show the brand animation and determine route
+    if (location == AppRoutes.splash) {
+      return null;
+    }
+
+    final isPublicRoute = location == AppRoutes.login ||
+        location == AppRoutes.otp ||
+        location == AppRoutes.register;
+
+    final prefs = await SharedPreferencesService.getInstance();
+    final token = prefs.getString(AppKeys.accessToken);
+    final isAuthenticated = token != null && token.trim().isNotEmpty;
+
+    // Guard: Prevent unauthenticated users from accessing protected sections
+    if (!isAuthenticated && !isPublicRoute) {
+      return AppRoutes.login;
+    }
+
+    return null;
+  },
   routes: [
     // ─── Splash ─────────────────────────────────────────────────────────────
     GoRoute(
       path: AppRoutes.splash,
       name: 'splash',
-      builder: (context, state) => const SplashScreen(),
+      pageBuilder: (context, state) => _buildSlideFadeTransition(
+        state: state,
+        child: const SplashScreen(),
+      ),
     ),
 
     // ─── Auth ────────────────────────────────────────────────────────────────
     GoRoute(
       path: AppRoutes.login,
       name: 'login',
-      builder: (context, state) => const LoginScreen(),
+      pageBuilder: (context, state) => _buildSlideFadeTransition(
+        state: state,
+        child: const LoginScreen(),
+      ),
     ),
 
     GoRoute(
       path: AppRoutes.otp,
       name: 'otp',
-      builder: (context, state) {
-        final phone = state.extra as String? ?? '';
-        return OtpScreen(phoneNumber: phone);
+      pageBuilder: (context, state) {
+        Widget child;
+        if (state.extra is Map<String, dynamic>) {
+          final map = state.extra as Map<String, dynamic>;
+          final phone = map['phone'] as String? ?? '';
+          final testOtp = map['testOtp'] as String?;
+          child = OtpScreen(phoneNumber: phone, testOtp: testOtp);
+        } else {
+          final phone = state.extra as String? ?? '';
+          child = OtpScreen(phoneNumber: phone);
+        }
+        return _buildSlideFadeTransition(
+          state: state,
+          child: child,
+        );
       },
     ),
 
     GoRoute(
       path: AppRoutes.register,
       name: 'register',
-      builder: (context, state) => const RegisterScreen(),
+      pageBuilder: (context, state) => _buildSlideFadeTransition(
+        state: state,
+        child: const RegisterScreen(),
+      ),
     ),
 
     GoRoute(
@@ -380,6 +465,13 @@ final GoRouter appRouter = GoRouter(
       path: AppRoutes.thermalPrinter,
       name: 'thermalPrinter',
       builder: (context, state) => const ThermalPrinterScreen(),
+    ),
+
+    // ─── Kitchen Hygiene Proof ───────────────────────────────────────────────
+    GoRoute(
+      path: AppRoutes.kitchenHygiene,
+      name: 'kitchenHygiene',
+      builder: (context, state) => const KitchenHygieneScreen(),
     ),
   ],
 

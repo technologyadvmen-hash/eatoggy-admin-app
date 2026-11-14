@@ -55,34 +55,6 @@ class AssignPartnerModel {
     title: 'Assign Partner',
     searchHint: 'Search partner name or ID...',
     sectionHeader: 'Available Partners Near You',
-    partners: [
-      DeliveryPartnerItem(
-        id: '1',
-        name: 'Sumit Singh',
-        rating: '4.8',
-        distance: '1.2 km away',
-        status: 'Available',
-        isAvailable: true,
-        isSelected: true,
-      ),
-      DeliveryPartnerItem(
-        id: '2',
-        name: 'Deepak Kumar',
-        rating: '4.5',
-        distance: '2.4 km away',
-        status: 'On Delivery',
-        isAvailable: false,
-        isSelected: false,
-      ),
-      DeliveryPartnerItem(
-        id: '3',
-        name: 'Rohan Das',
-        rating: '4.2',
-        distance: '3.1 km away',
-        status: 'Available',
-        isAvailable: true,
-        isSelected: false,
-      ),
-    ],
+    partners: [],
   );
 }

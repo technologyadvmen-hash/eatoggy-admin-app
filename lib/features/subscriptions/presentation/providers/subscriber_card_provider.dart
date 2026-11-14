@@ -27,30 +27,30 @@ class SubscriberCardNotifier extends Notifier<SubscriberCardState> {
   @override
   SubscriberCardState build() {
     return const SubscriberCardState(
-      model: SubscriberCardModel.dummyPriya,
+      model: SubscriberCardModel.empty,
       isPaused: false,
     );
   }
 
   void initializeForCustomer(DeliveryMealItem item) {
-    SubscriberCardModel base;
-    if (item.customerName.toLowerCase().contains('rahul')) {
-      base = SubscriberCardModel.dummyRahul;
-    } else if (item.customerName.toLowerCase().contains('amit')) {
-      base = SubscriberCardModel.dummyAmit;
-    } else {
-      base = SubscriberCardModel.dummyPriya;
-    }
-
-    final customized = base.copyWith(
+    final customized = SubscriberCardModel(
       customerId: item.id,
-      customerName: item.customerName,
+      customerName: item.customerName.isNotEmpty ? item.customerName : 'Subscriber',
+      subtitle: 'Subscriber card details',
       planTitle: '${item.mealType} Tiffin Plan',
+      statusText: item.status,
+      durationText: 'Active Subscription',
+      daysRemainingText: '--',
+      deliveryAddress: 'Customer Delivery Address',
+      specialInstructions: item.itemsText.isNotEmpty ? item.itemsText : 'Standard delivery',
+      partnerPhoneNumber: '',
+      isPaused: false,
+      history: const [],
     );
 
     state = SubscriberCardState(
       model: customized,
-      isPaused: customized.isPaused,
+      isPaused: false,
     );
   }
 

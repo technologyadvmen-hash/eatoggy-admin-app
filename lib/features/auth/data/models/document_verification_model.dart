@@ -69,8 +69,8 @@ class DocumentVerificationModel {
       DocumentItem(
         id: 'fssai',
         title: 'FSSAI Food License',
-        isRequired: false,
-        isUploaded: true,
+        isRequired: true,
+        isUploaded: false,
         uploadNote: 'Max 5MB • PDF, JPG, PNG',
       ),
     ],

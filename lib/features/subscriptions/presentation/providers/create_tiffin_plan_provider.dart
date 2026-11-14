@@ -1,5 +1,8 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../data/models/create_tiffin_plan_model.dart';
+import '../../data/repositories/subscriptions_repository.dart';
+import 'subscriptions_plans_provider.dart';
 
 class CreateTiffinPlanState {
   const CreateTiffinPlanState({
@@ -34,6 +37,9 @@ class CreateTiffinPlanState {
 }
 
 class CreateTiffinPlanNotifier extends Notifier<CreateTiffinPlanState> {
+  final SubscriptionsRepository _subscriptionsRepository =
+      SubscriptionsRepository();
+
   @override
   CreateTiffinPlanState build() {
     final defaultModel = CreateTiffinPlanModel.dummy;
@@ -56,9 +62,45 @@ class CreateTiffinPlanNotifier extends Notifier<CreateTiffinPlanState> {
   void toggleRotatingWeeklyMenu(bool val) {
     state = state.copyWith(rotatingWeeklyMenu: val);
   }
+
+  /// Create a new tiffin plan (POST /api/restaurants/tiffin-plans)
+  Future<bool> createPlan({
+    required String name,
+    required String description,
+    required num pricePerMeal,
+    String mealType = 'LUNCH',
+    int planDurationDays = 7,
+    List<String>? availableDays,
+    List<Map<String, dynamic>>? items,
+    required VoidCallback onSuccess,
+    required ValueChanged<String> onError,
+  }) async {
+    state = state.copyWith(isPublishing: true);
+    try {
+      await _subscriptionsRepository.createTiffinPlan(
+        name: name,
+        description: description,
+        mealType: mealType,
+        pricePerMeal: pricePerMeal,
+        planDurationDays: planDurationDays,
+        availableDays: availableDays,
+        items: items,
+      );
+
+      state = state.copyWith(isPublishing: false);
+      ref.read(subscriptionsPlansProvider.notifier).refreshPlans();
+      onSuccess();
+      return true;
+    } catch (e) {
+      state = state.copyWith(isPublishing: false);
+      onError(e.toString());
+      return false;
+    }
+  }
 }
 
 final createTiffinPlanProvider =
     NotifierProvider<CreateTiffinPlanNotifier, CreateTiffinPlanState>(
   CreateTiffinPlanNotifier.new,
 );
+

@@ -52,33 +52,8 @@ class ManageTiffinPlanModel {
     deliveryWindow: '12:00 PM - 1:00 PM',
     mealSetup: '2 Meals (Lunch Only)',
     isPaused: false,
-    subscribersCount: 45,
-    subscribers: [
-      SubscriberItem(
-        id: 'sub_1',
-        name: 'Rahul Sharma',
-        phone: '+91 98765 43210',
-        endsInDays: 12,
-        status: 'ACTIVE',
-        avatarLetter: 'R',
-      ),
-      SubscriberItem(
-        id: 'sub_2',
-        name: 'Priya Patel',
-        phone: '+91 87654 32109',
-        endsInDays: 6,
-        status: 'ACTIVE',
-        avatarLetter: 'P',
-      ),
-      SubscriberItem(
-        id: 'sub_3',
-        name: 'Amit Singh',
-        phone: '+91 76543 21098',
-        endsInDays: 24,
-        status: 'PAUSED',
-        avatarLetter: 'A',
-      ),
-    ],
+    subscribersCount: 0,
+    subscribers: [],
   );
 
   static const dummyWeeklyDinner = ManageTiffinPlanModel(
@@ -90,25 +65,8 @@ class ManageTiffinPlanModel {
     deliveryWindow: '7:30 PM - 8:30 PM',
     mealSetup: '1 Meal (Dinner Only)',
     isPaused: false,
-    subscribersCount: 12,
-    subscribers: [
-      SubscriberItem(
-        id: 'sub_4',
-        name: 'Suresh Kumar',
-        phone: '+91 98123 45678',
-        endsInDays: 4,
-        status: 'ACTIVE',
-        avatarLetter: 'S',
-      ),
-      SubscriberItem(
-        id: 'sub_5',
-        name: 'Neha Gupta',
-        phone: '+91 97234 56789',
-        endsInDays: 3,
-        status: 'ACTIVE',
-        avatarLetter: 'N',
-      ),
-    ],
+    subscribersCount: 0,
+    subscribers: [],
   );
 
   ManageTiffinPlanModel copyWith({

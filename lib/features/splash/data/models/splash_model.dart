@@ -19,11 +19,11 @@ class SplashModel {
   /// Default dummy data representing the Eatoggy Restaurant Partner brand configuration.
   static const dummy = SplashModel(
     appTitle: 'EATOGGY',
-    tagline: 'Your Kitchen Partner',
-    versionInfo: 'v2.4.1 Premium Edition',
+    tagline: 'Restaurant Partner OS',
+    versionInfo: 'v2.4.1 • Enterprise Partner',
     nextRoute: '/login',
-    logoAsset: 'assets/images/logo.png',
-    delayMilliseconds: 2600,
+    logoAsset: 'assets/images/eatoggy_delivery_logo.png',
+    delayMilliseconds: 3000,
   );
 
   SplashModel copyWith({

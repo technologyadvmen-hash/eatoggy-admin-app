@@ -8,6 +8,8 @@ import 'package:sizer/sizer.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../widgets/animated_fade_slide.dart';
+import '../../../../widgets/onboarding_step_header.dart';
 import '../../data/models/document_verification_model.dart';
 import '../providers/document_verification_provider.dart';
 
@@ -31,7 +33,13 @@ class _VerifyDocumentsScreenState
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(msg, style: AppTextStyles.captionWhite),
+            content: Text(
+              msg,
+              style: AppTextStyles.caption.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
             backgroundColor: AppColors.error,
           ),
         );
@@ -42,7 +50,7 @@ class _VerifyDocumentsScreenState
   void _showImageSourcePicker(BuildContext context, String docId) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: AppColors.darkSurface,
+      backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -58,13 +66,14 @@ class _VerifyDocumentsScreenState
                   'Upload Document',
                   style: AppTextStyles.titleMedium.copyWith(
                     fontSize: 16.sp,
-                    color: AppColors.textSecondary,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.textPrimary,
                   ),
                 ),
                 SizedBox(height: 2.h),
                 ListTile(
                   leading: CircleAvatar(
-                    backgroundColor: AppColors.primary.withAlpha(30),
+                    backgroundColor: AppColors.primaryLight,
                     child: const Icon(
                       Icons.camera_alt_rounded,
                       color: AppColors.primary,
@@ -73,7 +82,8 @@ class _VerifyDocumentsScreenState
                   title: Text(
                     'Take Photo with Camera',
                     style: AppTextStyles.bodyMedium.copyWith(
-                      color: AppColors.textSecondary,
+                      color: AppColors.textPrimary,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   onTap: () {
@@ -83,28 +93,28 @@ class _VerifyDocumentsScreenState
                         .pickDocument(docId, ImageSource.camera);
                   },
                 ),
-                // ListTile(
-                //   leading: CircleAvatar(
-                //     backgroundColor: AppColors.primary.withAlpha(30),
-                //     child: const Icon(
-                //       Icons.photo_library_rounded,
-                //       color: AppColors.primary,
-                //     ),
-                //   ),
-                //   title: Text(
-                //     'Choose from Gallery',
-                //     style: AppTextStyles.bodyMedium.copyWith(
-                //       color: AppColors.textSecondary,
-                //     ),
-                //   ),
-                //   onTap: () {
-                //     Navigator.pop(bottomSheetContext);
-                //     ref
-                //         .read(documentVerificationProvider.notifier)
-                //         .pickDocument(docId, ImageSource.gallery);
-                //   },
-                // ),
-             
+                ListTile(
+                  leading: CircleAvatar(
+                    backgroundColor: AppColors.primaryLight,
+                    child: const Icon(
+                      Icons.photo_library_rounded,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                  title: Text(
+                    'Choose from Gallery',
+                    style: AppTextStyles.bodyMedium.copyWith(
+                      color: AppColors.textPrimary,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pop(bottomSheetContext);
+                    ref
+                        .read(documentVerificationProvider.notifier)
+                        .pickDocument(docId, ImageSource.gallery);
+                  },
+                ),
               ],
             ),
           ),
@@ -119,70 +129,18 @@ class _VerifyDocumentsScreenState
     final data = state.data;
 
     return Scaffold(
-      backgroundColor: AppColors.darkBackground,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           children: [
             SizedBox(height: 1.5.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 5.w),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () => context.pop(),
-                    behavior: HitTestBehavior.opaque,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.chevron_left,
-                          color: AppColors.goldFont,
-                          size: 20.sp,
-                        ),
-                        SizedBox(width: 1.w),
-                        Text(
-                          data.screenTitle,
-                          style: AppTextStyles.titleMedium.copyWith(
-                            fontSize: 15.5.sp,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.textSecondary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Text(
-                    data.stepText,
-                    style: AppTextStyles.captionMedium.copyWith(
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 1.2.h),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5.w),
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  return Stack(
-                    children: [
-                      Container(
-                        height: 3,
-                        width: constraints.maxWidth,
-                        color: AppColors.darkBorder,
-                      ),
-                      Container(
-                        height: 3,
-                        width: constraints.maxWidth * 0.5,
-                        color: AppColors.primary,
-                      ),
-                    ],
-                  );
-                },
+              child: OnboardingStepHeader(
+                title: data.screenTitle,
+                currentStep: 2,
+                totalSteps: 4,
+                onBack: () => context.pop(),
               ),
             ),
             Expanded(
@@ -191,56 +149,93 @@ class _VerifyDocumentsScreenState
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 3.h),
-                    Text(
-                      data.headingText,
-                      style: AppTextStyles.headingWhite.copyWith(
-                        fontSize: 17.5.sp,
-                        fontWeight: FontWeight.w800,
+                    SizedBox(height: 2.5.h),
+                    AnimatedFadeSlide(
+                      delayMs: 80,
+                      child: Text(
+                        data.headingText,
+                        style: AppTextStyles.title.copyWith(
+                          fontSize: 20.sp,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.textPrimary,
+                        ),
                       ),
                     ),
-                    SizedBox(height: 3.h),
-                    ...state.documents.map(
-                      (doc) => _buildDocumentCard(context, doc),
+                    SizedBox(height: 2.5.h),
+                    ...state.documents.asMap().entries.map(
+                      (entry) {
+                        final index = entry.key;
+                        final doc = entry.value;
+                        return AnimatedFadeSlide(
+                          delayMs: 140 + (index * 80),
+                          child: _buildDocumentCard(context, doc),
+                        );
+                      },
                     ),
-                    SizedBox(height: 4.h),
+                    SizedBox(height: 2.h),
                   ],
                 ),
               ),
             ),
             Padding(
               padding: EdgeInsets.fromLTRB(5.w, 1.h, 5.w, 3.h),
-              child: SizedBox(
-                width: double.infinity,
-                height: 6.2.h,
-                child: ElevatedButton(
-                  onPressed: state.isLoading ? null : _onContinue,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
+              child: AnimatedFadeSlide(
+                delayMs: 380,
+                child: Container(
+                  width: double.infinity,
+                  height: 6.2.h,
+                  decoration: BoxDecoration(
+                    gradient: AppColors.primaryGradient,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.primary.withValues(alpha: 0.3),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
-                  child: state.isLoading
-                      ? SizedBox(
-                          width: 22,
-                          height: 22,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2.5,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              const Color(0xFF11110F),
+                  child: ElevatedButton(
+                    onPressed: state.isLoading ? null : _onContinue,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    child: state.isLoading
+                        ? const SizedBox(
+                            width: 22,
+                            height: 22,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2.5,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
                             ),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                data.buttonText,
+                                style: AppTextStyles.buttonLarge.copyWith(
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(width: 2.w),
+                              Icon(
+                                Icons.arrow_forward_rounded,
+                                color: Colors.white,
+                                size: 16.sp,
+                              ),
+                            ],
                           ),
-                        )
-                      : Text(
-                          data.buttonText,
-                          style: AppTextStyles.buttonLarge.copyWith(
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w700,
-                            color: const Color(0xFF11110F),
-                          ),
-                        ),
+                  ),
                 ),
               ),
             ),
@@ -255,9 +250,10 @@ class _VerifyDocumentsScreenState
       margin: EdgeInsets.only(bottom: 2.5.h),
       padding: EdgeInsets.all(4.w),
       decoration: BoxDecoration(
-        color: AppColors.darkCard,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.darkBorder, width: 1),
+        border: Border.all(color: AppColors.border, width: 1),
+        boxShadow: AppColors.cardShadow,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -267,37 +263,53 @@ class _VerifyDocumentsScreenState
             children: [
               Text(
                 doc.title,
-                style: AppTextStyles.subheadSecondary.copyWith(
+                style: AppTextStyles.subheadMedium.copyWith(
                   fontSize: 14.5.sp,
                   fontWeight: FontWeight.w700,
+                  color: AppColors.textPrimary,
                 ),
               ),
               if (doc.isUploaded)
-                Row(
-                  children: [
-                    Icon(
-                      Icons.check_circle_rounded,
-                      color: AppColors.success,
-                      size: 15.sp,
-                    ),
-                    SizedBox(width: 1.w),
-                    Text(
-                      'Uploaded',
-                      style: AppTextStyles.caption.copyWith(
-                        fontSize: 12.5.sp,
-                        fontWeight: FontWeight.w600,
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 2.5.w, vertical: 0.4.h),
+                  decoration: BoxDecoration(
+                    color: AppColors.successBg,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.check_circle_rounded,
                         color: AppColors.success,
+                        size: 13.sp,
                       ),
-                    ),
-                  ],
+                      SizedBox(width: 1.w),
+                      Text(
+                        'Uploaded',
+                        style: AppTextStyles.caption.copyWith(
+                          fontSize: 11.sp,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.success,
+                        ),
+                      ),
+                    ],
+                  ),
                 )
               else if (doc.isRequired)
-                Text(
-                  'Required',
-                  style: AppTextStyles.captionPrimary.copyWith(
-                    fontSize: 12.5.sp,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.primary,
+                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 2.5.w, vertical: 0.4.h),
+                  decoration: BoxDecoration(
+                    color: AppColors.errorBg,
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: Text(
+                    'Required',
+                    style: AppTextStyles.caption.copyWith(
+                      fontSize: 11.sp,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.error,
+                    ),
                   ),
                 ),
             ],
@@ -307,7 +319,7 @@ class _VerifyDocumentsScreenState
             onTap: () => _showImageSourcePicker(context, doc.id),
             child: CustomPaint(
               painter: DashedBorderPainter(
-                color: AppColors.primary.withAlpha(180),
+                color: AppColors.primary.withValues(alpha: 0.5),
                 strokeWidth: 1.2,
                 gap: 5.0,
               ),
@@ -316,7 +328,7 @@ class _VerifyDocumentsScreenState
                 padding: EdgeInsets.symmetric(vertical: 2.5.h, horizontal: 4.w),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
-                  color: AppColors.darkSurface.withAlpha(120),
+                  color: AppColors.surfaceVariant.withValues(alpha: 0.4),
                 ),
                 child: doc.filePath != null && doc.filePath!.isNotEmpty
                     ? Column(
@@ -340,9 +352,10 @@ class _VerifyDocumentsScreenState
                           SizedBox(height: 1.2.h),
                           Text(
                             'Tap to change photo',
-                            style: AppTextStyles.captionPrimary.copyWith(
+                            style: AppTextStyles.caption.copyWith(
                               fontSize: 12.5.sp,
-                              fontWeight: FontWeight.w600,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.primary,
                             ),
                           ),
                         ],
@@ -360,8 +373,8 @@ class _VerifyDocumentsScreenState
                             'Tap to upload document',
                             style: AppTextStyles.bodyMedium.copyWith(
                               fontSize: 13.5.sp,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.textSecondary,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.textPrimary,
                             ),
                           ),
                           SizedBox(height: 0.5.h),

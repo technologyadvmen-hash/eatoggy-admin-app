@@ -38,7 +38,7 @@ class ReadyOrderNotifier extends Notifier<ReadyOrderState> {
         customerName: orderDetail.customerName,
         itemCountText: '${orderDetail.itemsList.length} items',
         amount: orderDetail.amount,
-        customerPhone: '+91 98765 43210',
+        customerPhone: orderDetail.customerMobile,
       ),
     );
   }

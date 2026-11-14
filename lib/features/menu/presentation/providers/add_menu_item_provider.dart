@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../data/models/add_menu_item_model.dart';
 import '../../data/models/category_items_model.dart';
+import 'menu_management_provider.dart';
 
 class AddMenuItemState {
   const AddMenuItemState({
@@ -57,7 +58,12 @@ class AddMenuItemNotifier extends Notifier<AddMenuItemState> {
 
   @override
   AddMenuItemState build() {
-    final initialModel = AddMenuItemModel.dummyNew;
+    final liveCats = ref.read(menuManagementProvider).model.categories.map((c) => c.title).toList();
+    final categories = liveCats.isNotEmpty ? liveCats : <String>['General'];
+    final initialModel = AddMenuItemModel.dummyNew.copyWith(
+      categories: categories,
+      selectedCategory: categories.first,
+    );
     return AddMenuItemState(
       model: initialModel,
       isVeg: initialModel.isVeg,
@@ -65,25 +71,28 @@ class AddMenuItemNotifier extends Notifier<AddMenuItemState> {
       selectedCategory: initialModel.selectedCategory,
       hasImage: false,
       imagePath: null,
-      sizeVariants: initialModel.sizeVariants,
-      addons: initialModel.addons,
+      sizeVariants: const [],
+      addons: const [],
     );
   }
 
   void initialize({bool isEdit = false, CategoryFoodItem? item}) {
+    final liveCats = ref.read(menuManagementProvider).model.categories.map((c) => c.title).toList();
+    final categories = liveCats.isNotEmpty ? liveCats : <String>['General'];
     final baseModel = isEdit ? AddMenuItemModel.dummyEdit : AddMenuItemModel.dummyNew;
     final initialVeg = item != null ? item.isVeg : baseModel.isVeg;
     final initialAvailable = item != null ? item.isAvailable : baseModel.isAvailableImmediately;
+    final defaultCat = categories.isNotEmpty ? categories.first : 'General';
 
     state = AddMenuItemState(
-      model: baseModel,
+      model: baseModel.copyWith(categories: categories, selectedCategory: defaultCat),
       isVeg: initialVeg,
       isAvailable: initialAvailable,
-      selectedCategory: baseModel.selectedCategory,
-      hasImage: isEdit,
+      selectedCategory: defaultCat,
+      hasImage: isEdit && item?.imageAsset != null && item!.imageAsset.isNotEmpty,
       imagePath: null,
-      sizeVariants: baseModel.sizeVariants,
-      addons: baseModel.addons,
+      sizeVariants: const [],
+      addons: const [],
     );
   }
 

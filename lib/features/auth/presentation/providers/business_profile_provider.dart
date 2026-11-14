@@ -1,6 +1,10 @@
+import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../../../core/constants/app_keys.dart';
+import '../../../../core/services/storage_service.dart';
 import '../../data/models/business_profile_model.dart';
+import '../../data/repositories/auth_repository.dart';
 
 /// State representation for Business Profile onboarding.
 class BusinessProfileState {
@@ -53,9 +57,12 @@ class BusinessProfileState {
 
 /// Riverpod Notifier for managing Business Profile onboarding form & state.
 class BusinessProfileNotifier extends Notifier<BusinessProfileState> {
+  final AuthRepository _authRepository = AuthRepository();
+
   @override
   BusinessProfileState build() {
     const dummyData = BusinessProfileModel.dummy;
+    _loadStoredUserData();
     return const BusinessProfileState(
       data: dummyData,
       restaurantName: '',
@@ -65,6 +72,26 @@ class BusinessProfileNotifier extends Notifier<BusinessProfileState> {
       email: '',
       address: '',
     );
+  }
+
+  Future<void> _loadStoredUserData() async {
+    try {
+      final prefs = await SharedPreferencesService.getInstance();
+      final userJson = prefs.getString(AppKeys.user);
+      if (userJson != null && userJson.isNotEmpty) {
+        final user = jsonDecode(userJson) as Map<String, dynamic>;
+        state = state.copyWith(
+          restaurantName: state.restaurantName.isEmpty
+              ? (user['restaurantName'] ?? '')
+              : state.restaurantName,
+          ownerName: state.ownerName.isEmpty
+              ? (user['ownerName'] ?? '')
+              : state.ownerName,
+          phone: state.phone.isEmpty ? (user['mobile'] ?? '') : state.phone,
+          email: state.email.isEmpty ? (user['email'] ?? '') : state.email,
+        );
+      }
+    } catch (_) {}
   }
 
   void updateRestaurantName(String value) {
@@ -95,6 +122,27 @@ class BusinessProfileNotifier extends Notifier<BusinessProfileState> {
     required VoidCallback onSuccess,
     required ValueChanged<String> onError,
   }) async {
+    if (state.restaurantName.trim().isEmpty) {
+      const msg = 'Please enter restaurant / kitchen name';
+      state = state.copyWith(errorMessage: msg);
+      onError(msg);
+      return false;
+    }
+
+    if (state.ownerName.trim().isEmpty) {
+      const msg = 'Please enter owner name';
+      state = state.copyWith(errorMessage: msg);
+      onError(msg);
+      return false;
+    }
+
+    if (state.address.trim().isEmpty) {
+      const msg = 'Please enter restaurant full address';
+      state = state.copyWith(errorMessage: msg);
+      onError(msg);
+      return false;
+    }
+
     final cleanPhone = state.phone.replaceAll(RegExp(r'\D'), '');
     if (cleanPhone.isNotEmpty && cleanPhone.length != 10) {
       const msg = 'Please enter a valid 10-digit phone number';
@@ -105,12 +153,25 @@ class BusinessProfileNotifier extends Notifier<BusinessProfileState> {
 
     state = state.copyWith(isLoading: true, errorMessage: null);
 
-    // Simulate API submission delay
-    await Future.delayed(const Duration(milliseconds: 600));
+    try {
+      await _authRepository.updateBusinessDetails(
+        restaurantName: state.restaurantName.trim(),
+        ownerName: state.ownerName.trim(),
+        restaurantType: state.businessType.trim(),
+        fullAddress: state.address.trim(),
+        phone: cleanPhone.isNotEmpty ? cleanPhone : null,
+        email: state.email.trim().isNotEmpty ? state.email.trim() : null,
+      );
 
-    state = state.copyWith(isLoading: false);
-    onSuccess();
-    return true;
+      state = state.copyWith(isLoading: false);
+      onSuccess();
+      return true;
+    } catch (e) {
+      final errorMsg = e.toString();
+      state = state.copyWith(isLoading: false, errorMessage: errorMsg);
+      onError(errorMsg);
+      return false;
+    }
   }
 }
 

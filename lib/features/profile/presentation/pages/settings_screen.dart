@@ -5,6 +5,7 @@ import 'package:sizer/sizer.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../core/utils/session_manager.dart';
 import '../providers/settings_provider.dart';
 
 class SettingsScreen extends ConsumerWidget {
@@ -18,17 +19,17 @@ class SettingsScreen extends ConsumerWidget {
       context: context,
       builder: (ctx) {
         return AlertDialog(
-          backgroundColor: const Color(0xFF1C1C1A),
+          backgroundColor: AppColors.surface,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-            side: const BorderSide(color: Color(0xFF262622), width: 1),
+            borderRadius: BorderRadius.circular(20),
+            side: const BorderSide(color: AppColors.border, width: 1),
           ),
           title: Text(
             'Change Password',
-            style: AppTextStyles.headingWhite.copyWith(
-              fontSize: 14.5.sp,
-              fontWeight: FontWeight.w700,
-              color: AppColors.creamText,
+            style: AppTextStyles.h2.copyWith(
+              fontSize: 15.sp,
+              fontWeight: FontWeight.w800,
+              color: AppColors.headingPrimary,
             ),
           ),
           content: Column(
@@ -38,18 +39,26 @@ class SettingsScreen extends ConsumerWidget {
                 controller: oldPasswordController,
                 obscureText: true,
                 style: AppTextStyles.bodyMedium.copyWith(
-                  color: AppColors.creamText,
+                  color: AppColors.textPrimary,
                 ),
                 decoration: InputDecoration(
                   hintText: 'Current Password',
                   hintStyle: AppTextStyles.caption.copyWith(
-                    color: AppColors.textMutedDark,
+                    color: AppColors.textMuted,
                   ),
                   filled: true,
-                  fillColor: const Color(0xFF171715),
+                  fillColor: AppColors.surfaceAlt,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Color(0xFF262622)),
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: AppColors.border),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: AppColors.border),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
                   ),
                 ),
               ),
@@ -58,18 +67,26 @@ class SettingsScreen extends ConsumerWidget {
                 controller: newPasswordController,
                 obscureText: true,
                 style: AppTextStyles.bodyMedium.copyWith(
-                  color: AppColors.creamText,
+                  color: AppColors.textPrimary,
                 ),
                 decoration: InputDecoration(
                   hintText: 'New Password',
                   hintStyle: AppTextStyles.caption.copyWith(
-                    color: AppColors.textMutedDark,
+                    color: AppColors.textMuted,
                   ),
                   filled: true,
-                  fillColor: const Color(0xFF171715),
+                  fillColor: AppColors.surfaceAlt,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    borderSide: const BorderSide(color: Color(0xFF262622)),
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: AppColors.border),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: AppColors.border),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
                   ),
                 ),
               ),
@@ -81,16 +98,19 @@ class SettingsScreen extends ConsumerWidget {
               child: Text(
                 'Cancel',
                 style: AppTextStyles.caption.copyWith(
-                  color: AppColors.textSecondaryDark,
+                  color: AppColors.textSecondary,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
+                elevation: 0,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(10),
                 ),
+                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.2.h),
               ),
               onPressed: () {
                 Navigator.pop(ctx);
@@ -105,7 +125,7 @@ class SettingsScreen extends ConsumerWidget {
               child: Text(
                 'Update',
                 style: AppTextStyles.caption.copyWith(
-                  color: const Color(0xFF11110F),
+                  color: Colors.white,
                   fontWeight: FontWeight.w800,
                 ),
               ),
@@ -117,41 +137,49 @@ class SettingsScreen extends ConsumerWidget {
   }
 
   void _showChangePhoneDialog(BuildContext context) {
-    final phoneController = TextEditingController(text: '+91 98765 43210');
+    final phoneController = TextEditingController();
 
     showDialog(
       context: context,
       builder: (ctx) {
         return AlertDialog(
-          backgroundColor: const Color(0xFF1C1C1A),
+          backgroundColor: AppColors.surface,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-            side: const BorderSide(color: Color(0xFF262622), width: 1),
+            borderRadius: BorderRadius.circular(20),
+            side: const BorderSide(color: AppColors.border, width: 1),
           ),
           title: Text(
             'Change Phone Number',
-            style: AppTextStyles.headingWhite.copyWith(
-              fontSize: 14.5.sp,
-              fontWeight: FontWeight.w700,
-              color: AppColors.creamText,
+            style: AppTextStyles.h2.copyWith(
+              fontSize: 15.sp,
+              fontWeight: FontWeight.w800,
+              color: AppColors.headingPrimary,
             ),
           ),
           content: TextField(
             controller: phoneController,
             keyboardType: TextInputType.phone,
             style: AppTextStyles.bodyMedium.copyWith(
-              color: AppColors.creamText,
+              color: AppColors.textPrimary,
             ),
             decoration: InputDecoration(
               hintText: 'Enter new phone number',
               hintStyle: AppTextStyles.caption.copyWith(
-                color: AppColors.textMutedDark,
+                color: AppColors.textMuted,
               ),
               filled: true,
-              fillColor: const Color(0xFF171715),
+              fillColor: AppColors.surfaceAlt,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Color(0xFF262622)),
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: AppColors.border),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: AppColors.border),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: AppColors.primary, width: 1.5),
               ),
             ),
           ),
@@ -161,16 +189,19 @@ class SettingsScreen extends ConsumerWidget {
               child: Text(
                 'Cancel',
                 style: AppTextStyles.caption.copyWith(
-                  color: AppColors.textSecondaryDark,
+                  color: AppColors.textSecondary,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
+                elevation: 0,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  borderRadius: BorderRadius.circular(10),
                 ),
+                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.2.h),
               ),
               onPressed: () {
                 Navigator.pop(ctx);
@@ -185,7 +216,7 @@ class SettingsScreen extends ConsumerWidget {
               child: Text(
                 'Send OTP',
                 style: AppTextStyles.caption.copyWith(
-                  color: const Color(0xFF11110F),
+                  color: Colors.white,
                   fontWeight: FontWeight.w800,
                 ),
               ),
@@ -212,10 +243,10 @@ class SettingsScreen extends ConsumerWidget {
 
     showModalBottomSheet(
       context: context,
-      backgroundColor: const Color(0xFF171715),
+      backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        side: BorderSide(color: Color(0xFF262622), width: 1),
+        side: BorderSide(color: AppColors.border, width: 1),
       ),
       builder: (ctx) {
         return SafeArea(
@@ -230,7 +261,7 @@ class SettingsScreen extends ConsumerWidget {
                     width: 10.w,
                     height: 4,
                     decoration: BoxDecoration(
-                      color: const Color(0xFF333330),
+                      color: AppColors.border,
                       borderRadius: BorderRadius.circular(2),
                     ),
                   ),
@@ -238,10 +269,9 @@ class SettingsScreen extends ConsumerWidget {
                 SizedBox(height: 2.h),
                 Text(
                   'Select App Language',
-                  style: AppTextStyles.headingWhite.copyWith(
+                  style: AppTextStyles.headingPrimary.copyWith(
                     fontSize: 15.sp,
                     fontWeight: FontWeight.w700,
-                    color: AppColors.creamText,
                   ),
                 ),
                 SizedBox(height: 1.5.h),
@@ -261,13 +291,13 @@ class SettingsScreen extends ConsumerWidget {
                       ),
                       decoration: BoxDecoration(
                         color: isSelected
-                            ? AppColors.primary.withValues(alpha: 0.15)
-                            : const Color(0xFF1E1E1C),
+                            ? AppColors.primary.withValues(alpha: 0.1)
+                            : AppColors.surfaceAlt,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
                           color: isSelected
                               ? AppColors.primary
-                              : const Color(0xFF262622),
+                              : AppColors.border,
                           width: 1,
                         ),
                       ),
@@ -283,7 +313,7 @@ class SettingsScreen extends ConsumerWidget {
                                   : FontWeight.w500,
                               color: isSelected
                                   ? AppColors.primary
-                                  : AppColors.creamText,
+                                  : AppColors.headingPrimary,
                             ),
                           ),
                           if (isSelected)
@@ -310,23 +340,23 @@ class SettingsScreen extends ConsumerWidget {
       context: context,
       builder: (ctx) {
         return AlertDialog(
-          backgroundColor: const Color(0xFF1C1C1A),
+          backgroundColor: AppColors.surface,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
-            side: const BorderSide(color: Color(0xFF262622), width: 1),
+            side: const BorderSide(color: AppColors.border, width: 1),
           ),
           title: Text(
             'Logout Account',
-            style: AppTextStyles.headingWhite.copyWith(
+            style: AppTextStyles.h2.copyWith(
               fontSize: 16.sp,
               fontWeight: FontWeight.w800,
-              color: AppColors.creamText,
+              color: AppColors.error,
             ),
           ),
           content: Text(
             'Are you sure you want to log out from your restaurant partner portal?',
             style: AppTextStyles.body.copyWith(
-              color: AppColors.textSecondaryDark,
+              color: AppColors.textSecondary,
               height: 1.4,
             ),
           ),
@@ -336,7 +366,7 @@ class SettingsScreen extends ConsumerWidget {
               child: Text(
                 'Cancel',
                 style: AppTextStyles.caption.copyWith(
-                  color: AppColors.textSecondaryDark,
+                  color: AppColors.textSecondary,
                   fontWeight: FontWeight.w600,
                 ),
               ),
@@ -344,14 +374,15 @@ class SettingsScreen extends ConsumerWidget {
             ElevatedButton(
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.error,
+                elevation: 0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
-                padding: EdgeInsets.symmetric(horizontal: 4.w, vertical: 1.h),
+                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 1.2.h),
               ),
-              onPressed: () {
+              onPressed: () async {
                 Navigator.pop(ctx);
-                context.go(AppRoutes.login);
+                await SessionManager.logout(context);
               },
               child: Text(
                 'Logout',
@@ -371,9 +402,9 @@ class SettingsScreen extends ConsumerWidget {
     return Text(
       title,
       style: AppTextStyles.caption.copyWith(
-        color: const Color(0xFFE5A64E),
+        color: AppColors.primary,
         fontWeight: FontWeight.w800,
-        letterSpacing: 0.6,
+        letterSpacing: 0.8,
       ),
     );
   }
@@ -393,8 +424,8 @@ class SettingsScreen extends ConsumerWidget {
             Text(
               title,
               style: AppTextStyles.bodyMedium.copyWith(
-                fontWeight: FontWeight.w500,
-                color: AppColors.creamText,
+                fontWeight: FontWeight.w600,
+                color: AppColors.headingPrimary,
               ),
             ),
             Row(
@@ -403,15 +434,16 @@ class SettingsScreen extends ConsumerWidget {
                   Text(
                     trailingText,
                     style: AppTextStyles.caption.copyWith(
-                      color: AppColors.textSecondaryDark,
+                      color: AppColors.textSecondary,
                       fontSize: 11.5.sp,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                   SizedBox(width: 1.w),
                 ],
                 Icon(
                   Icons.chevron_right_rounded,
-                  color: AppColors.textSecondaryDark,
+                  color: AppColors.textSecondary,
                   size: 18.sp,
                 ),
               ],
@@ -435,17 +467,17 @@ class SettingsScreen extends ConsumerWidget {
           Text(
             title,
             style: AppTextStyles.bodyMedium.copyWith(
-              fontWeight: FontWeight.w500,
-              color: AppColors.creamText,
+              fontWeight: FontWeight.w600,
+              color: AppColors.headingPrimary,
             ),
           ),
           Switch(
             value: value,
             onChanged: (_) => onToggle(),
-            activeTrackColor: const Color(0xFF22C55E),
-            activeThumbColor: const Color(0xFFFFF1D2),
-            inactiveTrackColor: const Color(0xFF2E2E2A),
-            inactiveThumbColor: const Color(0xFFFFF1D2),
+            activeTrackColor: AppColors.primary,
+            activeThumbColor: Colors.white,
+            inactiveTrackColor: AppColors.border,
+            inactiveThumbColor: Colors.white,
           ),
         ],
       ),
@@ -459,7 +491,7 @@ class SettingsScreen extends ConsumerWidget {
     final model = state.model;
 
     return Scaffold(
-      backgroundColor: AppColors.darkBackground,
+      backgroundColor: AppColors.scaffoldBackground,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 5.w),
@@ -476,17 +508,18 @@ class SettingsScreen extends ConsumerWidget {
                       width: 10.w,
                       height: 10.w,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF171715),
-                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.surface,
+                        borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: const Color(0xFF262622),
+                          color: AppColors.border,
                           width: 1,
                         ),
+                        boxShadow: AppColors.cardShadow,
                       ),
                       child: Center(
                         child: Icon(
                           Icons.arrow_back_rounded,
-                          color: AppColors.primary,
+                          color: AppColors.headingPrimary,
                           size: 18.sp,
                         ),
                       ),
@@ -499,15 +532,14 @@ class SettingsScreen extends ConsumerWidget {
                       children: [
                         Text(
                           'Settings',
-                          style: AppTextStyles.headingWhite.copyWith(
+                          style: AppTextStyles.headingPrimary.copyWith(
                             fontWeight: FontWeight.w800,
-                            color: AppColors.creamText,
                           ),
                         ),
                         Text(
                           'Preferences and account control',
                           style: AppTextStyles.caption.copyWith(
-                            color: AppColors.textSecondaryDark,
+                            color: AppColors.textSecondary,
                           ),
                         ),
                       ],
@@ -521,12 +553,13 @@ class SettingsScreen extends ConsumerWidget {
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF171715),
-                  borderRadius: BorderRadius.circular(16),
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: const Color(0xFF262622),
+                    color: AppColors.border,
                     width: 1,
                   ),
+                  boxShadow: AppColors.cardShadow,
                 ),
                 child: Column(
                   children: [
@@ -534,12 +567,12 @@ class SettingsScreen extends ConsumerWidget {
                       title: 'Change Password',
                       onTap: () => _showChangePasswordDialog(context),
                     ),
-                    const Divider(color: Color(0xFF242420), height: 1),
+                    const Divider(color: AppColors.divider, height: 1),
                     _buildNavRow(
                       title: 'Change Phone Number',
                       onTap: () => _showChangePhoneDialog(context),
                     ),
-                    const Divider(color: Color(0xFF242420), height: 1),
+                    const Divider(color: AppColors.divider, height: 1),
                     _buildNavRow(
                       title: 'App Language',
                       trailingText: model.language,
@@ -560,12 +593,13 @@ class SettingsScreen extends ConsumerWidget {
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF171715),
-                  borderRadius: BorderRadius.circular(16),
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: const Color(0xFF262622),
+                    color: AppColors.border,
                     width: 1,
                   ),
+                  boxShadow: AppColors.cardShadow,
                 ),
                 child: Column(
                   children: [
@@ -574,19 +608,19 @@ class SettingsScreen extends ConsumerWidget {
                       value: model.orderAlerts,
                       onToggle: () => notifier.toggleOrderAlerts(),
                     ),
-                    const Divider(color: Color(0xFF242420), height: 1),
+                    const Divider(color: AppColors.divider, height: 1),
                     _buildToggleRow(
                       title: 'Subscription Reminders',
                       value: model.subscriptionReminders,
                       onToggle: () => notifier.toggleSubscriptionReminders(),
                     ),
-                    const Divider(color: Color(0xFF242420), height: 1),
+                    const Divider(color: AppColors.divider, height: 1),
                     _buildToggleRow(
                       title: 'Promotional Notifications',
                       value: model.promotionalNotifications,
                       onToggle: () => notifier.togglePromotionalNotifications(),
                     ),
-                    const Divider(color: Color(0xFF242420), height: 1),
+                    const Divider(color: AppColors.divider, height: 1),
                     _buildToggleRow(
                       title: 'Alert Sound',
                       value: model.alertSound,
@@ -601,12 +635,13 @@ class SettingsScreen extends ConsumerWidget {
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF171715),
-                  borderRadius: BorderRadius.circular(16),
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: const Color(0xFF262622),
+                    color: AppColors.border,
                     width: 1,
                   ),
+                  boxShadow: AppColors.cardShadow,
                 ),
                 child: Column(
                   children: [
@@ -616,14 +651,14 @@ class SettingsScreen extends ConsumerWidget {
                         context.push(AppRoutes.bankAccountDetails);
                       },
                     ),
-                    const Divider(color: Color(0xFF242420), height: 1),
+                    const Divider(color: AppColors.divider, height: 1),
                     _buildNavRow(
                       title: 'Tax Information (GSTIN)',
                       onTap: () {
                         context.push(AppRoutes.taxInformation);
                       },
                     ),
-                    const Divider(color: Color(0xFF242420), height: 1),
+                    const Divider(color: AppColors.divider, height: 1),
                     _buildNavRow(
                       title: 'Thermal Printer Setup',
                       onTap: () {
@@ -633,15 +668,14 @@ class SettingsScreen extends ConsumerWidget {
                   ],
                 ),
               ),
-           
-           
               SizedBox(height: 3.h),
               Center(
                 child: Text(
                   model.appVersion,
                   style: AppTextStyles.caption.copyWith(
-                    color: AppColors.textMutedDark,
-                    fontSize: 13.sp,
+                    color: AppColors.textMuted,
+                    fontSize: 12.sp,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
@@ -650,14 +684,15 @@ class SettingsScreen extends ConsumerWidget {
                 onTap: () => _showLogoutDialog(context),
                 child: Container(
                   width: double.infinity,
-                  height: 6.h,
+                  height: 6.2.h,
                   decoration: BoxDecoration(
-                    color: const Color(0xFF1E1414),
+                    color: AppColors.surface,
                     borderRadius: BorderRadius.circular(16),
                     border: Border.all(
-                      color: const Color(0xFF381C1C),
+                      color: AppColors.error.withValues(alpha: 0.3),
                       width: 1,
                     ),
+                    boxShadow: AppColors.cardShadow,
                   ),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,

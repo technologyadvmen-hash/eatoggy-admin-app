@@ -47,49 +47,6 @@ class MenuManagementModel {
     title: 'Menu Management',
     subtitle: 'Manage your food categories',
     searchHint: 'Search categories...',
-    categories: [
-      MenuCategoryItem(
-        id: '1',
-        title: 'North Indian',
-        itemCountText: '12 Items',
-        iconEmoji: '🍲',
-        isEnabled: true,
-      ),
-      MenuCategoryItem(
-        id: '2',
-        title: 'South Indian',
-        itemCountText: '8 Items',
-        iconEmoji: '🍛',
-        isEnabled: true,
-      ),
-      MenuCategoryItem(
-        id: '3',
-        title: 'Chinese',
-        itemCountText: '6 Items',
-        iconEmoji: '🍜',
-        isEnabled: true,
-      ),
-      MenuCategoryItem(
-        id: '4',
-        title: 'Beverages',
-        itemCountText: '10 Items',
-        iconEmoji: '🥤',
-        isEnabled: true,
-      ),
-      MenuCategoryItem(
-        id: '5',
-        title: 'Thali Combos',
-        itemCountText: '4 Items',
-        iconEmoji: '🍱',
-        isEnabled: true,
-      ),
-      MenuCategoryItem(
-        id: '6',
-        title: 'Desserts',
-        itemCountText: '5 Items',
-        iconEmoji: '🧁',
-        isEnabled: false,
-      ),
-    ],
+    categories: [],
   );
 }

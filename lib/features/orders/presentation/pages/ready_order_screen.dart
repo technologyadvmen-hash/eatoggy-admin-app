@@ -40,10 +40,11 @@ class _ReadyOrderScreenState extends ConsumerState<ReadyOrderScreen> {
     final order = state.order;
 
     return Scaffold(
-      backgroundColor: AppColors.darkBackground,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.darkBackground,
+        backgroundColor: AppColors.background,
         elevation: 0,
+        surfaceTintColor: Colors.transparent,
         leading: IconButton(
           icon: const Icon(
             Icons.arrow_back_ios_new_rounded,
@@ -57,7 +58,7 @@ class _ReadyOrderScreenState extends ConsumerState<ReadyOrderScreen> {
           style: AppTextStyles.title.copyWith(
             fontSize: 18.sp,
             fontWeight: FontWeight.w800,
-            color: AppColors.creamText,
+            color: AppColors.textPrimary,
           ),
         ),
       ),
@@ -101,10 +102,10 @@ class _ReadyOrderScreenState extends ConsumerState<ReadyOrderScreen> {
               width: double.infinity,
               padding: EdgeInsets.all(4.5.w),
               decoration: BoxDecoration(
-                color: const Color(0xFF142419),
+                color: AppColors.successLight,
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
-                  color: const Color(0xFF2E7D32),
+                  color: const Color(0xFF86EFAC),
                   width: 1.2,
                 ),
               ),
@@ -116,7 +117,7 @@ class _ReadyOrderScreenState extends ConsumerState<ReadyOrderScreen> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: const Color(0xFF4CAF50),
+                        color: AppColors.success,
                         width: 1.8,
                       ),
                     ),
@@ -124,7 +125,7 @@ class _ReadyOrderScreenState extends ConsumerState<ReadyOrderScreen> {
                       child: Icon(
                         Icons.check_rounded,
                         size: 14.sp,
-                        color: const Color(0xFF4CAF50),
+                        color: AppColors.success,
                       ),
                     ),
                   ),
@@ -135,10 +136,10 @@ class _ReadyOrderScreenState extends ConsumerState<ReadyOrderScreen> {
                       children: [
                         Text(
                           order.handoverTitle,
-                          style: AppTextStyles.bodyWhite.copyWith(
-                            fontSize: 15.sp,
+                          style: AppTextStyles.body.copyWith(
+                            fontSize: 14.5.sp,
                             fontWeight: FontWeight.w800,
-                            color: const Color(0xFF4CAF50),
+                            color: AppColors.success,
                           ),
                         ),
                         SizedBox(height: 0.4.h),
@@ -146,7 +147,7 @@ class _ReadyOrderScreenState extends ConsumerState<ReadyOrderScreen> {
                           order.handoverSubtitle,
                           style: AppTextStyles.caption.copyWith(
                             fontSize: 12.sp,
-                            color: const Color(0xFFB0BEC5),
+                            color: const Color(0xFF166534),
                           ),
                         ),
                       ],
@@ -156,16 +157,27 @@ class _ReadyOrderScreenState extends ConsumerState<ReadyOrderScreen> {
               ),
             ),
             SizedBox(height: 3.h),
-            SizedBox(
+            Container(
               width: double.infinity,
               height: 6.h,
+              decoration: BoxDecoration(
+                gradient: AppColors.primaryGradient,
+                borderRadius: BorderRadius.circular(14),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primary.withValues(alpha: 0.3),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
               child: ElevatedButton(
                 onPressed: () {
                   context.push(AppRoutes.assignPartner, extra: order.orderId);
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  elevation: 0,
+                  backgroundColor: Colors.transparent,
+                  shadowColor: Colors.transparent,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14),
                   ),
@@ -174,7 +186,7 @@ class _ReadyOrderScreenState extends ConsumerState<ReadyOrderScreen> {
                   'Assign Partner',
                   style: AppTextStyles.buttonMedium.copyWith(
                     fontWeight: FontWeight.w800,
-                    color: const Color(0xFF11110F),
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -182,7 +194,7 @@ class _ReadyOrderScreenState extends ConsumerState<ReadyOrderScreen> {
             SizedBox(height: 1.8.h),
             SizedBox(
               width: double.infinity,
-              height: 5.8.h,
+              height: 5.6.h,
               child: OutlinedButton(
                 onPressed: () {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -192,9 +204,9 @@ class _ReadyOrderScreenState extends ConsumerState<ReadyOrderScreen> {
                   );
                 },
                 style: OutlinedButton.styleFrom(
-                  backgroundColor: const Color(0xFF171715),
+                  backgroundColor: AppColors.surface,
                   side: const BorderSide(
-                    color: Color(0xFF262622),
+                    color: AppColors.border,
                     width: 1,
                   ),
                   shape: RoundedRectangleBorder(
@@ -205,7 +217,7 @@ class _ReadyOrderScreenState extends ConsumerState<ReadyOrderScreen> {
                   'Call Customer',
                   style: AppTextStyles.buttonMedium.copyWith(
                     fontWeight: FontWeight.w700,
-                    color: AppColors.creamText,
+                    color: AppColors.textPrimary,
                   ),
                 ),
               ),
@@ -215,22 +227,23 @@ class _ReadyOrderScreenState extends ConsumerState<ReadyOrderScreen> {
               width: double.infinity,
               padding: EdgeInsets.all(4.5.w),
               decoration: BoxDecoration(
-                color: const Color(0xFF171715),
+                color: AppColors.surface,
                 borderRadius: BorderRadius.circular(16),
                 border: Border.all(
-                  color: const Color(0xFF262622),
+                  color: AppColors.border,
                   width: 1,
                 ),
+                boxShadow: AppColors.cardShadow,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     'Order Summary',
-                    style: AppTextStyles.bodyWhite.copyWith(
+                    style: AppTextStyles.body.copyWith(
                       fontSize: 15.sp,
                       fontWeight: FontWeight.w800,
-                      color: AppColors.creamText,
+                      color: AppColors.textPrimary,
                     ),
                   ),
                   SizedBox(height: 1.2.h),
@@ -238,7 +251,7 @@ class _ReadyOrderScreenState extends ConsumerState<ReadyOrderScreen> {
                     '${order.customerName} • ${order.itemCountText} • ${order.amount}',
                     style: AppTextStyles.caption.copyWith(
                       fontSize: 13.sp,
-                      color: AppColors.textSecondaryDark,
+                      color: AppColors.textSecondary,
                     ),
                   ),
                 ],
@@ -256,11 +269,22 @@ class _ReadyOrderScreenState extends ConsumerState<ReadyOrderScreen> {
     required bool isDone,
     required bool isActive,
   }) {
-    Color itemColor;
-    if (isDone || isActive) {
-      itemColor = AppColors.primary;
+    Color circleColor;
+    Color borderColor;
+    Color textColor;
+
+    if (isActive) {
+      circleColor = AppColors.primary;
+      borderColor = AppColors.primary;
+      textColor = AppColors.primary;
+    } else if (isDone) {
+      circleColor = AppColors.success;
+      borderColor = AppColors.success;
+      textColor = AppColors.success;
     } else {
-      itemColor = AppColors.textMuted;
+      circleColor = AppColors.surface;
+      borderColor = AppColors.border;
+      textColor = AppColors.textMuted;
     }
 
     return Row(
@@ -269,27 +293,25 @@ class _ReadyOrderScreenState extends ConsumerState<ReadyOrderScreen> {
           width: 5.w,
           height: 5.w,
           decoration: BoxDecoration(
-            color: isDone ? const Color(0xFF388E3C) : const Color(0xFF262622),
+            color: circleColor,
             shape: BoxShape.circle,
             border: Border.all(
-              color: isActive
-                  ? AppColors.primary
-                  : (isDone ? const Color(0xFF388E3C) : const Color(0xFF3E3E3A)),
+              color: borderColor,
               width: 1.5,
             ),
           ),
           child: Center(
-            child: isDone
+            child: (isDone || isActive)
                 ? Icon(
                     Icons.check_rounded,
                     size: 13.sp,
-                    color: Colors.black,
+                    color: Colors.white,
                   )
                 : Container(
                     width: 1.8.w,
                     height: 1.8.w,
-                    decoration: BoxDecoration(
-                      color: itemColor,
+                    decoration: const BoxDecoration(
+                      color: AppColors.textMuted,
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -300,9 +322,7 @@ class _ReadyOrderScreenState extends ConsumerState<ReadyOrderScreen> {
           label,
           style: AppTextStyles.caption.copyWith(
             fontWeight: isDone || isActive ? FontWeight.w700 : FontWeight.w500,
-            color: isDone
-                ? (isActive ? AppColors.primary : const Color(0xFF388E3C))
-                : (isActive ? AppColors.primary : AppColors.textMuted),
+            color: textColor,
           ),
         ),
       ],
@@ -314,7 +334,7 @@ class _ReadyOrderScreenState extends ConsumerState<ReadyOrderScreen> {
       width: 6.w,
       height: 1.5,
       margin: EdgeInsets.symmetric(horizontal: 1.8.w),
-      color: isDone ? const Color(0xFF388E3C) : const Color(0xFF2A2A26),
+      color: isDone ? AppColors.success : AppColors.border,
     );
   }
 }

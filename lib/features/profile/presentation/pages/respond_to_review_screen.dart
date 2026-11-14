@@ -5,7 +5,6 @@ import 'package:sizer/sizer.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
 import '../../data/models/customer_reviews_model.dart';
-import '../providers/customer_reviews_provider.dart';
 import '../providers/respond_to_review_provider.dart';
 
 class RespondToReviewScreen extends ConsumerStatefulWidget {
@@ -41,7 +40,7 @@ class _RespondToReviewScreenState extends ConsumerState<RespondToReviewScreen> {
     super.dispose();
   }
 
-  void _handleSubmit() {
+  Future<void> _handleSubmit() async {
     final reply = _controller.text.trim();
     if (reply.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -54,19 +53,20 @@ class _RespondToReviewScreenState extends ConsumerState<RespondToReviewScreen> {
       return;
     }
 
-    ref
-        .read(customerReviewsProvider.notifier)
-        .addPartnerReply(widget.review.id, reply);
+    final success = await ref
+        .read(respondToReviewProvider.notifier)
+        .submitReply(widget.review.id, reply);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('Reply submitted for ${widget.review.name}!'),
-        backgroundColor: AppColors.success,
-        duration: const Duration(seconds: 2),
-      ),
-    );
-
-    context.pop();
+    if (success && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Reply submitted for ${widget.review.name}!'),
+          backgroundColor: AppColors.success,
+          duration: const Duration(seconds: 2),
+        ),
+      );
+      context.pop();
+    }
   }
 
   @override
@@ -78,7 +78,7 @@ class _RespondToReviewScreenState extends ConsumerState<RespondToReviewScreen> {
     final firstName = review.name.split(' ').first;
 
     return Scaffold(
-      backgroundColor: AppColors.darkBackground,
+      backgroundColor: AppColors.scaffoldBackground,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 5.w),
@@ -95,17 +95,18 @@ class _RespondToReviewScreenState extends ConsumerState<RespondToReviewScreen> {
                       width: 10.w,
                       height: 10.w,
                       decoration: BoxDecoration(
-                        color: const Color(0xFF171715),
-                        borderRadius: BorderRadius.circular(10),
+                        color: AppColors.surface,
+                        borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: const Color(0xFF262622),
+                          color: AppColors.border,
                           width: 1,
                         ),
+                        boxShadow: AppColors.cardShadow,
                       ),
                       child: Center(
                         child: Icon(
                           Icons.arrow_back_rounded,
-                          color: AppColors.primary,
+                          color: AppColors.headingPrimary,
                           size: 18.sp,
                         ),
                       ),
@@ -118,16 +119,15 @@ class _RespondToReviewScreenState extends ConsumerState<RespondToReviewScreen> {
                       children: [
                         Text(
                           'Respond to Review',
-                          style: AppTextStyles.headingWhite.copyWith(
+                          style: AppTextStyles.headingPrimary.copyWith(
                             fontWeight: FontWeight.w800,
-                            color: AppColors.creamText,
                           ),
                         ),
                         SizedBox(height: 0.3.h),
                         Text(
                           'Build trust with public replies',
                           style: AppTextStyles.caption.copyWith(
-                            color: AppColors.textSecondaryDark,
+                            color: AppColors.textSecondary,
                           ),
                         ),
                       ],
@@ -140,14 +140,15 @@ class _RespondToReviewScreenState extends ConsumerState<RespondToReviewScreen> {
                 width: double.infinity,
                 padding: EdgeInsets.all(4.w),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF171715),
+                  color: AppColors.surface,
                   borderRadius: BorderRadius.circular(18),
                   border: Border.all(
                     color: review.isCritical
-                        ? const Color(0xFF4A1F1F)
-                        : const Color(0xFF262622),
+                        ? AppColors.error.withValues(alpha: 0.3)
+                        : AppColors.border,
                     width: 1,
                   ),
+                  boxShadow: AppColors.cardShadow,
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -157,16 +158,16 @@ class _RespondToReviewScreenState extends ConsumerState<RespondToReviewScreen> {
                       children: [
                         Text(
                           review.name,
-                          style: AppTextStyles.headingWhite.copyWith(
+                          style: AppTextStyles.bodyMedium.copyWith(
                             fontWeight: FontWeight.w800,
-                            color: AppColors.creamText,
+                            color: AppColors.headingPrimary,
                           ),
                         ),
                         Text(
                           review.timeAgo,
                           style: AppTextStyles.caption.copyWith(
-                            fontSize: 13.sp,
-                            color: AppColors.textSecondaryDark,
+                            fontSize: 12.sp,
+                            color: AppColors.textSecondary,
                           ),
                         ),
                       ],
@@ -177,13 +178,13 @@ class _RespondToReviewScreenState extends ConsumerState<RespondToReviewScreen> {
                         if (index < review.rating) {
                           return Icon(
                             Icons.star_rounded,
-                            color: AppColors.primary,
+                            color: const Color(0xFFF59E0B),
                             size: 16.sp,
                           );
                         }
                         return Icon(
                           Icons.star_outline_rounded,
-                          color: const Color(0xFF44443F),
+                          color: AppColors.border,
                           size: 16.sp,
                         );
                       }),
@@ -192,8 +193,9 @@ class _RespondToReviewScreenState extends ConsumerState<RespondToReviewScreen> {
                     Text(
                       review.comment,
                       style: AppTextStyles.body.copyWith(
-                        fontSize: 14.sp,
-                        color: AppColors.creamText,
+                        fontSize: 13.sp,
+                        color: AppColors.textPrimary,
+                        height: 1.4,
                       ),
                     ),
                   ],
@@ -202,9 +204,8 @@ class _RespondToReviewScreenState extends ConsumerState<RespondToReviewScreen> {
               SizedBox(height: 2.5.h),
               Text(
                 'Your Response',
-                style: AppTextStyles.headingWhite.copyWith(
+                style: AppTextStyles.headingPrimary.copyWith(
                   fontWeight: FontWeight.w800,
-                  color: AppColors.creamText,
                 ),
               ),
               SizedBox(height: 1.2.h),
@@ -212,11 +213,13 @@ class _RespondToReviewScreenState extends ConsumerState<RespondToReviewScreen> {
                 width: double.infinity,
                 padding: EdgeInsets.all(3.5.w),
                 decoration: BoxDecoration(
+                  color: AppColors.surface,
                   borderRadius: BorderRadius.circular(16),
                   border: Border.all(
-                    color: const Color(0xFF262622),
+                    color: AppColors.border,
                     width: 1,
                   ),
+                  boxShadow: AppColors.cardShadow,
                 ),
                 child: TextField(
                   controller: _controller,
@@ -232,13 +235,13 @@ class _RespondToReviewScreenState extends ConsumerState<RespondToReviewScreen> {
                     notifier.updateReplyText(val);
                   },
                   style: AppTextStyles.body.copyWith(
-                    color: AppColors.creamText,
+                    color: AppColors.textPrimary,
                   ),
                   decoration: InputDecoration(
                     hintText: 'Type your reply to $firstName...',
                     hintStyle: AppTextStyles.body.copyWith(
-                      fontSize: 14.5.sp,
-                      color: AppColors.textMutedDark,
+                      fontSize: 13.sp,
+                      color: AppColors.textMuted,
                     ),
                     filled: false,
                     fillColor: Colors.transparent,
@@ -259,17 +262,16 @@ class _RespondToReviewScreenState extends ConsumerState<RespondToReviewScreen> {
                   child: Text(
                     '${state.characterCount}/500',
                     style: AppTextStyles.caption.copyWith(
-                      fontSize: 10.5.sp,
-                      color: AppColors.textSecondaryDark,
+                      fontSize: 11.sp,
+                      color: AppColors.textSecondary,
                     ),
                   ),
                 ),
               ),
               Text(
                 'Suggested Responses',
-                style: AppTextStyles.headingWhite.copyWith(
+                style: AppTextStyles.headingPrimary.copyWith(
                   fontWeight: FontWeight.w800,
-                  color: AppColors.creamText,
                 ),
               ),
               SizedBox(height: 1.2.h),
@@ -290,18 +292,20 @@ class _RespondToReviewScreenState extends ConsumerState<RespondToReviewScreen> {
                       vertical: 1.6.h,
                     ),
                     decoration: BoxDecoration(
-                      color: const Color(0xFF171715),
+                      color: AppColors.surface,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: const Color(0xFF262622),
+                        color: AppColors.border,
                         width: 1,
                       ),
+                      boxShadow: AppColors.cardShadow,
                     ),
                     child: Text(
                       suggestion,
                       style: AppTextStyles.caption.copyWith(
-                        color: AppColors.creamText,
+                        color: AppColors.headingPrimary,
                         height: 1.3,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ),
@@ -312,17 +316,17 @@ class _RespondToReviewScreenState extends ConsumerState<RespondToReviewScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Icon(
-                    Icons.error_outline_rounded,
+                    Icons.info_outline_rounded,
                     color: AppColors.primary,
-                    size: 15.sp,
+                    size: 16.sp,
                   ),
                   SizedBox(width: 2.w),
                   Expanded(
                     child: Text(
                       'Note: Your response will be public and visible to all customers on the app.',
                       style: AppTextStyles.caption.copyWith(
-                        fontSize: 13.sp,
-                        color: AppColors.textSecondaryDark,
+                        fontSize: 12.sp,
+                        color: AppColors.textSecondary,
                       ),
                     ),
                   ),
@@ -333,32 +337,41 @@ class _RespondToReviewScreenState extends ConsumerState<RespondToReviewScreen> {
                 width: double.infinity,
                 height: 6.2.h,
                 child: ElevatedButton(
-                  onPressed: _handleSubmit,
+                  onPressed: state.isSubmitting ? null : _handleSubmit,
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.primary,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(16),
                     ),
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.send_rounded,
-                        color: const Color(0xFF11110F),
-                        size: 18.sp,
-                      ),
-                      SizedBox(width: 2.5.w),
-                      Text(
-                        'Submit Response',
-                        style: AppTextStyles.buttonMedium.copyWith(
-                          fontWeight: FontWeight.w800,
-                          color: const Color(0xFF11110F),
+                  child: state.isSubmitting
+                      ? SizedBox(
+                          width: 20.sp,
+                          height: 20.sp,
+                          child: const CircularProgressIndicator(
+                            strokeWidth: 2.5,
+                            color: Colors.white,
+                          ),
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.send_rounded,
+                              color: Colors.white,
+                              size: 18.sp,
+                            ),
+                            SizedBox(width: 2.5.w),
+                            Text(
+                              'Submit Response',
+                              style: AppTextStyles.buttonMedium.copyWith(
+                                fontWeight: FontWeight.w800,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
-                    ],
-                  ),
                 ),
               ),
               SizedBox(height: 4.h),

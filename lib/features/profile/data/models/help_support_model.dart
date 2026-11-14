@@ -10,12 +10,52 @@ class FaqItemModel {
   });
 }
 
+class SupportTicketItemModel {
+  final String id;
+  final String ticketNumber;
+  final String subject;
+  final String description;
+  final String category;
+  final String priority;
+  final String status;
+  final String createdAt;
+  final int messagesCount;
+
+  const SupportTicketItemModel({
+    required this.id,
+    required this.ticketNumber,
+    required this.subject,
+    required this.description,
+    required this.category,
+    required this.priority,
+    required this.status,
+    required this.createdAt,
+    this.messagesCount = 1,
+  });
+
+  factory SupportTicketItemModel.fromJson(Map<String, dynamic> json) {
+    final messages = json['messages'] as List<dynamic>? ?? [];
+    return SupportTicketItemModel(
+      id: json['_id']?.toString() ?? '',
+      ticketNumber: json['ticketNumber']?.toString() ?? '#TKT-UNKNOWN',
+      subject: json['subject']?.toString() ?? 'Support Request',
+      description: json['description']?.toString() ?? '',
+      category: json['category']?.toString() ?? 'OTHER',
+      priority: json['priority']?.toString() ?? 'MEDIUM',
+      status: json['status']?.toString() ?? 'OPEN',
+      createdAt: json['createdAt']?.toString() ?? '',
+      messagesCount: messages.isNotEmpty ? messages.length : 1,
+    );
+  }
+}
+
 class HelpSupportModel {
   final String phoneNumber;
   final String email;
   final String operatingHoursText;
   final List<String> issueCategories;
   final List<FaqItemModel> faqs;
+  final List<SupportTicketItemModel> myTickets;
 
   const HelpSupportModel({
     required this.phoneNumber,
@@ -23,7 +63,26 @@ class HelpSupportModel {
     required this.operatingHoursText,
     required this.issueCategories,
     required this.faqs,
+    this.myTickets = const [],
   });
+
+  HelpSupportModel copyWith({
+    String? phoneNumber,
+    String? email,
+    String? operatingHoursText,
+    List<String>? issueCategories,
+    List<FaqItemModel>? faqs,
+    List<SupportTicketItemModel>? myTickets,
+  }) {
+    return HelpSupportModel(
+      phoneNumber: phoneNumber ?? this.phoneNumber,
+      email: email ?? this.email,
+      operatingHoursText: operatingHoursText ?? this.operatingHoursText,
+      issueCategories: issueCategories ?? this.issueCategories,
+      faqs: faqs ?? this.faqs,
+      myTickets: myTickets ?? this.myTickets,
+    );
+  }
 
   static HelpSupportModel get dummy => const HelpSupportModel(
         phoneNumber: '+91 9999 8888 77',
@@ -64,5 +123,6 @@ class HelpSupportModel {
                 'Manage weekly or monthly tiffin delivery plans directly from the Subscriptions dashboard under the Kitchen tab.',
           ),
         ],
+        myTickets: [],
       );
 }

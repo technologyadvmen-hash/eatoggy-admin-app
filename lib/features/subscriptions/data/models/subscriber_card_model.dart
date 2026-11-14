@@ -39,116 +39,19 @@ class SubscriberCardModel {
   final bool isPaused;
   final List<DeliveryHistoryItem> history;
 
-  static const dummyPriya = SubscriberCardModel(
-    customerId: 'del_2',
-    customerName: 'Priya Patel',
-    subtitle: 'Subscriber card information',
-    planTitle: 'Monthly Tiffin Lunch',
+  static const empty = SubscriberCardModel(
+    customerId: '',
+    customerName: '',
+    subtitle: 'Subscriber card details',
+    planTitle: 'Tiffin Plan',
     statusText: 'ACTIVE',
-    durationText: 'Started: 1 Aug 2026 • End: 31 Aug 2026',
-    daysRemainingText: '6 Days Left',
-    deliveryAddress:
-        '402, Shanti Sadan Heights, Vastrapur, Ahmedabad - 380015',
-    specialInstructions:
-        '“Please make meals without onion and keep them less spicy.”',
-    partnerPhoneNumber: '+91 98765 43210',
+    durationText: '',
+    daysRemainingText: '',
+    deliveryAddress: '',
+    specialInstructions: '',
+    partnerPhoneNumber: '',
     isPaused: false,
-    history: [
-      DeliveryHistoryItem(
-        dateText: '14 Aug 2026',
-        statusText: 'Delivered',
-        isDelivered: true,
-      ),
-      DeliveryHistoryItem(
-        dateText: '13 Aug 2026',
-        statusText: 'Delivered',
-        isDelivered: true,
-      ),
-      DeliveryHistoryItem(
-        dateText: '12 Aug 2026',
-        statusText: 'Missed / Paused',
-        isDelivered: false,
-      ),
-      DeliveryHistoryItem(
-        dateText: '11 Aug 2026',
-        statusText: 'Delivered',
-        isDelivered: true,
-      ),
-    ],
-  );
-
-  static const dummyRahul = SubscriberCardModel(
-    customerId: 'del_1',
-    customerName: 'Rahul Sharma',
-    subtitle: 'Subscriber card information',
-    planTitle: 'Monthly Tiffin Lunch',
-    statusText: 'ACTIVE',
-    durationText: 'Started: 1 Aug 2026 • End: 31 Aug 2026',
-    daysRemainingText: '12 Days Left',
-    deliveryAddress:
-        'B-204, Royal Palms Apartment, Bodakdev, Ahmedabad - 380054',
-    specialInstructions: '“Deliver at front desk security with signature.”',
-    partnerPhoneNumber: '+91 98765 43210',
-    isPaused: false,
-    history: [
-      DeliveryHistoryItem(
-        dateText: '14 Aug 2026',
-        statusText: 'Delivered',
-        isDelivered: true,
-      ),
-      DeliveryHistoryItem(
-        dateText: '13 Aug 2026',
-        statusText: 'Delivered',
-        isDelivered: true,
-      ),
-      DeliveryHistoryItem(
-        dateText: '12 Aug 2026',
-        statusText: 'Delivered',
-        isDelivered: true,
-      ),
-      DeliveryHistoryItem(
-        dateText: '11 Aug 2026',
-        statusText: 'Delivered',
-        isDelivered: true,
-      ),
-    ],
-  );
-
-  static const dummyAmit = SubscriberCardModel(
-    customerId: 'del_3',
-    customerName: 'Amit Singh',
-    subtitle: 'Subscriber card information',
-    planTitle: 'Monthly Tiffin Lunch',
-    statusText: 'PAUSED',
-    durationText: 'Started: 5 Aug 2026 • End: 5 Sep 2026',
-    daysRemainingText: '24 Days Left',
-    deliveryAddress:
-        '12, Shivalik Villa, Drive In Road, Ahmedabad - 380052',
-    specialInstructions: '“Please call before ringing the doorbell.”',
-    partnerPhoneNumber: '+91 98765 43210',
-    isPaused: true,
-    history: [
-      DeliveryHistoryItem(
-        dateText: '14 Aug 2026',
-        statusText: 'Missed / Paused',
-        isDelivered: false,
-      ),
-      DeliveryHistoryItem(
-        dateText: '13 Aug 2026',
-        statusText: 'Delivered',
-        isDelivered: true,
-      ),
-      DeliveryHistoryItem(
-        dateText: '12 Aug 2026',
-        statusText: 'Delivered',
-        isDelivered: true,
-      ),
-      DeliveryHistoryItem(
-        dateText: '11 Aug 2026',
-        statusText: 'Delivered',
-        isDelivered: true,
-      ),
-    ],
+    history: [],
   );
 
   SubscriberCardModel copyWith({

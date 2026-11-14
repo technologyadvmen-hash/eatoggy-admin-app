@@ -72,10 +72,10 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
   void _showImagePickerBottomSheet(BuildContext context, AddMenuItemNotifier notifier) {
     showModalBottomSheet(
       context: context,
-      backgroundColor: const Color(0xFF1E1E1C),
+      backgroundColor: AppColors.surface,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-        side: BorderSide(color: Color(0xFF2E2E2A)),
+        side: BorderSide(color: AppColors.border),
       ),
       builder: (bottomSheetContext) {
         return SafeArea(
@@ -90,10 +90,10 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                   children: [
                     Text(
                       'Upload Kitchen Photo',
-                      style: AppTextStyles.headingWhite.copyWith(
+                      style: AppTextStyles.heading.copyWith(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w800,
-                        color: AppColors.creamText,
+                        color: AppColors.textPrimary,
                       ),
                     ),
                     IconButton(
@@ -127,13 +127,13 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                     style: AppTextStyles.bodyMedium.copyWith(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.creamText,
+                      color: AppColors.textPrimary,
                     ),
                   ),
                   subtitle: Text(
                     'Capture dish directly from kitchen',
                     style: AppTextStyles.caption.copyWith(
-                      color: AppColors.textSecondaryDark,
+                      color: AppColors.textSecondary,
                     ),
                   ),
                   onTap: () {
@@ -141,7 +141,7 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                     notifier.pickImage(ImageSource.camera);
                   },
                 ),
-                Divider(color: const Color(0xFF2B2B26), height: 2.h),
+                const Divider(color: AppColors.divider, height: 20),
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: Container(
@@ -162,13 +162,13 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                     style: AppTextStyles.bodyMedium.copyWith(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
-                      color: AppColors.creamText,
+                      color: AppColors.textPrimary,
                     ),
                   ),
                   subtitle: Text(
                     'Pick existing photo from your storage',
                     style: AppTextStyles.caption.copyWith(
-                      color: AppColors.textSecondaryDark,
+                      color: AppColors.textSecondary,
                     ),
                   ),
                   onTap: () {
@@ -192,17 +192,17 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: const Color(0xFF1E1E1C),
+        backgroundColor: AppColors.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: Color(0xFF2E2E2A)),
+          side: const BorderSide(color: AppColors.border),
         ),
         title: Text(
           'Add Size Variant',
-          style: AppTextStyles.headingWhite.copyWith(
+          style: AppTextStyles.heading.copyWith(
             fontSize: 16.sp,
             fontWeight: FontWeight.w800,
-            color: AppColors.creamText,
+            color: AppColors.textPrimary,
           ),
         ),
         content: Column(
@@ -210,16 +210,16 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
           children: [
             TextField(
               controller: titleCtrl,
-              style: AppTextStyles.body.copyWith(color: AppColors.creamText),
+              style: AppTextStyles.body.copyWith(color: AppColors.textPrimary),
               decoration: InputDecoration(
                 hintText: 'e.g. Regular / Large',
                 hintStyle:
-                    AppTextStyles.caption.copyWith(color: const Color(0xFF5A5A55)),
+                    AppTextStyles.caption.copyWith(color: AppColors.textMuted),
                 filled: true,
-                fillColor: const Color(0xFF141412),
+                fillColor: AppColors.background,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: Color(0xFF2B2B26)),
+                  borderSide: const BorderSide(color: AppColors.border),
                 ),
               ),
             ),
@@ -227,16 +227,16 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
             TextField(
               controller: priceCtrl,
               keyboardType: TextInputType.number,
-              style: AppTextStyles.body.copyWith(color: AppColors.creamText),
+              style: AppTextStyles.body.copyWith(color: AppColors.textPrimary),
               decoration: InputDecoration(
                 hintText: 'Price (₹) e.g. 150',
                 hintStyle:
-                    AppTextStyles.caption.copyWith(color: const Color(0xFF5A5A55)),
+                    AppTextStyles.caption.copyWith(color: AppColors.textMuted),
                 filled: true,
-                fillColor: const Color(0xFF141412),
+                fillColor: AppColors.background,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: Color(0xFF2B2B26)),
+                  borderSide: const BorderSide(color: AppColors.border),
                 ),
               ),
             ),
@@ -270,7 +270,7 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
             child: Text(
               'Add',
               style: AppTextStyles.buttonMedium.copyWith(
-                color: const Color(0xFF11110F),
+                color: Colors.white,
                 fontWeight: FontWeight.w800,
               ),
             ),
@@ -287,17 +287,17 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        backgroundColor: const Color(0xFF1E1E1C),
+        backgroundColor: AppColors.surface,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
-          side: const BorderSide(color: Color(0xFF2E2E2A)),
+          side: const BorderSide(color: AppColors.border),
         ),
         title: Text(
           'Add Add-on',
-          style: AppTextStyles.headingWhite.copyWith(
+          style: AppTextStyles.heading.copyWith(
             fontSize: 16.sp,
             fontWeight: FontWeight.w800,
-            color: AppColors.creamText,
+            color: AppColors.textPrimary,
           ),
         ),
         content: Column(
@@ -305,16 +305,16 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
           children: [
             TextField(
               controller: titleCtrl,
-              style: AppTextStyles.body.copyWith(color: AppColors.creamText),
+              style: AppTextStyles.body.copyWith(color: AppColors.textPrimary),
               decoration: InputDecoration(
                 hintText: 'e.g. Extra Butter',
                 hintStyle:
-                    AppTextStyles.caption.copyWith(color: const Color(0xFF5A5A55)),
+                    AppTextStyles.caption.copyWith(color: AppColors.textMuted),
                 filled: true,
-                fillColor: const Color(0xFF141412),
+                fillColor: AppColors.background,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: Color(0xFF2B2B26)),
+                  borderSide: const BorderSide(color: AppColors.border),
                 ),
               ),
             ),
@@ -322,16 +322,16 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
             TextField(
               controller: priceCtrl,
               keyboardType: TextInputType.number,
-              style: AppTextStyles.body.copyWith(color: AppColors.creamText),
+              style: AppTextStyles.body.copyWith(color: AppColors.textPrimary),
               decoration: InputDecoration(
                 hintText: 'Price (₹) e.g. 25',
                 hintStyle:
-                    AppTextStyles.caption.copyWith(color: const Color(0xFF5A5A55)),
+                    AppTextStyles.caption.copyWith(color: AppColors.textMuted),
                 filled: true,
-                fillColor: const Color(0xFF141412),
+                fillColor: AppColors.background,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(color: Color(0xFF2B2B26)),
+                  borderSide: const BorderSide(color: AppColors.border),
                 ),
               ),
             ),
@@ -364,7 +364,7 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
             child: Text(
               'Add',
               style: AppTextStyles.buttonMedium.copyWith(
-                color: const Color(0xFF11110F),
+                color: Colors.white,
                 fontWeight: FontWeight.w800,
               ),
             ),
@@ -402,7 +402,7 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
     final model = state.model;
 
     return Scaffold(
-      backgroundColor: AppColors.darkBackground,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -424,8 +424,10 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                               width: 10.w,
                               height: 10.w,
                               decoration: BoxDecoration(
-                                color: const Color(0xFF171715),
+                                color: AppColors.surface,
                                 borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: AppColors.border),
+                                boxShadow: AppColors.cardShadow,
                               ),
                               child: Center(
                                 child: Icon(
@@ -443,10 +445,10 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                               children: [
                                 Text(
                                   model.title,
-                                  style: AppTextStyles.headingWhite.copyWith(
+                                  style: AppTextStyles.heading.copyWith(
                                     fontSize: 17.5.sp,
                                     fontWeight: FontWeight.w800,
-                                    color: AppColors.creamText,
+                                    color: AppColors.textPrimary,
                                   ),
                                 ),
                                 SizedBox(height: 0.3.h),
@@ -454,7 +456,7 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                                   model.subtitle,
                                   style: AppTextStyles.caption.copyWith(
                                     fontSize: 12.sp,
-                                    color: AppColors.textSecondaryDark,
+                                    color: AppColors.textSecondary,
                                   ),
                                 ),
                               ],
@@ -468,7 +470,7 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                         style: AppTextStyles.bodyMedium.copyWith(
                           fontSize: 13.5.sp,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.creamText,
+                          color: AppColors.textPrimary,
                         ),
                       ),
                       SizedBox(height: 1.h),
@@ -478,12 +480,13 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                           width: double.infinity,
                           height: 15.h,
                           decoration: BoxDecoration(
-                            color: const Color(0xFF181816),
+                            color: AppColors.surface,
                             borderRadius: BorderRadius.circular(14),
                             border: Border.all(
-                              color: const Color(0xFF262622),
+                              color: AppColors.border,
                               width: 1,
                             ),
+                            boxShadow: AppColors.cardShadow,
                           ),
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(14),
@@ -520,10 +523,20 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                                     child: Column(
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
-                                        Icon(
-                                          Icons.camera_alt_outlined,
-                                          color: AppColors.primary,
-                                          size: 26.sp,
+                                        Container(
+                                          width: 10.w,
+                                          height: 10.w,
+                                          decoration: const BoxDecoration(
+                                            color: AppColors.primaryLight,
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: const Center(
+                                            child: Icon(
+                                              Icons.camera_alt_rounded,
+                                              color: AppColors.primary,
+                                              size: 20,
+                                            ),
+                                          ),
                                         ),
                                         SizedBox(height: 1.2.h),
                                         Text(
@@ -532,8 +545,8 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                                               : 'Tap to upload kitchen photo',
                                           style: AppTextStyles.caption.copyWith(
                                             fontSize: 12.sp,
-                                            fontWeight: FontWeight.w500,
-                                            color: const Color(0xFF8A8A85),
+                                            fontWeight: FontWeight.w600,
+                                            color: AppColors.textPrimary,
                                           ),
                                         ),
                                       ],
@@ -548,31 +561,32 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                         style: AppTextStyles.bodyMedium.copyWith(
                           fontSize: 13.5.sp,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.creamText,
+                          color: AppColors.textPrimary,
                         ),
                       ),
                       SizedBox(height: 1.h),
                       Container(
                         decoration: BoxDecoration(
-                          color: const Color(0xFF171715),
+                          color: AppColors.surface,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: const Color(0xFF262622),
+                            color: AppColors.border,
                             width: 1,
                           ),
+                          boxShadow: AppColors.cardShadow,
                         ),
                         child: TextFormField(
                           controller: _nameController,
                           style: AppTextStyles.body.copyWith(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w600,
-                            color: AppColors.creamText,
+                            color: AppColors.textPrimary,
                           ),
                           decoration: InputDecoration(
                             hintText: 'e.g. Kadai Paneer',
                             hintStyle: AppTextStyles.caption.copyWith(
                               fontSize: 13.5.sp,
-                              color: const Color(0xFF555550),
+                              color: AppColors.textMuted,
                             ),
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.symmetric(
@@ -594,18 +608,19 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                         style: AppTextStyles.bodyMedium.copyWith(
                           fontSize: 13.5.sp,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.creamText,
+                          color: AppColors.textPrimary,
                         ),
                       ),
                       SizedBox(height: 1.h),
                       Container(
                         decoration: BoxDecoration(
-                          color: const Color(0xFF171715),
+                          color: AppColors.surface,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: const Color(0xFF262622),
+                            color: AppColors.border,
                             width: 1,
                           ),
+                          boxShadow: AppColors.cardShadow,
                         ),
                         child: TextFormField(
                           controller: _descriptionController,
@@ -613,7 +628,7 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                           style: AppTextStyles.body.copyWith(
                             fontSize: 13.5.sp,
                             fontWeight: FontWeight.w500,
-                            color: AppColors.creamText,
+                            color: AppColors.textPrimary,
                             height: 1.4,
                           ),
                           decoration: InputDecoration(
@@ -621,7 +636,7 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                                 'e.g. Fresh cottage cheese cooked with onions, tomatoes and bell peppers in a traditional kadai...',
                             hintStyle: AppTextStyles.caption.copyWith(
                               fontSize: 13.sp,
-                              color: const Color(0xFF555550),
+                              color: AppColors.textMuted,
                               height: 1.4,
                             ),
                             border: InputBorder.none,
@@ -638,45 +653,58 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                         style: AppTextStyles.bodyMedium.copyWith(
                           fontSize: 13.5.sp,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.creamText,
+                          color: AppColors.textPrimary,
                         ),
                       ),
                       SizedBox(height: 1.h),
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 4.w),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF171715),
+                          color: AppColors.surface,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: const Color(0xFF262622),
+                            color: AppColors.border,
                             width: 1,
                           ),
+                          boxShadow: AppColors.cardShadow,
                         ),
                         child: DropdownButtonHideUnderline(
-                          child: DropdownButton<String>(
-                            value: state.selectedCategory,
-                            isExpanded: true,
-                            dropdownColor: const Color(0xFF1C1C1A),
-                            icon: Icon(
-                              Icons.keyboard_arrow_down_rounded,
-                              color: AppColors.primary,
-                              size: 18.sp,
-                            ),
-                            style: AppTextStyles.body.copyWith(
-                              fontSize: 13.5.sp,
-                              fontWeight: FontWeight.w600,
-                              color: AppColors.creamText,
-                            ),
-                            items: model.categories.map((cat) {
-                              return DropdownMenuItem<String>(
-                                value: cat,
-                                child: Text(cat),
+                          child: Builder(
+                            builder: (context) {
+                              final categoriesList = model.categories.isNotEmpty
+                                  ? model.categories
+                                  : (state.selectedCategory.isNotEmpty
+                                      ? [state.selectedCategory]
+                                      : ['General']);
+                              final selectedValue = categoriesList.contains(state.selectedCategory)
+                                  ? state.selectedCategory
+                                  : categoriesList.first;
+                              return DropdownButton<String>(
+                                value: selectedValue,
+                                isExpanded: true,
+                                dropdownColor: AppColors.surface,
+                                icon: Icon(
+                                  Icons.keyboard_arrow_down_rounded,
+                                  color: AppColors.primary,
+                                  size: 18.sp,
+                                ),
+                                style: AppTextStyles.body.copyWith(
+                                  fontSize: 13.5.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.textPrimary,
+                                ),
+                                items: categoriesList.map((cat) {
+                                  return DropdownMenuItem<String>(
+                                    value: cat,
+                                    child: Text(cat),
+                                  );
+                                }).toList(),
+                                onChanged: (val) {
+                                  if (val != null) {
+                                    notifier.selectCategory(val);
+                                  }
+                                },
                               );
-                            }).toList(),
-                            onChanged: (val) {
-                              if (val != null) {
-                                notifier.selectCategory(val);
-                              }
                             },
                           ),
                         ),
@@ -693,18 +721,19 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                                   style: AppTextStyles.bodyMedium.copyWith(
                                     fontSize: 13.5.sp,
                                     fontWeight: FontWeight.w600,
-                                    color: AppColors.creamText,
+                                    color: AppColors.textPrimary,
                                   ),
                                 ),
                                 SizedBox(height: 1.h),
                                 Container(
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFF171715),
+                                    color: AppColors.surface,
                                     borderRadius: BorderRadius.circular(12),
                                     border: Border.all(
-                                      color: const Color(0xFF262622),
+                                      color: AppColors.border,
                                       width: 1,
                                     ),
+                                    boxShadow: AppColors.cardShadow,
                                   ),
                                   child: TextFormField(
                                     controller: _priceController,
@@ -712,13 +741,13 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                                     style: AppTextStyles.body.copyWith(
                                       fontSize: 14.sp,
                                       fontWeight: FontWeight.w700,
-                                      color: AppColors.creamText,
+                                      color: AppColors.textPrimary,
                                     ),
                                     decoration: InputDecoration(
                                       hintText: '220',
                                       hintStyle: AppTextStyles.caption.copyWith(
                                         fontSize: 13.5.sp,
-                                        color: const Color(0xFF555550),
+                                        color: AppColors.textMuted,
                                       ),
                                       border: InputBorder.none,
                                       contentPadding: EdgeInsets.symmetric(
@@ -747,7 +776,7 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                                   style: AppTextStyles.bodyMedium.copyWith(
                                     fontSize: 13.5.sp,
                                     fontWeight: FontWeight.w600,
-                                    color: AppColors.creamText,
+                                    color: AppColors.textPrimary,
                                   ),
                                 ),
                                 SizedBox(height: 1.h),
@@ -756,12 +785,13 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                                   padding:
                                       EdgeInsets.symmetric(horizontal: 3.5.w),
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFF171715),
+                                    color: AppColors.surface,
                                     borderRadius: BorderRadius.circular(12),
                                     border: Border.all(
-                                      color: const Color(0xFF262622),
+                                      color: AppColors.border,
                                       width: 1,
                                     ),
+                                    boxShadow: AppColors.cardShadow,
                                   ),
                                   child: Row(
                                     mainAxisAlignment:
@@ -774,8 +804,8 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                                           fontSize: 12.sp,
                                           fontWeight: FontWeight.w800,
                                           color: state.isVeg
-                                              ? const Color(0xFF4CAF50)
-                                              : const Color(0xFFE53935),
+                                              ? AppColors.veg
+                                              : AppColors.nonVeg,
                                         ),
                                       ),
                                       Transform.scale(
@@ -785,14 +815,10 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                                           onChanged: (val) {
                                             notifier.toggleVeg(val);
                                           },
-                                          activeTrackColor:
-                                              const Color(0xFF2E2A20),
-                                          activeThumbColor:
-                                              const Color(0xFFFFF1D2),
-                                          inactiveTrackColor:
-                                              const Color(0xFF2B2B28),
-                                          inactiveThumbColor:
-                                              const Color(0xFF8A8A85),
+                                          activeTrackColor: AppColors.success,
+                                          activeThumbColor: Colors.white,
+                                          inactiveTrackColor: AppColors.border,
+                                          inactiveThumbColor: AppColors.textMuted,
                                         ),
                                       ),
                                     ],
@@ -809,18 +835,19 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                         style: AppTextStyles.bodyMedium.copyWith(
                           fontSize: 13.5.sp,
                           fontWeight: FontWeight.w600,
-                          color: AppColors.creamText,
+                          color: AppColors.textPrimary,
                         ),
                       ),
                       SizedBox(height: 1.h),
                       Container(
                         decoration: BoxDecoration(
-                          color: const Color(0xFF171715),
+                          color: AppColors.surface,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: const Color(0xFF262622),
+                            color: AppColors.border,
                             width: 1,
                           ),
+                          boxShadow: AppColors.cardShadow,
                         ),
                         child: TextFormField(
                           controller: _prepTimeController,
@@ -828,13 +855,13 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                           style: AppTextStyles.body.copyWith(
                             fontSize: 14.sp,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.creamText,
+                            color: AppColors.textPrimary,
                           ),
                           decoration: InputDecoration(
                             hintText: '15',
                             hintStyle: AppTextStyles.caption.copyWith(
                               fontSize: 13.5.sp,
-                              color: const Color(0xFF555550),
+                              color: AppColors.textMuted,
                             ),
                             border: InputBorder.none,
                             contentPadding: EdgeInsets.symmetric(
@@ -853,7 +880,7 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                             style: AppTextStyles.bodyMedium.copyWith(
                               fontSize: 13.5.sp,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.creamText,
+                              color: AppColors.textPrimary,
                             ),
                           ),
                           GestureDetector(
@@ -878,12 +905,13 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                           vertical: 1.5.h,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF171715),
+                          color: AppColors.surface,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: const Color(0xFF262622),
+                            color: AppColors.border,
                             width: 1,
                           ),
+                          boxShadow: AppColors.cardShadow,
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -897,7 +925,7 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                               style: AppTextStyles.body.copyWith(
                                 fontSize: 13.5.sp,
                                 fontWeight: FontWeight.w500,
-                                color: AppColors.creamText,
+                                color: AppColors.textPrimary,
                               ),
                             ),
                             Text(
@@ -909,7 +937,7 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                               style: AppTextStyles.body.copyWith(
                                 fontSize: 13.5.sp,
                                 fontWeight: FontWeight.w700,
-                                color: AppColors.creamText,
+                                color: AppColors.textPrimary,
                               ),
                             ),
                           ],
@@ -924,7 +952,7 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                             style: AppTextStyles.bodyMedium.copyWith(
                               fontSize: 13.5.sp,
                               fontWeight: FontWeight.w600,
-                              color: AppColors.creamText,
+                              color: AppColors.textPrimary,
                             ),
                           ),
                           GestureDetector(
@@ -950,12 +978,13 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                             vertical: 1.4.h,
                           ),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF171715),
+                            color: AppColors.surface,
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
-                              color: const Color(0xFF262622),
+                              color: AppColors.border,
                               width: 1,
                             ),
+                            boxShadow: AppColors.cardShadow,
                           ),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -965,7 +994,7 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                                 style: AppTextStyles.body.copyWith(
                                   fontSize: 13.5.sp,
                                   fontWeight: FontWeight.w500,
-                                  color: AppColors.creamText,
+                                  color: AppColors.textPrimary,
                                 ),
                               ),
                               Text(
@@ -973,7 +1002,7 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                                 style: AppTextStyles.body.copyWith(
                                   fontSize: 13.5.sp,
                                   fontWeight: FontWeight.w700,
-                                  color: AppColors.creamText,
+                                  color: AppColors.textPrimary,
                                 ),
                               ),
                             ],
@@ -988,12 +1017,13 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                           vertical: 0.8.h,
                         ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF171715),
+                          color: AppColors.surface,
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: const Color(0xFF262622),
+                            color: AppColors.border,
                             width: 1,
                           ),
+                          boxShadow: AppColors.cardShadow,
                         ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1003,7 +1033,7 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                               style: AppTextStyles.bodyMedium.copyWith(
                                 fontSize: 13.5.sp,
                                 fontWeight: FontWeight.w600,
-                                color: AppColors.creamText,
+                                color: AppColors.textPrimary,
                               ),
                             ),
                             Transform.scale(
@@ -1013,10 +1043,10 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                                 onChanged: (val) {
                                   notifier.toggleAvailable(val);
                                 },
-                                activeTrackColor: const Color(0xFF285430),
-                                activeThumbColor: const Color(0xFFFFF1D2),
-                                inactiveTrackColor: const Color(0xFF2B2B28),
-                                inactiveThumbColor: const Color(0xFF8A8A85),
+                                activeTrackColor: AppColors.success,
+                                activeThumbColor: Colors.white,
+                                inactiveTrackColor: AppColors.border,
+                                inactiveThumbColor: AppColors.textMuted,
                               ),
                             ),
                           ],
@@ -1030,14 +1060,25 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
             ),
             Container(
               padding: EdgeInsets.fromLTRB(5.w, 1.h, 5.w, 2.h),
-              child: SizedBox(
+              child: Container(
                 width: double.infinity,
                 height: 6.h,
+                decoration: BoxDecoration(
+                  gradient: AppColors.primaryGradient,
+                  borderRadius: BorderRadius.circular(14),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.primary.withValues(alpha: 0.3),
+                      blurRadius: 10,
+                      offset: const Offset(0, 4),
+                    ),
+                  ],
+                ),
                 child: ElevatedButton(
                   onPressed: _onSaveItem,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    elevation: 0,
+                    backgroundColor: Colors.transparent,
+                    shadowColor: Colors.transparent,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(14),
                     ),
@@ -1047,7 +1088,7 @@ class _AddMenuItemScreenState extends ConsumerState<AddMenuItemScreen> {
                     style: AppTextStyles.buttonMedium.copyWith(
                       fontSize: 14.5.sp,
                       fontWeight: FontWeight.w800,
-                      color: const Color(0xFF11110F),
+                      color: Colors.white,
                     ),
                   ),
                 ),

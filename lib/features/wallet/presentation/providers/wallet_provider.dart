@@ -1,4 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../../data/models/wallet_model.dart';
+import '../../data/repositories/wallet_repository.dart';
 import '../widgets/transaction_tile.dart';
 
 class WalletTransaction {
@@ -27,115 +29,173 @@ class WalletState {
   const WalletState({
     required this.availableBalance,
     required this.pendingSettlement,
+    this.totalEarnings = 0.0,
+    this.totalWithdrawals = 0.0,
+    this.lastSettlementAmount = 0.0,
     required this.bankName,
     required this.bankAccountMasked,
     required this.transactions,
+    this.isLoading = false,
+    this.errorMessage,
   });
 
   final double availableBalance;
   final double pendingSettlement;
+  final double totalEarnings;
+  final double totalWithdrawals;
+  final double lastSettlementAmount;
   final String bankName;
   final String bankAccountMasked;
   final List<WalletTransaction> transactions;
+  final bool isLoading;
+  final String? errorMessage;
 
   WalletState copyWith({
     double? availableBalance,
     double? pendingSettlement,
+    double? totalEarnings,
+    double? totalWithdrawals,
+    double? lastSettlementAmount,
     String? bankName,
     String? bankAccountMasked,
     List<WalletTransaction>? transactions,
+    bool? isLoading,
+    String? errorMessage,
   }) {
     return WalletState(
       availableBalance: availableBalance ?? this.availableBalance,
       pendingSettlement: pendingSettlement ?? this.pendingSettlement,
+      totalEarnings: totalEarnings ?? this.totalEarnings,
+      totalWithdrawals: totalWithdrawals ?? this.totalWithdrawals,
+      lastSettlementAmount: lastSettlementAmount ?? this.lastSettlementAmount,
       bankName: bankName ?? this.bankName,
       bankAccountMasked: bankAccountMasked ?? this.bankAccountMasked,
       transactions: transactions ?? this.transactions,
+      isLoading: isLoading ?? this.isLoading,
+      errorMessage: errorMessage,
     );
   }
 }
 
 class WalletNotifier extends Notifier<WalletState> {
+  final WalletRepository _walletRepository = WalletRepository();
+
   @override
   WalletState build() {
+    Future.microtask(() => loadWalletData());
     return const WalletState(
-      availableBalance: 18420.50,
-      pendingSettlement: 3250.00,
-      bankName: 'HDFC Bank Ltd',
-      bankAccountMasked: 'HDFC •••• 8492',
-      transactions: [
-        WalletTransaction(
-          id: 'tx1',
-          title: 'Order #1048 Payout',
-          subtitle: 'Order completed',
-          amount: '₹525.50',
-          isCredit: true,
-          date: 'Today, 2:30 PM',
-          status: 'Settled',
-          type: TransactionType.payout,
-        ),
-        WalletTransaction(
-          id: 'tx2',
-          title: 'Order #1047 Payout',
-          subtitle: 'Order completed',
-          amount: '₹340.00',
-          isCredit: true,
-          date: 'Today, 1:15 PM',
-          status: 'Settled',
-          type: TransactionType.payout,
-        ),
-        WalletTransaction(
-          id: 'tx3',
-          title: 'Bank Transfer Withdrawal',
-          subtitle: 'HDFC Bank •••• 8492',
-          amount: '₹12,000.00',
-          isCredit: false,
-          date: 'Yesterday',
-          status: 'Completed',
-          type: TransactionType.withdrawal,
-        ),
-        WalletTransaction(
-          id: 'tx4',
-          title: 'Order #1045 Payout',
-          subtitle: 'Order completed',
-          amount: '₹395.00',
-          isCredit: true,
-          date: '15 Sep, 8:10 PM',
-          status: 'Settled',
-          type: TransactionType.payout,
-        ),
-        WalletTransaction(
-          id: 'tx5',
-          title: 'Weekly Platform Service Fee',
-          subtitle: 'GST invoice #INV-9281',
-          amount: '₹850.00',
-          isCredit: false,
-          date: '14 Sep, 11:59 PM',
-          status: 'Deducted',
-          type: TransactionType.deduction,
-        ),
-        WalletTransaction(
-          id: 'tx6',
-          title: 'Order #1039 Refund Adjustment',
-          subtitle: 'Customer cancelled',
-          amount: '₹210.00',
-          isCredit: false,
-          date: '13 Sep, 4:20 PM',
-          status: 'Adjusted',
-          type: TransactionType.refund,
-        ),
-        WalletTransaction(
-          id: 'tx7',
-          title: 'Bank Transfer Withdrawal',
-          subtitle: 'HDFC Bank •••• 8492',
-          amount: '₹15,000.00',
-          isCredit: false,
-          date: '10 Sep, 10:00 AM',
-          status: 'Completed',
-          type: TransactionType.withdrawal,
-        ),
-      ],
+      availableBalance: 0.0,
+      pendingSettlement: 0.0,
+      totalEarnings: 0.0,
+      totalWithdrawals: 0.0,
+      lastSettlementAmount: 0.0,
+      bankName: 'Bank Account',
+      bankAccountMasked: '•••• •••• ••••',
+      transactions: [],
+      isLoading: true,
     );
+  }
+
+  /// Load live wallet details and transaction history from backend
+  Future<void> loadWalletData() async {
+    state = state.copyWith(isLoading: true, errorMessage: null);
+    try {
+      final results = await Future.wait([
+        _walletRepository.getWallet(),
+        _walletRepository.getTransactions(page: 1, limit: 20),
+      ]);
+      final wallet = results[0] as WalletDetailsModel;
+      final txItems = results[1] as List<WalletTransactionItem>;
+
+      final mappedTransactions = txItems.map((item) {
+        return WalletTransaction(
+          id: item.id,
+          title: item.title,
+          subtitle: item.subtitle,
+          amount: '₹${item.amount.toStringAsFixed(2)}',
+          isCredit: item.isCredit,
+          date: _formatDate(item.date),
+          status: item.status,
+          type: _mapType(item.type, item.isCredit),
+        );
+      }).toList();
+
+      state = state.copyWith(
+        isLoading: false,
+        availableBalance: wallet.currentBalance,
+        pendingSettlement: wallet.pendingAmount,
+        totalEarnings: wallet.totalEarnings,
+        totalWithdrawals: wallet.totalWithdrawals,
+        lastSettlementAmount: wallet.lastSettlementAmount,
+        transactions: mappedTransactions,
+      );
+    } catch (e) {
+      state = state.copyWith(
+        isLoading: false,
+        errorMessage: e.toString(),
+      );
+    }
+  }
+
+  Future<void> refreshWallet() async {
+    await loadWalletData();
+  }
+
+  String _formatDate(String rawDate) {
+    if (rawDate.isEmpty || rawDate == 'Recent') return 'Recent';
+    try {
+      final parsed = DateTime.tryParse(rawDate);
+      if (parsed != null) {
+        final local = parsed.toLocal();
+        final now = DateTime.now();
+        final diff = now.difference(local);
+        if (diff.inDays == 0 && now.day == local.day) {
+          final hour = local.hour > 12
+              ? local.hour - 12
+              : (local.hour == 0 ? 12 : local.hour);
+          final minute = local.minute.toString().padLeft(2, '0');
+          final ampm = local.hour >= 12 ? 'PM' : 'AM';
+          return 'Today, $hour:$minute $ampm';
+        } else if (diff.inDays == 1 ||
+            (diff.inDays == 0 && now.day != local.day)) {
+          return 'Yesterday';
+        } else {
+          const months = [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'May',
+            'Jun',
+            'Jul',
+            'Aug',
+            'Sep',
+            'Oct',
+            'Nov',
+            'Dec'
+          ];
+          final hour = local.hour > 12
+              ? local.hour - 12
+              : (local.hour == 0 ? 12 : local.hour);
+          final minute = local.minute.toString().padLeft(2, '0');
+          final ampm = local.hour >= 12 ? 'PM' : 'AM';
+          return '${local.day} ${months[local.month - 1]}, $hour:$minute $ampm';
+        }
+      }
+    } catch (_) {}
+    return rawDate;
+  }
+
+  TransactionType _mapType(String type, bool isCredit) {
+    final lower = type.toLowerCase();
+    if (lower.contains('withdraw')) return TransactionType.withdrawal;
+    if (lower.contains('deduct') ||
+        lower.contains('fee') ||
+        lower.contains('commission')) {
+      return TransactionType.deduction;
+    }
+    if (lower.contains('refund')) return TransactionType.refund;
+    return isCredit ? TransactionType.payout : TransactionType.withdrawal;
   }
 
   bool requestWithdrawal(double amount) {

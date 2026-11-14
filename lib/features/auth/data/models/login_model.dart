@@ -27,12 +27,12 @@ class LoginModel {
   /// Default dummy data representing the Partner Login screen content.
   static const dummy = LoginModel(
     brandName: 'EATOGGY',
-    brandLogo: 'assets/images/logo.png',
+    brandLogo: 'assets/images/eatoggy_delivery_logo.png',
     title: 'Partner Login',
     subtitle: 'Enter your registered mobile number to manage your kitchen',
     phoneInputLabel: 'Enter Mobile Number',
     countryCode: '+91',
-    dummyPhoneNumber: '98765 43210',
+    dummyPhoneNumber: '',
     buttonText: 'Login with OTP',
     newRestaurantText: 'New restaurant?',
     registerText: 'Register here',

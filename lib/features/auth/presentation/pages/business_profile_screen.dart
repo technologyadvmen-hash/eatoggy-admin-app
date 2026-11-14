@@ -6,6 +6,8 @@ import 'package:sizer/sizer.dart';
 import '../../../../core/router/app_router.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_text_styles.dart';
+import '../../../../widgets/animated_fade_slide.dart';
+import '../../../../widgets/onboarding_step_header.dart';
 import '../providers/business_profile_provider.dart';
 
 class BusinessProfileScreen extends ConsumerStatefulWidget {
@@ -57,7 +59,13 @@ class _BusinessProfileScreenState
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(msg, style: AppTextStyles.captionWhite),
+            content: Text(
+              msg,
+              style: AppTextStyles.caption.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
             backgroundColor: AppColors.error,
           ),
         );
@@ -67,205 +75,130 @@ class _BusinessProfileScreenState
 
   @override
   Widget build(BuildContext context) {
+    ref.listen<BusinessProfileState>(businessProfileProvider, (previous, next) {
+      if (_restaurantNameController.text.isEmpty &&
+          next.restaurantName.isNotEmpty) {
+        _restaurantNameController.text = next.restaurantName;
+      }
+      if (_ownerNameController.text.isEmpty && next.ownerName.isNotEmpty) {
+        _ownerNameController.text = next.ownerName;
+      }
+      if (_phoneController.text.isEmpty && next.phone.isNotEmpty) {
+        _phoneController.text = next.phone;
+      }
+      if (_emailController.text.isEmpty && next.email.isNotEmpty) {
+        _emailController.text = next.email;
+      }
+      if (_addressController.text.isEmpty && next.address.isNotEmpty) {
+        _addressController.text = next.address;
+      }
+    });
+
     final state = ref.watch(businessProfileProvider);
     final data = state.data;
 
     return Scaffold(
-      backgroundColor: AppColors.darkBackground,
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: EdgeInsets.symmetric(horizontal: 6.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 2.h),
+              SizedBox(height: 1.5.h),
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () => context.pop(),
-                    behavior: HitTestBehavior.opaque,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.chevron_left,
-                          color: AppColors.goldFont,
-                          size: 20.sp,
-                        ),
-                        SizedBox(width: 1.w),
-                        Text(
-                          data.headerTitle,
-                          style: AppTextStyles.subheadMedium.copyWith(
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.goldFont,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Text(
-                    data.stepText,
-                    style: AppTextStyles.caption.copyWith(
-                      fontSize: 13.5.sp,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.goldFont,
-                    ),
-                  ),
-                ],
-              ),
-
-              SizedBox(height: 1.2.h),
-
-              Stack(
-                children: [
-                  Container(
-                    width: double.infinity,
-                    height: 3,
-                    decoration: BoxDecoration(
-                      color: AppColors.darkBorder,
-                      borderRadius: BorderRadius.circular(2),
-                    ),
-                  ),
-                  FractionallySizedBox(
-                    widthFactor: data.stepProgress,
-                    child: Container(
-                      height: 3,
-                      decoration: BoxDecoration(
-                        color: AppColors.goldFont,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-
-              SizedBox(height: 4.h),
-
-              Text(
-                data.title,
-                style: AppTextStyles.title.copyWith(
-                  fontSize: 22.sp,
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.textPrimary,
-                ),
+              OnboardingStepHeader(
+                title: data.headerTitle,
+                currentStep: 1,
+                totalSteps: 4,
+                onBack: () => context.pop(),
               ),
 
               SizedBox(height: 3.h),
 
-              _buildFieldLabel(data.restaurantNameLabel),
-              SizedBox(height: 1.h),
-              _buildInputField(
-                controller: _restaurantNameController,
-                hintText: data.dummyRestaurantName,
-                onChanged: (val) => ref
-                    .read(businessProfileProvider.notifier)
-                    .updateRestaurantName(val),
-              ),
-
-              SizedBox(height: 2.5.h),
-
-              _buildFieldLabel(data.ownerNameLabel),
-              SizedBox(height: 1.h),
-              _buildInputField(
-                controller: _ownerNameController,
-                hintText: data.dummyOwnerName,
-                onChanged: (val) => ref
-                    .read(businessProfileProvider.notifier)
-                    .updateOwnerName(val),
-              ),
-
-              SizedBox(height: 2.5.h),
-
-              _buildFieldLabel(data.businessTypeLabel),
-              SizedBox(height: 1.h),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 4.w),
-                decoration: BoxDecoration(
-                  color: AppColors.darkSurface,
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: AppColors.darkBorder, width: 1),
-                ),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    value: state.businessType,
-                    isExpanded: true,
-                    dropdownColor: AppColors.darkSurface,
-                    icon: Icon(
-                      Icons.keyboard_arrow_down_rounded,
-                      color: AppColors.goldFont,
-                      size: 20.sp,
-                    ),
-                    items: data.businessTypeOptions.map((type) {
-                      return DropdownMenuItem<String>(
-                        value: type,
-                        child: Text(
-                          type,
-                          style: AppTextStyles.bodySecondary.copyWith(
-                            fontSize: 14.5.sp,
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (val) {
-                      if (val != null) {
-                        ref
-                            .read(businessProfileProvider.notifier)
-                            .updateBusinessType(val);
-                      }
-                    },
+              AnimatedFadeSlide(
+                delayMs: 80,
+                child: Text(
+                  data.title,
+                  style: AppTextStyles.title.copyWith(
+                    fontSize: 20.sp,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.textPrimary,
                   ),
                 ),
               ),
 
               SizedBox(height: 2.5.h),
 
-              _buildFieldLabel(data.phoneLabel),
-              SizedBox(height: 1.h),
-              Container(
-                decoration: BoxDecoration(
-                  color: AppColors.darkSurface,
-                  borderRadius: BorderRadius.circular(14),
-                  border: Border.all(color: AppColors.darkBorder, width: 1),
-                ),
-                child: Row(
+              AnimatedFadeSlide(
+                delayMs: 140,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(width: 4.w),
-                    Text(
-                      data.countryCode,
-                      style: AppTextStyles.bodyMedium.copyWith(
-                        fontSize: 14.5.sp,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.textSecondary,
-                      ),
+                    _buildFieldLabel(data.restaurantNameLabel),
+                    SizedBox(height: 1.h),
+                    _buildInputField(
+                      controller: _restaurantNameController,
+                      hintText: data.dummyRestaurantName,
+                      onChanged: (val) => ref
+                          .read(businessProfileProvider.notifier)
+                          .updateRestaurantName(val),
                     ),
-                    SizedBox(width: 3.w),
-                    Expanded(
-                      child: TextFormField(
-                        controller: _phoneController,
-                        keyboardType: TextInputType.phone,
-                        cursorColor: AppColors.primary,
-                        style: AppTextStyles.bodySecondary.copyWith(
-                          fontSize: 14.5.sp,
-                        ),
-                        inputFormatters: [
-                          FilteringTextInputFormatter.digitsOnly,
-                          LengthLimitingTextInputFormatter(10),
-                        ],
-                        onChanged: (val) => ref
-                            .read(businessProfileProvider.notifier)
-                            .updatePhone(val),
-                        decoration: InputDecoration(
-                          filled: false,
-                          fillColor: Colors.transparent,
-                          hintText: data.dummyPhone,
-                          hintStyle: AppTextStyles.hint,
-                          border: InputBorder.none,
-                          enabledBorder: InputBorder.none,
-                          focusedBorder: InputBorder.none,
-                          contentPadding: EdgeInsets.symmetric(vertical: 1.8.h),
+
+                    SizedBox(height: 2.2.h),
+
+                    _buildFieldLabel(data.ownerNameLabel),
+                    SizedBox(height: 1.h),
+                    _buildInputField(
+                      controller: _ownerNameController,
+                      hintText: data.dummyOwnerName,
+                      onChanged: (val) => ref
+                          .read(businessProfileProvider.notifier)
+                          .updateOwnerName(val),
+                    ),
+
+                    SizedBox(height: 2.2.h),
+
+                    _buildFieldLabel(data.businessTypeLabel),
+                    SizedBox(height: 1.h),
+                    Container(
+                      padding: EdgeInsets.symmetric(horizontal: 4.w),
+                      decoration: BoxDecoration(
+                        color: AppColors.surface,
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(color: AppColors.border, width: 1),
+                        boxShadow: AppColors.cardShadow,
+                      ),
+                      child: DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          value: state.businessType,
+                          isExpanded: true,
+                          dropdownColor: AppColors.surface,
+                          icon: Icon(
+                            Icons.keyboard_arrow_down_rounded,
+                            color: AppColors.primary,
+                            size: 20.sp,
+                          ),
+                          items: data.businessTypeOptions.map((type) {
+                            return DropdownMenuItem<String>(
+                              value: type,
+                              child: Text(
+                                type,
+                                style: AppTextStyles.body.copyWith(
+                                  fontSize: 14.5.sp,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.textPrimary,
+                                ),
+                              ),
+                            );
+                          }).toList(),
+                          onChanged: (val) {
+                            if (val != null) {
+                              ref
+                                  .read(businessProfileProvider.notifier)
+                                  .updateBusinessType(val);
+                            }
+                          },
                         ),
                       ),
                     ),
@@ -273,65 +206,157 @@ class _BusinessProfileScreenState
                 ),
               ),
 
-              SizedBox(height: 2.5.h),
+              SizedBox(height: 2.2.h),
 
-              _buildFieldLabel(data.emailLabel),
-              SizedBox(height: 1.h),
-              _buildInputField(
-                controller: _emailController,
-                hintText: data.dummyEmail,
-                keyboardType: TextInputType.emailAddress,
-                onChanged: (val) => ref
-                    .read(businessProfileProvider.notifier)
-                    .updateEmail(val),
-              ),
+              AnimatedFadeSlide(
+                delayMs: 220,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildFieldLabel(data.phoneLabel),
+                    SizedBox(height: 1.h),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: AppColors.surface,
+                        borderRadius: BorderRadius.circular(14),
+                        border: Border.all(color: AppColors.border, width: 1),
+                        boxShadow: AppColors.cardShadow,
+                      ),
+                      child: Row(
+                        children: [
+                          SizedBox(width: 4.w),
+                          Text(
+                            data.countryCode,
+                            style: AppTextStyles.bodyMedium.copyWith(
+                              fontSize: 14.5.sp,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.textPrimary,
+                            ),
+                          ),
+                          SizedBox(width: 3.w),
+                          Expanded(
+                            child: TextFormField(
+                              controller: _phoneController,
+                              keyboardType: TextInputType.phone,
+                              cursorColor: AppColors.primary,
+                              style: AppTextStyles.body.copyWith(
+                                fontSize: 14.5.sp,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.textPrimary,
+                              ),
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                                LengthLimitingTextInputFormatter(10),
+                              ],
+                              onChanged: (val) => ref
+                                  .read(businessProfileProvider.notifier)
+                                  .updatePhone(val),
+                              decoration: InputDecoration(
+                                filled: false,
+                                fillColor: Colors.transparent,
+                                hintText: data.dummyPhone,
+                                hintStyle: AppTextStyles.hint.copyWith(
+                                  color: AppColors.textMuted,
+                                ),
+                                border: InputBorder.none,
+                                enabledBorder: InputBorder.none,
+                                focusedBorder: InputBorder.none,
+                                contentPadding: EdgeInsets.symmetric(vertical: 1.8.h),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
 
-              SizedBox(height: 2.5.h),
+                    SizedBox(height: 2.2.h),
 
-              _buildFieldLabel(data.addressLabel),
-              SizedBox(height: 1.h),
-              _buildInputField(
-                controller: _addressController,
-                hintText: data.dummyAddress,
-                maxLines: 2,
-                onChanged: (val) => ref
-                    .read(businessProfileProvider.notifier)
-                    .updateAddress(val),
+                    _buildFieldLabel(data.emailLabel),
+                    SizedBox(height: 1.h),
+                    _buildInputField(
+                      controller: _emailController,
+                      hintText: data.dummyEmail,
+                      keyboardType: TextInputType.emailAddress,
+                      onChanged: (val) => ref
+                          .read(businessProfileProvider.notifier)
+                          .updateEmail(val),
+                    ),
+
+                    SizedBox(height: 2.2.h),
+
+                    _buildFieldLabel(data.addressLabel),
+                    SizedBox(height: 1.h),
+                    _buildInputField(
+                      controller: _addressController,
+                      hintText: data.dummyAddress,
+                      maxLines: 2,
+                      onChanged: (val) => ref
+                          .read(businessProfileProvider.notifier)
+                          .updateAddress(val),
+                    ),
+                  ],
+                ),
               ),
 
               SizedBox(height: 4.h),
 
-              SizedBox(
-                width: double.infinity,
-                height: 6.2.h,
-                child: ElevatedButton(
-                  onPressed: state.isLoading ? null : _onContinue,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
+              AnimatedFadeSlide(
+                delayMs: 300,
+                child: Container(
+                  width: double.infinity,
+                  height: 6.2.h,
+                  decoration: BoxDecoration(
+                    gradient: AppColors.primaryGradient,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.primary.withValues(alpha: 0.3),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
-                  child: state.isLoading
-                      ? SizedBox(
-                          width: 22,
-                          height: 22,
-                          child: CircularProgressIndicator(
-                            strokeWidth: 2.5,
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                              const Color(0xFF11110F),
+                  child: ElevatedButton(
+                    onPressed: state.isLoading ? null : _onContinue,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.transparent,
+                      shadowColor: Colors.transparent,
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    child: state.isLoading
+                        ? const SizedBox(
+                            width: 22,
+                            height: 22,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2.5,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                Colors.white,
+                              ),
                             ),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                data.buttonText,
+                                style: AppTextStyles.buttonLarge.copyWith(
+                                  fontSize: 15.sp,
+                                  fontWeight: FontWeight.w800,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(width: 2.w),
+                              Icon(
+                                Icons.arrow_forward_rounded,
+                                color: Colors.white,
+                                size: 16.sp,
+                              ),
+                            ],
                           ),
-                        )
-                      : Text(
-                          data.buttonText,
-                          style: AppTextStyles.buttonLarge.copyWith(
-                            fontSize: 15.sp,
-                            fontWeight: FontWeight.w700,
-                            color: const Color(0xFF11110F),
-                          ),
-                        ),
+                  ),
                 ),
               ),
 
@@ -347,9 +372,9 @@ class _BusinessProfileScreenState
     return Text(
       label,
       style: AppTextStyles.label.copyWith(
-        fontSize: 14.sp,
-        fontWeight: FontWeight.w500,
-        color: AppColors.textSecondary,
+        fontSize: 13.5.sp,
+        fontWeight: FontWeight.w700,
+        color: AppColors.textPrimary,
       ),
     );
   }
@@ -364,24 +389,29 @@ class _BusinessProfileScreenState
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 4.w),
       decoration: BoxDecoration(
-        color: AppColors.darkSurface,
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.darkBorder, width: 1),
+        border: Border.all(color: AppColors.border, width: 1),
+        boxShadow: AppColors.cardShadow,
       ),
       child: TextFormField(
         controller: controller,
         keyboardType: keyboardType,
         maxLines: maxLines,
         cursorColor: AppColors.primary,
-        style: AppTextStyles.bodySecondary.copyWith(
+        style: AppTextStyles.body.copyWith(
           fontSize: 14.5.sp,
+          fontWeight: FontWeight.w600,
+          color: AppColors.textPrimary,
         ),
         onChanged: onChanged,
         decoration: InputDecoration(
           filled: false,
           fillColor: Colors.transparent,
           hintText: hintText,
-          hintStyle: AppTextStyles.hint,
+          hintStyle: AppTextStyles.hint.copyWith(
+            color: AppColors.textMuted,
+          ),
           border: InputBorder.none,
           enabledBorder: InputBorder.none,
           focusedBorder: InputBorder.none,

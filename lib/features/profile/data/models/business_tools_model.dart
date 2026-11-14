@@ -42,14 +42,14 @@ class BankAccountModel {
   }
 
   static const dummy = BankAccountModel(
-        bankName: 'HDFC Bank',
-        accountNumber: '50100492817290',
-        maskedAccountNumber: '•••• •••• •••• 1234',
-        ifscCode: 'HDFC0001234',
-        beneficiaryName: 'Harish Kumar',
-        accountType: 'Current Account',
-        branch: 'HSR Layout, Bangalore',
-        isVerified: true,
+        bankName: 'Bank Account',
+        accountNumber: '',
+        maskedAccountNumber: '•••• •••• •••• ••••',
+        ifscCode: '',
+        beneficiaryName: 'Account Holder',
+        accountType: 'Business / Savings',
+        branch: 'Branch',
+        isVerified: false,
       );
 }
 
@@ -93,14 +93,13 @@ class TaxInformationModel {
   }
 
   static const dummy = TaxInformationModel(
-        legalBusinessName: 'Tandoori Tales Cloud Kitchen LLP',
-        gstin: '29AAAAA0000A1Z5',
-        panNumber: 'ABCDE1234F',
-        taxpayerType: 'Regular Taxpayer',
-        registeredAddress:
-            'Plot 42, Sector 5, HSR Layout, Bangalore, Karnataka - 560102',
-        stateJurisdiction: 'Karnataka (State Code 29)',
-        isVerified: true,
+        legalBusinessName: 'Registered Business Entity',
+        gstin: 'Pending Verification',
+        panNumber: 'Pending Verification',
+        taxpayerType: 'Registered Taxpayer',
+        registeredAddress: 'Business Address',
+        stateJurisdiction: 'India',
+        isVerified: false,
       );
 }
 
